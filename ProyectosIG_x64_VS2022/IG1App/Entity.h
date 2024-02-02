@@ -38,4 +38,12 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class PoligonoRegular : public Abs_Entity
+{
+public:
+	explicit PoligonoRegular(GLuint num, GLdouble r);
+	~PoligonoRegular();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
 #endif //_H_Entities_H_
