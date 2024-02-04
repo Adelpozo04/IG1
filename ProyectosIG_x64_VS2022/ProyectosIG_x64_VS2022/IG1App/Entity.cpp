@@ -74,3 +74,36 @@ RegularPolygon::render(dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+#pragma region TriangleRGB
+
+TriangleRGB::TriangleRGB( GLdouble r)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateTriangleRGB(r);
+}
+
+TriangleRGB::~TriangleRGB()
+{
+	delete mMesh;
+	mMesh = nullptr;
+};
+
+void
+TriangleRGB::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		//glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
+		mMesh->render();
+
+		//reset 
+		glColor4d(0.0, 0.0, 0.0, 1.0);
+		glLineWidth(1);
+	}
+}
+
+
+
+#pragma endregion

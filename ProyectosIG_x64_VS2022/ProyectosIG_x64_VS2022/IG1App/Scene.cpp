@@ -26,6 +26,9 @@ Scene::init()
 	//circunferencia magenta
 	gObjects.push_back(new RegularPolygon(50,100));
 	gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
+
+	//triangulo RGB
+	gObjects.push_back(new TriangleRGB(150));
 }
 void
 Scene::free()

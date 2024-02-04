@@ -54,6 +54,13 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class TriangleRGB : public Abs_Entity {
+public:
+	explicit TriangleRGB(GLdouble r);
+	~TriangleRGB();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
 
 
 #endif //_H_Entities_H_
