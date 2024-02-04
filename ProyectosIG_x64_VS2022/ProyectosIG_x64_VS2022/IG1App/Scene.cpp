@@ -15,9 +15,17 @@ Scene::init()
 	// Textures
 
 	// Graphics objects (entities) of the scene
+
+	//ejes
 	gObjects.push_back(new EjesRGB(400.0));
-	gObjects.push_back(new RegularPolygon(8,100));
-	gObjects[1]->setColor(dvec4(1.0, 1.0, 0., 1.0));
+	
+	//triangulo cian
+	gObjects.push_back(new RegularPolygon(3,100));
+	gObjects[1]->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
+
+	//circunferencia magenta
+	gObjects.push_back(new RegularPolygon(50,100));
+	gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
 }
 void
 Scene::free()
