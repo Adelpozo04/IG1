@@ -94,8 +94,14 @@ void
 TriangleRGB::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		glEnable(GL_CULL_FACE);
+
+		glCullFace(GL_BACK);
+
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
+
+		mMesh->changePrimitive(GL_TRIANGLES);
 
 		//set config
 		glLineWidth(2);
@@ -104,7 +110,20 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		//reset config
 		glLineWidth(1);
 
-		
+
+		glCullFace(GL_FRONT);
+
+		mMesh->changePrimitive(GL_LINE_LOOP);
+
+		//set config
+		glLineWidth(2);
+
+		mMesh->render();
+		//reset config
+		glLineWidth(1);
+
+		glDisable(GL_CULL_FACE);
+
 	}
 }
 

@@ -26,6 +26,10 @@ public:
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
 
+
+	void changePrimitive(GLuint primitive) {
+		mPrimitive = primitive;
+	}
 protected:
 	GLuint mPrimitive =
 	  GL_TRIANGLES;          // graphic primitive: GL_POINTS, GL_LINES, GL_TRIANGLES, ...

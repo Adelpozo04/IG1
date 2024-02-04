@@ -77,6 +77,7 @@ IG1App::iniWinOpenGL()
 
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
+
 }
 
 void
