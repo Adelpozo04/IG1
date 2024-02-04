@@ -41,6 +41,7 @@ Mesh::createRGBAxes(GLdouble l)
 {
 	Mesh* mesh = new Mesh();
 
+	//importante, primitiva para pintar
 	mesh->mPrimitive = GL_LINES;
 
 	mesh->mNumVertices = 6;
@@ -74,6 +75,7 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 
 	Mesh* mesh = new Mesh();
 
+	//importante, primitiva para pintar
 	mesh->mPrimitive = GL_LINE_LOOP;
 
 	mesh->mNumVertices = num;
@@ -95,11 +97,13 @@ Mesh::generateTriangleRGB(GLdouble r) {
 
 	Mesh* mesh = generateRegularPolygon(3, r);
 
+	//importante, primitiva para pintar
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	//colores de los vertices
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
-
-	mesh->mPrimitive = GL_TRIANGLES;
 
 	return mesh;
 }
