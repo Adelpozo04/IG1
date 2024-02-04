@@ -84,7 +84,7 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		mesh->vVertices.emplace_back(r* cos(glm::radians(i*angle)), r* sin(glm::radians( i*angle)), 0.0);
-		mesh->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
+		//mesh->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
 	}
 
 	return mesh;

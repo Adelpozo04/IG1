@@ -17,6 +17,7 @@ Scene::init()
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 	gObjects.push_back(new RegularPolygon(8,100));
+	gObjects[1]->setColor(dvec4(1.0, 1.0, 0., 1.0));
 }
 void
 Scene::free()

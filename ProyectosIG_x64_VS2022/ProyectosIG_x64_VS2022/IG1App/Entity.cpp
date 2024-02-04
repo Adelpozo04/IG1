@@ -12,6 +12,9 @@ Abs_Entity::upload(dmat4 const& modelViewMat) const
 	glLoadMatrixd(value_ptr(modelViewMat)); // transfers modelView matrix to the GPU
 }
 
+#pragma region EjesRGB
+
+
 EjesRGB::EjesRGB(GLdouble l)
   : Abs_Entity()
 {
@@ -36,6 +39,11 @@ EjesRGB::render(dmat4 const& modelViewMat) const
 	}
 }
 
+#pragma endregion
+
+#pragma region RegularPolygon
+
+
 RegularPolygon::RegularPolygon(GLuint v, GLdouble r)
 	: Abs_Entity()
 {
@@ -55,7 +63,14 @@ RegularPolygon::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
+		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
 		mMesh->render();
+
+		//reset 
+		glColor4d(0.0,0.0,0.0 ,1.0);
 		glLineWidth(1);
 	}
 }
+
+#pragma endregion
+
