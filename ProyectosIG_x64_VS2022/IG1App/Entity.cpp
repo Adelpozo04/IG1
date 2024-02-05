@@ -52,10 +52,12 @@ void
 PoligonoRegular::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
+		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
 		mMesh->render();
 		glLineWidth(1);
+		glClearColor(0.0, 0.0, 0.0, 0.0);
 	}
 }
