@@ -25,6 +25,8 @@ public:
 
 	static Mesh* generateRegularPolygon(GLuint num, GLdouble r);
 
+	static Mesh* generateRegularPolygonMultiColor(GLuint num, GLdouble r);
+
 
 protected:
 	GLuint mPrimitive =

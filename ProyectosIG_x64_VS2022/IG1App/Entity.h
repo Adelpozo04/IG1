@@ -62,4 +62,12 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class RBGTriangle : public Abs_Entity
+{
+public:
+	explicit RBGTriangle(GLdouble r);
+	~RBGTriangle();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
 #endif //_H_Entities_H_

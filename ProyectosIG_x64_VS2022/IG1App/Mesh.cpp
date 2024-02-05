@@ -92,3 +92,36 @@ Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 	return mesh;
 
 }
+
+Mesh* Mesh::generateRegularPolygonMultiColor(GLuint num, GLdouble r) {
+
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	mesh->mNumVertices = num;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	double angle = 360.f / num;
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+
+		mesh->vVertices.emplace_back(0 + r * cos(i * glm::radians(angle)), 0 + r * sin(i * glm::radians(angle)), 0.0);
+
+		if (i % 3 == 0) {
+			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+		}
+		else if (i % 3 == 1) {
+			mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+		}
+		else {
+			mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+		}
+
+	}
+
+	return mesh;
+
+}

@@ -58,6 +58,30 @@ PoligonoRegular::render(dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		mMesh->render();
 		glLineWidth(1);
-		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glClearColor(0.6, 0.7, 0.8, 1.0);
+	}
+}
+
+RBGTriangle::RBGTriangle(GLdouble r)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateRegularPolygonMultiColor(3, r);
+}
+
+RBGTriangle::~RBGTriangle()
+{
+	delete mMesh;
+	mMesh = nullptr;
+};
+
+void
+RBGTriangle::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		mMesh->render();
+		glLineWidth(1);
 	}
 }

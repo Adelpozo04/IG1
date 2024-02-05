@@ -17,11 +17,22 @@ Scene::init()
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 
-	PoligonoRegular* pol = new PoligonoRegular(6, 200);
+	/*
+	PoligonoRegular* pol = new PoligonoRegular(100, 200);
 
-	pol->setColor(0.5, 0.0, 1.0, 1.0);
+	pol->setColor(0.71, 0.58, 0.75, 1.0);
+
+	PoligonoRegular* tri = new PoligonoRegular(3, 200);
+
+	tri->setColor(0.0, 1.0, 1.0, 1.0);
 
 	gObjects.push_back(pol);
+
+	gObjects.push_back(tri);
+	*/
+
+	gObjects.push_back(new RBGTriangle(200));
+	
 }
 void
 Scene::free()
