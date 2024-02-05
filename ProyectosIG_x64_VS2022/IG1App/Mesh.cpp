@@ -98,7 +98,11 @@ Mesh* Mesh::generateRegularPolygonMultiColor(GLuint num, GLdouble r) {
 
 	Mesh* mesh = new Mesh();
 
-	mesh->mPrimitive = GL_TRIANGLE_FAN;
+	//mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	glPolygonMode(GL_FRONT, GL_FILL);
+
+	glPolygonMode(GL_BACK, GL_LINE);
 
 	mesh->mNumVertices = num;
 	mesh->vVertices.reserve(mesh->mNumVertices);
