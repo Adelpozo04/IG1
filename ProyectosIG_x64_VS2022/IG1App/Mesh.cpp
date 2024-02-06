@@ -129,3 +129,85 @@ Mesh* Mesh::generateRegularPolygonMultiColor(GLuint num, GLdouble r) {
 	return mesh;
 
 }
+
+Mesh* Mesh::generateRectangle(GLuint w, GLuint h) {
+
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 4;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	mesh->vVertices.emplace_back(0 - w / 2, 0 - h / 2, 0.0);
+
+	mesh->vVertices.emplace_back(0 + w / 2, 0 - h / 2, 0.0);
+
+	mesh->vVertices.emplace_back(0 - w / 2, 0 + h / 2, 0.0);
+
+	mesh->vVertices.emplace_back(0 + w / 2, 0 + h / 2, 0.0);
+
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+
+		if (i % 3 == 0) {
+			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+		}
+		else if (i % 3 == 1) {
+			mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+		}
+		else {
+			mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+		}
+
+	}
+
+	return mesh;
+
+}
+
+Mesh* Mesh::generateRGBRectangle(GLuint w, GLuint h) {
+
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 4;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+
+	mesh->vVertices.emplace_back(0 + w / 2, 0.0, 0.0);
+
+	mesh->vVertices.emplace_back(0.0, 0 + h / 2, 0.0);
+
+	mesh->vVertices.emplace_back(0 + w / 2, 0 + h / 2, 0.0);
+
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+
+		if (i % 3 == 0) {
+			mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+		}
+		else if (i % 3 == 1) {
+			mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+		}
+		else {
+			mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+		}
+
+	}
+
+	return mesh;
+
+}

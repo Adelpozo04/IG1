@@ -31,7 +31,9 @@ Scene::init()
 	gObjects.push_back(tri);
 	*/
 
-	gObjects.push_back(new RBGTriangle(200));
+	//gObjects.push_back(new RBGTriangle(200));
+
+	gObjects.push_back(new RGBRectangle(50, 100));
 	
 }
 void

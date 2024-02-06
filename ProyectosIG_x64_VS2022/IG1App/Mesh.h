@@ -27,6 +27,10 @@ public:
 
 	static Mesh* generateRegularPolygonMultiColor(GLuint num, GLdouble r);
 
+	static Mesh* generateRectangle(GLuint w, GLuint h);
+
+	static Mesh* generateRGBRectangle(GLuint w, GLuint h);
+
 
 protected:
 	GLuint mPrimitive =
