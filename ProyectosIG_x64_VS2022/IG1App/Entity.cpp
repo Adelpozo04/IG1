@@ -113,3 +113,31 @@ RGBRectangle::render(dmat4 const& modelViewMat) const
 		glLineWidth(1);
 	}
 }
+
+Cube::Cube(GLdouble length)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateCube(length);
+}
+
+Cube::~Cube()
+{
+	delete mMesh;
+	mMesh = nullptr;
+};
+
+void
+Cube::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		glPolygonMode(GL_BACK, GL_FILL);
+
+		glPolygonMode(GL_FRONT, GL_LINE);
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		glLineWidth(2);
+		mMesh->render();
+		glLineWidth(1);
+	}
+}

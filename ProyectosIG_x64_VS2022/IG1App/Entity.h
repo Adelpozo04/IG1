@@ -78,4 +78,12 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class Cube : public Abs_Entity
+{
+public:
+	explicit Cube(GLdouble length);
+	~Cube();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
 #endif //_H_Entities_H_

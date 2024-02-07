@@ -31,6 +31,8 @@ public:
 
 	static Mesh* generateRGBRectangle(GLuint w, GLuint h);
 
+	static Mesh* generateCube(GLdouble length);
+
 
 protected:
 	GLuint mPrimitive =
