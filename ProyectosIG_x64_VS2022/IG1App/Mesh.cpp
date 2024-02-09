@@ -225,20 +225,76 @@ Mesh* Mesh::generateCube(GLdouble length) {
 	mesh->vColors.reserve(mesh->mNumVertices);
 
 
-	for (int i = 0; i < 2; ++i) {
 
-		for (int j = 0; j < 2; ++j) {
+	MakeFace(*mesh, 0, length);
 
-			for (int k = 0; k < 2; ++k) {
+	MakeFace(*mesh, 1, length);
 
-				mesh->vVertices.emplace_back(i * length, j * length, k * length);
+	MakeFace(*mesh, 2, length);
 
-				mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0);
-			}
-		}
+	MakeFace(*mesh, 3, length);
 
-	}
+	//MakeFace(*mesh, 4, length);
+
 
 	return mesh;
+
+}
+
+Mesh* Mesh::MakeFace(GLuint id, GLdouble length) {
+
+	Mesh* aux = new Mesh();
+
+	if (id == 0) {
+
+		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
+		aux->vVertices.emplace_back(0.0, length, 0.0);
+		aux->vVertices.emplace_back(length, 0.0, 0.0);
+		aux->vVertices.emplace_back(length, length, 0.0);
+
+
+	}
+	else if (id == 1) {
+
+		aux->vVertices.emplace_back(length, 0.0, 0.0);
+		aux->vVertices.emplace_back(length, length, 0.0);
+		aux->vVertices.emplace_back(length, 0.0, length);
+		aux->vVertices.emplace_back(length, length, length);
+
+
+	}
+	else if (id == 2) {
+
+		aux->vVertices.emplace_back(length, 0.0, length);
+		aux->vVertices.emplace_back(length, length, length);
+		aux->vVertices.emplace_back(0.0, 0.0, length);
+		aux->vVertices.emplace_back(0.0, length, length);
+	}
+	else if (id == 3) {
+
+		aux->vVertices.emplace_back(0.0, 0.0, length);
+		aux->vVertices.emplace_back(0.0, length, length);
+		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
+		aux->vVertices.emplace_back(0.0, length, 0.0);
+		
+		
+	}
+	else if (id == 4) {
+
+		aux->vVertices.emplace_back(0.0, length, 0.0);
+		aux->vVertices.emplace_back(0.0, length, length);
+		aux->vVertices.emplace_back(length, length, 0.0);
+		aux->vVertices.emplace_back(length, length, length);
+
+	}
+	else if (id == 5) {
+
+		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
+		aux->vVertices.emplace_back(0.0, 0.0, length);
+		aux->vVertices.emplace_back(length, 0.0, 0.0);
+		aux->vVertices.emplace_back(length, 0.0, length);
+	}
+	
+	return aux;
 
 }
