@@ -29,6 +29,9 @@ Scene::init()
 
 	//triangulo RGB
 	gObjects.push_back(new TriangleRGB(150));
+
+	//rectangulo
+	gObjects.push_back(new Rectangle_cls(100, 200));
 }
 void
 Scene::free()

@@ -107,3 +107,28 @@ Mesh::generateTriangleRGB(GLdouble r) {
 
 	return mesh;
 }
+
+Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 4;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	mesh->vVertices.emplace_back(-w / 2.f, -h / 2.f, 0.f);
+	mesh->vVertices.emplace_back(+w / 2.f, -h / 2.f, 0.f);
+	mesh->vVertices.emplace_back(-w / 2.f, +h / 2.f, 0.f);
+	mesh->vVertices.emplace_back(+w / 2.f, +h / 2.f, 0.f);
+
+	//colores de los vertices
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+
+	return mesh;
+}
+

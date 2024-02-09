@@ -137,3 +137,41 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 
 
 #pragma endregion
+
+
+#pragma region Rectangle
+
+Rectangle_cls::Rectangle_cls(GLdouble w, GLdouble h)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateRectangle(w, h);
+}
+
+Rectangle_cls::~Rectangle_cls()
+{
+	delete mMesh;
+	mMesh = nullptr;
+};
+
+void
+Rectangle_cls::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		//set config
+		glLineWidth(2);
+		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
+		mMesh->render();
+
+		//reset config
+		glColor4d(0.0, 0.0, 0.0, 1.0);
+		glLineWidth(1);
+	}
+}
+
+
+
+
+#pragma endregion

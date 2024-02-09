@@ -62,5 +62,11 @@ public:
 
 };
 
+class Rectangle_cls :public Abs_Entity {
+public:
+	explicit Rectangle_cls(GLdouble w,GLdouble h);
+	~Rectangle_cls();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
 
 #endif //_H_Entities_H_
