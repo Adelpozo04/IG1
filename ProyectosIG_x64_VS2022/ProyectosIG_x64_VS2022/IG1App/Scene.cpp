@@ -20,18 +20,18 @@ Scene::init()
 	gObjects.push_back(new EjesRGB(400.0));
 	
 	//triangulo cian
-	gObjects.push_back(new RegularPolygon(3,100));
-	gObjects[1]->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	//gObjects.push_back(new RegularPolygon(3,100));
+	//gObjects[1]->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
 
 	//circunferencia magenta
-	gObjects.push_back(new RegularPolygon(50,100));
-	gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
+	//gObjects.push_back(new RegularPolygon(50,100));
+	//gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
 
 	//triangulo RGB
-	gObjects.push_back(new TriangleRGB(150));
+	//gObjects.push_back(new TriangleRGB(150));
 
 	//rectangulo
-	gObjects.push_back(new Rectangle_cls(100, 200));
+	gObjects.push_back(new Rectangle_RGB(100, 200));
 }
 void
 Scene::free()

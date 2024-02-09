@@ -116,6 +116,11 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		glLineWidth(1);
 
 
+
+		//reset
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
+
 		/*
 		glCullFace(GL_FRONT);
 
@@ -168,6 +173,49 @@ Rectangle_cls::render(dmat4 const& modelViewMat) const
 		//reset config
 		glColor4d(0.0, 0.0, 0.0, 1.0);
 		glLineWidth(1);
+	}
+}
+
+
+
+
+#pragma endregion
+
+#pragma region Rentangle RGB
+
+
+Rectangle_RGB::Rectangle_RGB(GLdouble w, GLdouble h)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateRGBRectangle(w, h);
+}
+
+Rectangle_RGB::~Rectangle_RGB()
+{
+	delete mMesh;
+	mMesh = nullptr;
+};
+
+void
+Rectangle_RGB::render(dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_LINE);
+		//set config
+		glLineWidth(2);
+		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
+		mMesh->render();
+
+		//reset config
+		glColor4d(0.0, 0.0, 0.0, 1.0);
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
 	}
 }
 

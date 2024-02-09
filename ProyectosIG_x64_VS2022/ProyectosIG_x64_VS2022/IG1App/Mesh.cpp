@@ -124,6 +124,21 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
 	mesh->vVertices.emplace_back(+w / 2.f, +h / 2.f, 0.f);
 
 	//colores de los vertices
+	/*
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	*/
+
+	return mesh;
+}
+
+Mesh*
+Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
+
+	Mesh* mesh = generateRectangle(w, h);
+
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);

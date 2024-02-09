@@ -13,7 +13,7 @@ public:
 	static Mesh* generateRegularPolygon(GLuint num, GLdouble r); //creates a regular polygon
 	static Mesh* generateTriangleRGB(GLdouble r); //creates a triangleRGB
 	static Mesh* generateRectangle(GLdouble w, GLdouble h);
-
+	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 
 
 	Mesh() = default;

@@ -69,4 +69,11 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class Rectangle_RGB :public Abs_Entity {
+public:
+	explicit Rectangle_RGB(GLdouble w, GLdouble h);
+	~Rectangle_RGB();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+};
+
 #endif //_H_Entities_H_
