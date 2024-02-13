@@ -70,6 +70,8 @@ Mesh::createRGBAxes(GLdouble l)
 
 	return mesh;
 }
+
+
 Mesh*
 Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 
@@ -108,7 +110,8 @@ Mesh::generateTriangleRGB(GLdouble r) {
 	return mesh;
 }
 
-Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
+Mesh* 
+Mesh::generateRectangle(GLdouble w, GLdouble h) {
 
 	Mesh* mesh = new Mesh();
 
@@ -137,13 +140,101 @@ Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
 Mesh*
 Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 
+	/*
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mNumVertices = 24;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	// Front face
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(w, -w, w);
+	mesh->vVertices.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(w, w, w);
+
+	// Bottom face
+	mesh->vVertices.emplace_back(-w, -w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(w, -w, w);
+
+	// Back face
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+
+	// Top face
+	mesh->vVertices.emplace_back(w, w, w);
+	mesh->vVertices.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+
+	// Right face
+	mesh->vVertices.emplace_back(w, -w, w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(w, w, w);
+	mesh->vVertices.emplace_back(w, w, -w);
+
+	// Left face
+	mesh->vVertices.emplace_back(-w, -w, -w);
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(-w, w, w);
+
+
+	/*
+	
+	// Now add colors for each face
+	for (int i = 0; i < 4; ++i) {
+		// Red for front face
+		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
+	}
+	for (int i = 0; i < 4; ++i) {
+		// Green for bottom face
+		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+	}
+	for (int i = 0; i < 4; ++i) {
+		// Blue for back face
+		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
+	}
+	for (int i = 0; i < 4; ++i) {
+		// Yellow for top face
+		mesh->vColors.emplace_back(1.0f, 1.0f, 0.0f, 1.0f); // Yellow
+	}
+	for (int i = 0; i < 4; ++i) {
+		// Cyan for right face
+		mesh->vColors.emplace_back(0.0f, 1.0f, 1.0f, 1.0f); // Cyan
+	}
+	for (int i = 0; i < 4; ++i) {
+		// Magenta for left face
+		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
+	}
+	*/
+
+
+	
 	Mesh* mesh = generateRectangle(w, h);
 
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
 	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
 	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	
 
 	return mesh;
 }
 
+
+Mesh*
+Mesh::generateCube(GLdouble longitud) {
+	Mesh* mesh = nullptr;
+
+
+
+
+	return mesh;
+}
