@@ -139,18 +139,126 @@ Mesh::generateRectangle(GLdouble w, GLdouble h) {
 
 Mesh*
 Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
+	
+	Mesh* mesh = generateRectangle(w, h);
 
-	/*
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	
+
+	return mesh;
+}
+
+
+Mesh*
+Mesh::generateCube(GLdouble w) {
+	
 
 	Mesh* mesh = new Mesh();
 
-	mesh->mPrimitive = GL_TRIANGLE_STRIP;
-	mesh->mNumVertices = 24;
+	mesh->mPrimitive = GL_TRIANGLES;
+
+
+	mesh->mNumVertices = 36;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, w, -w);
+	points.emplace_back(w, -w, -w);
+	points.emplace_back(-w, -w, -w);
+	points.emplace_back(-w, w, -w);
+
+	points.emplace_back(w, w, w);
+	points.emplace_back(w, -w, w);
+	points.emplace_back(-w, -w, w);
+	points.emplace_back(-w, w, w);
+
+
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[0]);
+
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[5]);
+
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[1]);
+
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[5]);
+
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[3]);	
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[3]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+
+	for (int i = 0; i < 6; ++i) {
+		// Red for front face
+		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
+	}
+	for (int i = 0; i < 6; ++i) {
+		// Green for bottom face
+		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+	}
+	for (int i = 0; i < 6; ++i) {
+		// Blue for back face
+		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
+	}
+	for (int i = 0; i < 6; ++i) {
+		// Yellow for top face
+		mesh->vColors.emplace_back(1.0f, 1.0f, 0.0f, 1.0f); // Yellow
+	}
+	for (int i = 0; i < 6; ++i) {
+		// Cyan for right face
+		mesh->vColors.emplace_back(0.0f, 1.0f, 1.0f, 1.0f); // Cyan
+	}
+
+	for (int i = 0; i < 6; ++i) {
+		// Magenta for left face
+		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
+	}
+
+	/*
 	// Front face
-	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(-w, -w, w );
 	mesh->vVertices.emplace_back(w, -w, w);
 	mesh->vVertices.emplace_back(-w, w, w);
 	mesh->vVertices.emplace_back(w, w, w);
@@ -184,10 +292,11 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 	mesh->vVertices.emplace_back(-w, -w, w);
 	mesh->vVertices.emplace_back(-w, w, -w);
 	mesh->vVertices.emplace_back(-w, w, w);
+	*/
 
 
-	/*
 	
+	/*
 	// Now add colors for each face
 	for (int i = 0; i < 4; ++i) {
 		// Red for front face
@@ -214,26 +323,6 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
 	}
 	*/
-
-
-	
-	Mesh* mesh = generateRectangle(w, h);
-
-	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-	mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
-	mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
-	mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-	
-
-	return mesh;
-}
-
-
-Mesh*
-Mesh::generateCube(GLdouble longitud) {
-	Mesh* mesh = nullptr;
-
-
 
 
 	return mesh;

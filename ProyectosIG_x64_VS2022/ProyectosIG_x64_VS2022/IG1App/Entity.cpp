@@ -223,3 +223,34 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 
 
 #pragma endregion
+
+Cube::Cube(GLdouble w)
+{
+	mMesh = Mesh::generateCube(w);
+}
+
+Cube::~Cube()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Cube::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_LINE);
+		glLineWidth(2);
+
+		mMesh->render();
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
+	}
+}

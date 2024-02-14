@@ -31,7 +31,10 @@ Scene::init()
 	//gObjects.push_back(new TriangleRGB(150));
 
 	//rectangulo
-	gObjects.push_back(new Rectangle_RGB(100, 200));
+	//gObjects.push_back(new Rectangle_RGB(100, 200));
+
+	//cubo
+	gObjects.push_back(new Cube(100));
 }
 void
 Scene::free()
