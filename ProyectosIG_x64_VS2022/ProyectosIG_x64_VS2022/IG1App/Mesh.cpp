@@ -154,17 +154,19 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 
 Mesh*
 Mesh::generateCube(GLdouble w) {
-	
+	//generamos un cubo a partir de 12 triangulos
+	//36 vertices
 
 	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLES;
 
-
 	mesh->mNumVertices = 36;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
+
+	//posiciones de los puntos
 	vector<glm::vec3> points;
 	points.reserve(8);
 
@@ -178,26 +180,25 @@ Mesh::generateCube(GLdouble w) {
 	points.emplace_back(-w, -w, w);
 	points.emplace_back(-w, w, w);
 
-
+	//FACE 0
 	mesh->vVertices.push_back(points[5]);
 	mesh->vVertices.push_back(points[1]);
 	mesh->vVertices.push_back(points[0]);
-
 
 	mesh->vVertices.push_back(points[0]);
 	mesh->vVertices.push_back(points[4]);
 	mesh->vVertices.push_back(points[5]);
 
-
+	//FACE 1
 	mesh->vVertices.push_back(points[6]);
 	mesh->vVertices.push_back(points[2]);
 	mesh->vVertices.push_back(points[1]);
-
 
 	mesh->vVertices.push_back(points[6]);
 	mesh->vVertices.push_back(points[1]);
 	mesh->vVertices.push_back(points[5]);
 
+	//FACE 2
 	mesh->vVertices.push_back(points[1]);
 	mesh->vVertices.push_back(points[3]);	
 	mesh->vVertices.push_back(points[0]);
@@ -206,6 +207,7 @@ Mesh::generateCube(GLdouble w) {
 	mesh->vVertices.push_back(points[3]);
 	mesh->vVertices.push_back(points[1]);
 
+	//FACE 3
 	mesh->vVertices.push_back(points[7]);
 	mesh->vVertices.push_back(points[4]);
 	mesh->vVertices.push_back(points[0]);
@@ -214,6 +216,7 @@ Mesh::generateCube(GLdouble w) {
 	mesh->vVertices.push_back(points[3]);
 	mesh->vVertices.push_back(points[7]);
 
+	//FACE 4
 	mesh->vVertices.push_back(points[5]);
 	mesh->vVertices.push_back(points[4]);
 	mesh->vVertices.push_back(points[7]);
@@ -222,6 +225,7 @@ Mesh::generateCube(GLdouble w) {
 	mesh->vVertices.push_back(points[5]);
 	mesh->vVertices.push_back(points[7]);
 
+	//FACE 5
 	mesh->vVertices.push_back(points[2]);
 	mesh->vVertices.push_back(points[7]);
 	mesh->vVertices.push_back(points[3]);
@@ -229,6 +233,9 @@ Mesh::generateCube(GLdouble w) {
 	mesh->vVertices.push_back(points[6]);
 	mesh->vVertices.push_back(points[7]);
 	mesh->vVertices.push_back(points[2]);
+
+
+	//COLORES PARA LOS VERTICES
 
 	for (int i = 0; i < 6; ++i) {
 		// Red for front face
@@ -242,88 +249,36 @@ Mesh::generateCube(GLdouble w) {
 		// Blue for back face
 		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
 	}
-	for (int i = 0; i < 6; ++i) {
-		// Yellow for top face
-		mesh->vColors.emplace_back(1.0f, 1.0f, 0.0f, 1.0f); // Yellow
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Cyan for right face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 1.0f, 1.0f); // Cyan
-	}
-
-	for (int i = 0; i < 6; ++i) {
-		// Magenta for left face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
-	}
-
-	/*
-	// Front face
-	mesh->vVertices.emplace_back(-w, -w, w );
-	mesh->vVertices.emplace_back(w, -w, w);
-	mesh->vVertices.emplace_back(-w, w, w);
-	mesh->vVertices.emplace_back(w, w, w);
-
-	// Bottom face
-	mesh->vVertices.emplace_back(-w, -w, -w);
-	mesh->vVertices.emplace_back(w, -w, -w);
-	mesh->vVertices.emplace_back(-w, -w, w);
-	mesh->vVertices.emplace_back(w, -w, w);
-
-	// Back face
-	mesh->vVertices.emplace_back(w, -w, -w);
-	mesh->vVertices.emplace_back(-w, -w, -w);
-	mesh->vVertices.emplace_back(w, w, -w);
-	mesh->vVertices.emplace_back(-w, w, -w);
-
-	// Top face
-	mesh->vVertices.emplace_back(w, w, w);
-	mesh->vVertices.emplace_back(-w, w, w);
-	mesh->vVertices.emplace_back(w, w, -w);
-	mesh->vVertices.emplace_back(-w, w, -w);
-
-	// Right face
-	mesh->vVertices.emplace_back(w, -w, w);
-	mesh->vVertices.emplace_back(w, -w, -w);
-	mesh->vVertices.emplace_back(w, w, w);
-	mesh->vVertices.emplace_back(w, w, -w);
-
-	// Left face
-	mesh->vVertices.emplace_back(-w, -w, -w);
-	mesh->vVertices.emplace_back(-w, -w, w);
-	mesh->vVertices.emplace_back(-w, w, -w);
-	mesh->vVertices.emplace_back(-w, w, w);
-	*/
-
-
 	
-	/*
-	// Now add colors for each face
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 6; ++i) {
 		// Red for front face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
-	}
-	for (int i = 0; i < 4; ++i) {
-		// Green for bottom face
 		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
 	}
-	for (int i = 0; i < 4; ++i) {
-		// Blue for back face
+	for (int i = 0; i < 6; ++i) {
+		//for bottom face
 		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
 	}
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 6; ++i) {
+		// Blue for back face
+		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
+	}
+	
+
+	/*
+	for (int i = 0; i < 6; ++i) {
 		// Yellow for top face
 		mesh->vColors.emplace_back(1.0f, 1.0f, 0.0f, 1.0f); // Yellow
 	}
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 6; ++i) {
 		// Cyan for right face
 		mesh->vColors.emplace_back(0.0f, 1.0f, 1.0f, 1.0f); // Cyan
 	}
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 6; ++i) {
 		// Magenta for left face
 		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
 	}
+	
 	*/
-
 
 	return mesh;
 }

@@ -243,7 +243,7 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 
 		//set config
 		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_BACK, GL_POINT);
 		glLineWidth(2);
 
 		mMesh->render();
