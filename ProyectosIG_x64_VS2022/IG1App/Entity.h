@@ -84,6 +84,11 @@ public:
 	explicit Cube(GLdouble length);
 	~Cube();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+
+	GLdouble length;
+
 };
 
 #endif //_H_Entities_H_

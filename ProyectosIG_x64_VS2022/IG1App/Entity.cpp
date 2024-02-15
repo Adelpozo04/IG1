@@ -130,14 +130,18 @@ void
 Cube::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_BACK, GL_LINE);
 
-		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_FILL);
 
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
+
+
 		mMesh->render();
+
+		
 		glLineWidth(1);
 	}
 }

@@ -216,85 +216,92 @@ Mesh* Mesh::generateCube(GLdouble length) {
 
 	Mesh* mesh = new Mesh();
 
-	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+	mesh->mPrimitive = GL_TRIANGLES;
 
-	mesh->mNumVertices = 8;
+	mesh->mNumVertices = 36;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
 
 	mesh->vColors.reserve(mesh->mNumVertices);
 
+	mesh->vVertices.emplace_back(0.0, length, length);
+	mesh->vVertices.emplace_back(0.0, 0.0, length);
+	mesh->vVertices.emplace_back(length, 0.0, length);
 
+	mesh->vVertices.emplace_back(0.0, length, length);
+	mesh->vVertices.emplace_back(length, 0.0, length);
+	mesh->vVertices.emplace_back(length, length, length);
 
-	MakeFace(*mesh, 0, length);
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	}
+	
+	mesh->vVertices.emplace_back(length, length, 0.0);
+	mesh->vVertices.emplace_back(length, 0.0, length);
+	mesh->vVertices.emplace_back(length, 0.0, 0.0);
+	
 
-	MakeFace(*mesh, 1, length);
+	mesh->vVertices.emplace_back(length, length, length);
+	mesh->vVertices.emplace_back(length, 0.0, length);
+	mesh->vVertices.emplace_back(length, length, 0.0);
+	
 
-	MakeFace(*mesh, 2, length);
+	
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	}
 
-	MakeFace(*mesh, 3, length);
+	mesh->vVertices.emplace_back(length, 0.0, 0.0);
+	mesh->vVertices.emplace_back(length, length, 0.0);
+	mesh->vVertices.emplace_back(0.0, length, 0.0);
 
-	//MakeFace(*mesh, 4, length);
+	mesh->vVertices.emplace_back(length, 0.0, 0.0);
+	mesh->vVertices.emplace_back(0.0, length, 0.0);
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+	}
+
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+	mesh->vVertices.emplace_back(0.0, length, 0.0);
+	mesh->vVertices.emplace_back(0.0, length, length);
+
+	mesh->vVertices.emplace_back(0.0, 0.0, length);
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+	mesh->vVertices.emplace_back(0.0, length, length);
+	
+
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	}
+
+	mesh->vVertices.emplace_back(0.0, length, length);
+	mesh->vVertices.emplace_back(0.0, length, 0.0);
+	mesh->vVertices.emplace_back(length, length, 0.0);
+
+	mesh->vVertices.emplace_back(0.0, length, length);
+	mesh->vVertices.emplace_back(length, length, 0.0);
+	mesh->vVertices.emplace_back(length, length, length);
+
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	}
+
+	mesh->vVertices.emplace_back(length, 0.0, length);
+	mesh->vVertices.emplace_back(0.0, 0.0, length);
+	mesh->vVertices.emplace_back(length, 0.0, 0.0);
+
+	mesh->vVertices.emplace_back(length, 0.0, 0.0);
+	mesh->vVertices.emplace_back(0.0, 0.0, length);
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+
+	for (int i = 0; i < 6; i++) {
+		mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+	}
+	
 
 
 	return mesh;
-
-}
-
-Mesh* Mesh::MakeFace(GLuint id, GLdouble length) {
-
-	Mesh* aux = new Mesh();
-
-	if (id == 0) {
-
-		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
-		aux->vVertices.emplace_back(0.0, length, 0.0);
-		aux->vVertices.emplace_back(length, 0.0, 0.0);
-		aux->vVertices.emplace_back(length, length, 0.0);
-
-
-	}
-	else if (id == 1) {
-
-		aux->vVertices.emplace_back(length, 0.0, 0.0);
-		aux->vVertices.emplace_back(length, length, 0.0);
-		aux->vVertices.emplace_back(length, 0.0, length);
-		aux->vVertices.emplace_back(length, length, length);
-
-
-	}
-	else if (id == 2) {
-
-		aux->vVertices.emplace_back(length, 0.0, length);
-		aux->vVertices.emplace_back(length, length, length);
-		aux->vVertices.emplace_back(0.0, 0.0, length);
-		aux->vVertices.emplace_back(0.0, length, length);
-	}
-	else if (id == 3) {
-
-		aux->vVertices.emplace_back(0.0, 0.0, length);
-		aux->vVertices.emplace_back(0.0, length, length);
-		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
-		aux->vVertices.emplace_back(0.0, length, 0.0);
-		
-		
-	}
-	else if (id == 4) {
-
-		aux->vVertices.emplace_back(0.0, length, 0.0);
-		aux->vVertices.emplace_back(0.0, length, length);
-		aux->vVertices.emplace_back(length, length, 0.0);
-		aux->vVertices.emplace_back(length, length, length);
-
-	}
-	else if (id == 5) {
-
-		aux->vVertices.emplace_back(0.0, 0.0, 0.0);
-		aux->vVertices.emplace_back(0.0, 0.0, length);
-		aux->vVertices.emplace_back(length, 0.0, 0.0);
-		aux->vVertices.emplace_back(length, 0.0, length);
-	}
-	
-	return aux;
 
 }
