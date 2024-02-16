@@ -147,6 +147,9 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'u':
 			mScene->update();
 			break;
+		case 'U':
+			changeAutoUpdate();
+			break;
 		default:
 			need_redisplay = false;
 			break;

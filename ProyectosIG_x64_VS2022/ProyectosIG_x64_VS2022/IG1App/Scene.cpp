@@ -91,7 +91,7 @@ void Scene::setScene(GLuint id)
 		gObjects[1]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
 
 		//triangulo RGB
-		gObjects.push_back(new TriangleRGB(30, glm::dvec3(100, 0, 0),5.0));
+		gObjects.push_back(new TriangleRGB(30, glm::dvec3(100, 0, 0),1.0));
 
 
 		//rectangulo

@@ -31,6 +31,24 @@ public:
 	void run();   // the main event processing loop
 	void close(); // the application
 
+	void update_() {
+		mScene->update();
+		glutPostRedisplay();	
+	};
+
+	void changeAutoUpdate() {
+
+		if (!autoUpdate) {
+			glutIdleFunc(update);
+			autoUpdate = true;
+		}
+		else {
+			glutIdleFunc(NULL);
+			autoUpdate = false;
+		}
+
+	}
+
 protected:
 	IG1App(){};
 	~IG1App() { close(); };
@@ -49,6 +67,7 @@ protected:
 	static void s_resize(int newWidth, int newHeight) { s_ig1app.resize(newWidth, newHeight); };
 	static void s_key(unsigned char key, int x, int y) { s_ig1app.key(key, x, y); };
 	static void s_specialKey(int key, int x, int y) { s_ig1app.specialKey(key, x, y); };
+	static void update() { s_ig1app.update_(); };
 
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
@@ -61,6 +80,8 @@ protected:
 	int mWinId = 0;     // window's identifier
 	int mWinW = 800;    // window's width
 	int mWinH = 600;    // window's height
+
+	bool autoUpdate = false;
 };
 
 #endif //_H_IG1App_H_
