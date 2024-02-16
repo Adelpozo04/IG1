@@ -100,10 +100,6 @@ Mesh* Mesh::generateRegularPolygonMultiColor(GLuint num, GLdouble r) {
 
 	//mesh->mPrimitive = GL_TRIANGLE_FAN;
 
-	glPolygonMode(GL_FRONT, GL_FILL);
-
-	glPolygonMode(GL_BACK, GL_LINE);
-
 	mesh->mNumVertices = num;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
@@ -171,7 +167,7 @@ Mesh* Mesh::generateRectangle(GLuint w, GLuint h) {
 
 }
 
-Mesh* Mesh::generateRGBRectangle(GLuint w, GLuint h) {
+Mesh* Mesh::generateRGBRectangle(GLint w, GLint h) {
 
 
 	Mesh* mesh = new Mesh();
@@ -185,13 +181,13 @@ Mesh* Mesh::generateRGBRectangle(GLuint w, GLuint h) {
 	mesh->vColors.reserve(mesh->mNumVertices);
 
 
-	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+	mesh->vVertices.emplace_back(w / 2, - h / 2, 0.0);
 
-	mesh->vVertices.emplace_back(0 + w / 2, 0.0, 0.0);
+	mesh->vVertices.emplace_back(w / 2, h / 2, 0.0);
 
-	mesh->vVertices.emplace_back(0.0, 0 + h / 2, 0.0);
+	mesh->vVertices.emplace_back(-w / 2, -h / 2, 0.0);
 
-	mesh->vVertices.emplace_back(0 + w / 2, 0 + h / 2, 0.0);
+	mesh->vVertices.emplace_back(-w / 2, h / 2, 0.0);
 
 
 	for (int i = 0; i < mesh->mNumVertices; ++i) {

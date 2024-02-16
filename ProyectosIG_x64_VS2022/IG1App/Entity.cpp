@@ -77,6 +77,11 @@ RBGTriangle::~RBGTriangle()
 void
 RBGTriangle::render(dmat4 const& modelViewMat) const
 {
+
+	glPolygonMode(GL_FRONT, GL_FILL);
+
+	glPolygonMode(GL_BACK, GL_LINE);
+
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
@@ -102,9 +107,10 @@ void
 RGBRectangle::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		glPolygonMode(GL_BACK, GL_FILL);
 
 		glPolygonMode(GL_FRONT, GL_LINE);
+
+		glPolygonMode(GL_BACK, GL_FILL);
 
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
@@ -130,9 +136,6 @@ void
 Cube::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		glPolygonMode(GL_BACK, GL_LINE);
-
-		glPolygonMode(GL_FRONT, GL_FILL);
 
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);

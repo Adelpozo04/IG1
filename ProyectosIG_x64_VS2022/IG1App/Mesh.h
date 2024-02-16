@@ -29,7 +29,7 @@ public:
 
 	static Mesh* generateRectangle(GLuint w, GLuint h);
 
-	static Mesh* generateRGBRectangle(GLuint w, GLuint h);
+	static Mesh* generateRGBRectangle(GLint w, GLint h);
 
 	static Mesh* generateCube(GLdouble length);
 

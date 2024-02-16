@@ -36,7 +36,9 @@ Scene::init()
 	//gObjects.push_back(new RGBRectangle(50, 100));
 
 	gObjects.push_back(new Cube(100));
-	
+
+	//gObjects.push_back(new RGBRectangle(50, 100));
+		
 }
 void
 Scene::free()
@@ -69,4 +71,32 @@ Scene::render(Camera const& cam) const
 	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
 	}
+}
+
+void
+Scene::setScene(GLuint id) {
+
+	gObjects.clear();
+
+	gObjects.push_back(new EjesRGB(400.0));
+
+	if (id == 0) {
+
+		gObjects.push_back(new Cube(100));
+
+	}
+	else if (id == 1) {
+
+		gObjects.push_back(new RGBRectangle(100, 200));
+
+		gObjects.push_back(new RBGTriangle(20));
+
+		PoligonoRegular* pol = new PoligonoRegular(100, 200);
+
+		pol->setColor(0.71, 0.58, 0.75, 1.0);
+
+		gObjects.push_back(pol);
+
+	}
+
 }
