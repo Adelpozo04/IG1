@@ -36,6 +36,8 @@ public:
 
 	}
 
+	virtual void update();
+
 protected:
 	Mesh* mMesh = nullptr; // the mesh
 	glm::dmat4 mModelMat;  // modeling matrix

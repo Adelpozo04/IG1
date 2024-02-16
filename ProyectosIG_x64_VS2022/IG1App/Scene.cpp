@@ -100,3 +100,14 @@ Scene::setScene(GLuint id) {
 	}
 
 }
+
+void
+Scene::update() {
+
+	for (auto it = gObjects.begin(); it != gObjects.end(); ++it) {
+
+		(*it)->update();
+
+	}
+
+}

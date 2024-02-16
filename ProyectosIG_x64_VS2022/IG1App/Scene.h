@@ -28,6 +28,8 @@ public:
 
 	void setScene(GLuint id);
 
+	void update();
+
 protected:
 	void free();
 	void setGL();
