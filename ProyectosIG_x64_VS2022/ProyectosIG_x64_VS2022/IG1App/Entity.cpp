@@ -78,8 +78,8 @@ RegularPolygon::render(dmat4 const& modelViewMat) const
 
 #pragma region TriangleRGB
 
-TriangleRGB::TriangleRGB( GLdouble r)
-	: Abs_Entity()
+TriangleRGB::TriangleRGB( GLdouble r,dvec3 v,GLdouble rotVelX)
+	: Abs_Entity(),vectorTranslate(v),rotVelX(rotVelX)
 {
 	mMesh = Mesh::generateTriangleRGB(r);
 }
@@ -103,7 +103,7 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		glPolygonMode(GL_BACK, GL_LINE);
 		
 
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat =modelViewMat * rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * translate(mModelMat,vectorTranslate) * rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
 		upload(aMat);
 
 		mMesh->changePrimitive(GL_TRIANGLES);
@@ -137,6 +137,11 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		*/
 
 	}
+}
+
+void TriangleRGB::update()
+{
+	angleX -= rotVelX;
 }
 
 
@@ -203,8 +208,8 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT, GL_LINE);
+		glPolygonMode(GL_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
 		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);

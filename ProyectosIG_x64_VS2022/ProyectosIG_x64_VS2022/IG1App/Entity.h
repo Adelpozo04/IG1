@@ -18,6 +18,8 @@ public:
 
 	virtual void render(glm::dmat4 const& modelViewMat) const = 0; // abstract method
 
+	virtual void update() {};
+
 	// modeling matrix
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
@@ -55,10 +57,17 @@ public:
 };
 
 class TriangleRGB : public Abs_Entity {
+
+	glm::dvec3 vectorTranslate;
+
+	GLdouble angleX = 0;
+	GLdouble rotVelX;
 public:
-	explicit TriangleRGB(GLdouble r);
+	explicit TriangleRGB(GLdouble r,glm::dvec3 v,GLdouble retVelX);
 	~TriangleRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
 
 };
 
@@ -74,6 +83,7 @@ public:
 	explicit Rectangle_RGB(GLdouble w, GLdouble h);
 	~Rectangle_RGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
 };
 
 class Cube : public Abs_Entity {

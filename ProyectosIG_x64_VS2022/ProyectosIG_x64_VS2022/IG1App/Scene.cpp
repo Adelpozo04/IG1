@@ -34,7 +34,7 @@ Scene::init()
 	//gObjects.push_back(new Rectangle_RGB(100, 200));
 
 	//cubo
-	gObjects.push_back(new Cube(100));
+	//gObjects.push_back(new Cube(100));
 }
 void
 Scene::free()
@@ -44,6 +44,7 @@ Scene::free()
 		delete el;
 		el = nullptr;
 	}
+	gObjects.resize(0);
 }
 void
 Scene::setGL()
@@ -66,5 +67,38 @@ Scene::render(Camera const& cam) const
 
 	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
+	}
+}
+
+void Scene::update()
+{
+	for (auto& o : gObjects) {
+		o->update();
+	}
+}
+
+void Scene::setScene(GLuint id)
+{
+	free();
+
+	mId = id;
+
+	if (mId == 0) {
+		gObjects.push_back(new EjesRGB(400.0));
+
+		//circunferencia magenta
+		gObjects.push_back(new RegularPolygon(50, 100));
+		gObjects[1]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
+
+		//triangulo RGB
+		gObjects.push_back(new TriangleRGB(30, glm::dvec3(100, 0, 0),5.0));
+
+
+		//rectangulo
+		gObjects.push_back(new Rectangle_RGB(200, 100));
+	}
+	else if (mId == 1) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new Cube(100));
 	}
 }

@@ -26,12 +26,18 @@ public:
 
 	void render(Camera const& cam) const;
 
+	void update();
+
+	void setScene(GLuint id);
+
 protected:
 	void free();
 	void setGL();
 	void resetGL();
 
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
+
+	GLuint mId;
 };
 
 #endif //_H_Scene_H_
