@@ -136,7 +136,7 @@ IG1App::key(unsigned char key, int x, int y)
 			mCamera->set2D();
 			break;
 		case 'u':
-			mScene->update();
+			glutIdleFunc(s_update);
 			break;
 		case '1':
 			mScene->setScene(1);

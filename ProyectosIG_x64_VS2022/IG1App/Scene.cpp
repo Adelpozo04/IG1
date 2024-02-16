@@ -91,7 +91,7 @@ Scene::setScene(GLuint id) {
 
 		gObjects.push_back(new RGBRectangle(200, 100));
 
-		gObjects.push_back(new RBGTriangle(20, glm::vec3(200, 0, 0), 5.0));
+		gObjects.push_back(new RBGTriangle(20, glm::vec3(200, 0, 0), 0.05));
 
 		PoligonoRegular* pol = new PoligonoRegular(100, 200);
 
