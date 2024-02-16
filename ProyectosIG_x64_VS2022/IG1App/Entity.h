@@ -67,9 +67,13 @@ public:
 class RBGTriangle : public Abs_Entity
 {
 public:
-	explicit RBGTriangle(GLdouble r);
+	explicit RBGTriangle(GLdouble r, GLdouble x, GLdouble y);
 	~RBGTriangle();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+	GLdouble myX;
+	GLdouble myY;
 };
 
 class RGBRectangle : public Abs_Entity

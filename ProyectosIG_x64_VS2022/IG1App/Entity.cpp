@@ -67,8 +67,8 @@ PoligonoRegular::render(dmat4 const& modelViewMat) const
 	}
 }
 
-RBGTriangle::RBGTriangle(GLdouble r)
-	: Abs_Entity()
+RBGTriangle::RBGTriangle(GLdouble r, GLdouble x, GLdouble y)
+	: Abs_Entity(), myX(x), myY(y)
 {
 	mMesh = Mesh::generateRegularPolygonMultiColor(3, r);
 }
@@ -88,7 +88,7 @@ RBGTriangle::render(dmat4 const& modelViewMat) const
 	glPolygonMode(GL_BACK, GL_LINE);
 
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(myX, myY, 0)); // glm matrix multiplication
 		upload(aMat);
 		glLineWidth(2);
 		mMesh->render();
