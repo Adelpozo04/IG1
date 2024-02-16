@@ -76,6 +76,8 @@ Scene::render(Camera const& cam) const
 void
 Scene::setScene(GLuint id) {
 
+	free();
+
 	gObjects.clear();
 
 	gObjects.push_back(new EjesRGB(400.0));
@@ -87,9 +89,9 @@ Scene::setScene(GLuint id) {
 	}
 	else if (id == 1) {
 
-		gObjects.push_back(new RGBRectangle(100, 200));
+		gObjects.push_back(new RGBRectangle(200, 100));
 
-		gObjects.push_back(new RBGTriangle(20, 200, 0));
+		gObjects.push_back(new RBGTriangle(20, glm::vec3(200, 0, 0), 5.0));
 
 		PoligonoRegular* pol = new PoligonoRegular(100, 200);
 
@@ -104,10 +106,8 @@ Scene::setScene(GLuint id) {
 void
 Scene::update() {
 
-	for (auto it = gObjects.begin(); it != gObjects.end(); ++it) {
-
-		(*it)->update();
-
+	for (auto& o : gObjects) {
+		o->update();
 	}
 
 }

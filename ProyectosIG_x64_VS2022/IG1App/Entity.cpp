@@ -67,8 +67,8 @@ PoligonoRegular::render(dmat4 const& modelViewMat) const
 	}
 }
 
-RBGTriangle::RBGTriangle(GLdouble r, GLdouble x, GLdouble y)
-	: Abs_Entity(), myX(x), myY(y)
+RBGTriangle::RBGTriangle(GLdouble r, glm::dvec3 v, GLdouble otherRotVecX)
+	: Abs_Entity(), myV(v), rotVelX(otherRotVecX)
 {
 	mMesh = Mesh::generateRegularPolygonMultiColor(3, r);
 }
@@ -88,12 +88,23 @@ RBGTriangle::render(dmat4 const& modelViewMat) const
 	glPolygonMode(GL_BACK, GL_LINE);
 
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(myX, myY, 0)); // glm matrix multiplication
+
+		dmat4 aMat =  modelViewMat * rotate(dmat4(1), radians(angleX), dvec3(0, 0, 1)) * translate(mModelMat, myV) * rotate(dmat4(1), radians(- angleX * 2), dvec3(0, 0, 1)); // glm matrix multiplication
 		upload(aMat);
+
 		glLineWidth(2);
 		mMesh->render();
 		glLineWidth(1);
 	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void
+RBGTriangle::update() {
+
+	angleX += rotVelX;
+
 }
 
 RGBRectangle::RGBRectangle(GLuint w, GLuint h)
@@ -122,6 +133,8 @@ RGBRectangle::render(dmat4 const& modelViewMat) const
 		glLineWidth(2);
 		mMesh->render();
 		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

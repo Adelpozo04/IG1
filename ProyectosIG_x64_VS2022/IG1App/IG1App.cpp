@@ -137,6 +137,7 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'u':
 			mScene->update();
+			break;
 		case '1':
 			mScene->setScene(1);
 			break;
