@@ -138,8 +138,8 @@ RGBRectangle::render(dmat4 const& modelViewMat) const
 	}
 }
 
-Cube::Cube(GLdouble length)
-	: Abs_Entity()
+Cube::Cube(GLdouble length, GLdouble rV)
+	: Abs_Entity(), rotVelX(rV)
 {
 	mMesh = Mesh::generateCube(length);
 }
@@ -165,6 +165,34 @@ Cube::render(dmat4 const& modelViewMat) const
 		
 		glLineWidth(1);
 	}
+}
+
+void
+Cube::update() {
+
+	switch (rotState)
+	{
+
+		case 0:
+			angleX += rotVelX;
+
+			break;
+
+		case 1:
+
+			angleY += rotVelX;
+
+			break;
+
+		case 2:
+
+			angleZ += rotVelX;
+
+		default:
+			break;
+	}
+	angleX += rotVelX;
+
 }
 
 

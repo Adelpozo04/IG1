@@ -92,13 +92,25 @@ public:
 class Cube : public Abs_Entity
 {
 public:
-	explicit Cube(GLdouble length);
+	explicit Cube(GLdouble length, GLdouble rV);
 	~Cube();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
 
 private:
 
 	GLdouble length;
+
+	GLdouble rotVelX;
+
+	GLdouble angleX = 0;
+
+	GLdouble angleY = 0;
+
+	GLdouble angleZ = 0;
+
+	GLuint rotState = 0;
 
 };
 
