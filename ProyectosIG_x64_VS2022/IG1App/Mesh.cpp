@@ -98,7 +98,7 @@ Mesh* Mesh::generateRegularPolygonMultiColor(GLuint num, GLdouble r) {
 
 	Mesh* mesh = new Mesh();
 
-	//mesh->mPrimitive = GL_TRIANGLE_FAN;
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 
 	mesh->mNumVertices = num;
 	mesh->vVertices.reserve(mesh->mNumVertices);
@@ -240,8 +240,6 @@ Mesh* Mesh::generateCube(GLdouble length) {
 	mesh->vVertices.emplace_back(length, length, length);
 	mesh->vVertices.emplace_back(length, 0.0, length);
 	mesh->vVertices.emplace_back(length, length, 0.0);
-	
-
 	
 	for (int i = 0; i < 6; i++) {
 		mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
