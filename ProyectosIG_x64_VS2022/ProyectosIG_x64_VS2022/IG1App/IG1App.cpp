@@ -19,6 +19,25 @@ IG1App::close()
 	free();
 }
 
+void IG1App::update_()
+{
+	mScene->update();
+	glutPostRedisplay();
+}
+
+void IG1App::changeAutoUpdate()
+{
+
+	if (!autoUpdate) {
+		glutIdleFunc(update);
+		autoUpdate = true;
+	}
+	else {
+		glutIdleFunc(NULL);
+		autoUpdate = false;
+	}
+}
+
 void
 IG1App::run() // enters the main event processing loop
 {
@@ -42,8 +61,9 @@ IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 
-	mCamera->set2D();
+	mCamera->set3D();
 	mScene->init();
+	mScene->setScene(1);
 }
 
 void
@@ -77,6 +97,8 @@ IG1App::iniWinOpenGL()
 
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
+
+
 
 }
 

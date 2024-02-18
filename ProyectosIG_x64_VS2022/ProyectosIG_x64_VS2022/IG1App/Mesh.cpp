@@ -238,10 +238,6 @@ Mesh::generateCube(GLdouble w) {
 	//COLORES PARA LOS VERTICES
 
 	for (int i = 0; i < 6; ++i) {
-		// Red for front face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
-	}
-	for (int i = 0; i < 6; ++i) {
 		// Green for bottom face
 		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
 	}
@@ -249,10 +245,9 @@ Mesh::generateCube(GLdouble w) {
 		// Blue for back face
 		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
 	}
-	
 	for (int i = 0; i < 6; ++i) {
 		// Red for front face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
 	}
 	for (int i = 0; i < 6; ++i) {
 		//for bottom face
@@ -262,8 +257,10 @@ Mesh::generateCube(GLdouble w) {
 		// Blue for back face
 		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
 	}
-	
-
+	for (int i = 0; i < 6; ++i) {
+		// Red for front face
+		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+	}
 	/*
 	for (int i = 0; i < 6; ++i) {
 		// Yellow for top face

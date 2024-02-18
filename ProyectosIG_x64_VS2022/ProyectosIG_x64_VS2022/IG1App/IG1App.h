@@ -31,23 +31,9 @@ public:
 	void run();   // the main event processing loop
 	void close(); // the application
 
-	void update_() {
-		mScene->update();
-		glutPostRedisplay();	
-	};
+	void update_();
 
-	void changeAutoUpdate() {
-
-		if (!autoUpdate) {
-			glutIdleFunc(update);
-			autoUpdate = true;
-		}
-		else {
-			glutIdleFunc(NULL);
-			autoUpdate = false;
-		}
-
-	}
+	void changeAutoUpdate();
 
 protected:
 	IG1App(){};

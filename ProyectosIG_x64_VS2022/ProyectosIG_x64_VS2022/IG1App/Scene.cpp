@@ -17,7 +17,7 @@ Scene::init()
 	// Graphics objects (entities) of the scene
 
 	//ejes
-	gObjects.push_back(new EjesRGB(400.0));
+	//gObjects.push_back(new EjesRGB(400.0));
 	
 	//triangulo cian
 	//gObjects.push_back(new RegularPolygon(3,100));
@@ -35,6 +35,10 @@ Scene::init()
 
 	//cubo
 	//gObjects.push_back(new Cube(100));
+
+	//setScene(1);
+
+	
 }
 void
 Scene::free()
@@ -99,6 +103,6 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 1) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new Cube(100));
+		gObjects.push_back(new Cube(100,false,1.f));
 	}
 }

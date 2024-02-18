@@ -87,12 +87,16 @@ public:
 };
 
 class Cube : public Abs_Entity {
+	glm::dvec3 vectorTranslate;
+
+	GLdouble angle = 0;
+	GLdouble rotVel;
 public:
-	explicit Cube(GLdouble w);
+	explicit Cube(GLdouble w,bool center,GLdouble rotVel);
 	~Cube();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
-
+	void update() override;
 };
 
 #endif //_H_Entities_H_

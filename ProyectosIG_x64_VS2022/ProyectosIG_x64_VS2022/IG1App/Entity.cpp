@@ -229,9 +229,12 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 
 #pragma endregion
 
-Cube::Cube(GLdouble w)
+Cube::Cube(GLdouble w,bool center,GLdouble rotVel) : vectorTranslate(dvec3(0,0,0)) , rotVel(rotVel)
 {
 	mMesh = Mesh::generateCube(w);
+	if (!center) {
+		vectorTranslate = dvec3(w , w , -w );
+	}
 }
 
 Cube::~Cube()
@@ -243,7 +246,7 @@ Cube::~Cube()
 void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat = modelViewMat *translate(mModelMat,vectorTranslate); // glm matrix multiplication
 		upload(aMat);
 
 		//set config
@@ -258,4 +261,8 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glPolygonMode(GL_BACK, GL_FILL);
 	}
+}
+
+void Cube::update() {
+
 }
