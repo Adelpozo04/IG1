@@ -99,6 +99,20 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 	void update() override;
+
+private:
+
+	GLdouble length;
+
+	GLdouble rotVelX;
+
+	GLdouble rotTotal = 180;
+
+	std::vector <GLdouble> angles{ 0, 0, 0 };
+
+	std::vector <GLdouble> endAngles{ rotTotal, rotTotal, rotTotal };
+
+	GLuint rotState = 0;
 };
 
 #endif //_H_Entities_H_
