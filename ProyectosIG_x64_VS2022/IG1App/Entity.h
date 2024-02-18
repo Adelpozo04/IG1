@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 
+
 #include "Mesh.h"
 
 class Abs_Entity // abstract class
@@ -104,11 +105,11 @@ private:
 
 	GLdouble rotVelX;
 
-	GLdouble angleX = 0;
+	GLdouble rotTotal = 180;
 
-	GLdouble angleY = 0;
+	std::vector <GLdouble> angles{ 0, 0, 0 };
 
-	GLdouble angleZ = 0;
+	std::vector <GLdouble> endAngles{ rotTotal, rotTotal, rotTotal };
 
 	GLuint rotState = 0;
 

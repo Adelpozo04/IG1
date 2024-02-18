@@ -35,7 +35,7 @@ Scene::init()
 
 	//gObjects.push_back(new RGBRectangle(50, 100));
 
-	gObjects.push_back(new Cube(100));
+	gObjects.push_back(new Cube(100, 1));
 
 	//gObjects.push_back(new RGBRectangle(50, 100));
 		
@@ -84,7 +84,7 @@ Scene::setScene(GLuint id) {
 
 	if (id == 0) {
 
-		gObjects.push_back(new Cube(100));
+		gObjects.push_back(new Cube(100, 0.05));
 
 	}
 	else if (id == 1) {

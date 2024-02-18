@@ -155,8 +155,12 @@ Cube::render(dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat;
+	
+		aMat = modelViewMat * rotate(dmat4(mModelMat), radians(angles[0]), dvec3(0, 0, 1)) * rotate(dmat4(mModelMat), radians(angles[1]), dvec3(0, 1, 0)) * rotate(dmat4(mModelMat), radians(angles[2]), dvec3(1, 0, 0));
 		upload(aMat);
+
+
 		glLineWidth(2);
 
 
@@ -170,28 +174,17 @@ Cube::render(dmat4 const& modelViewMat) const
 void
 Cube::update() {
 
-	switch (rotState)
-	{
+	angles[rotState] += rotVelX;
 
-		case 0:
-			angleX += rotVelX;
+	if (angles[rotState] >= endAngles[rotState]) {
 
-			break;
+		angles[rotState] = endAngles[rotState];
 
-		case 1:
+		endAngles[rotState] += rotTotal;
 
-			angleY += rotVelX;
+		rotState = (rotState + 1) % 3;
 
-			break;
-
-		case 2:
-
-			angleZ += rotVelX;
-
-		default:
-			break;
 	}
-	angleX += rotVelX;
 
 }
 
