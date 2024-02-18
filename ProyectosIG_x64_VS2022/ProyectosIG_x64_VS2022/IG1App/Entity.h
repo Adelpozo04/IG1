@@ -89,7 +89,9 @@ public:
 class Cube : public Abs_Entity {
 	glm::dvec3 vectorTranslate;
 
-	GLdouble angle = 0;
+	int state = 0;
+	
+	std::vector<GLdouble> _angles;
 	GLdouble rotVel;
 public:
 	explicit Cube(GLdouble w,bool center,GLdouble rotVel);

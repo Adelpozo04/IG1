@@ -261,21 +261,6 @@ Mesh::generateCube(GLdouble w) {
 		// Red for front face
 		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
 	}
-	/*
-	for (int i = 0; i < 6; ++i) {
-		// Yellow for top face
-		mesh->vColors.emplace_back(1.0f, 1.0f, 0.0f, 1.0f); // Yellow
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Cyan for right face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 1.0f, 1.0f); // Cyan
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Magenta for left face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 1.0f, 1.0f); // Magenta
-	}
-	
-	*/
 
 	return mesh;
 }

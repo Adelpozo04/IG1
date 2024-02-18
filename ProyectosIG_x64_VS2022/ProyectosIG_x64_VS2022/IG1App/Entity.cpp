@@ -118,8 +118,7 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 
 
 		//reset
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		/*
 		glCullFace(GL_FRONT);
@@ -219,8 +218,7 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 		glColor4d(0.0, 0.0, 0.0, 1.0);
 		glLineWidth(1);
 
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 
@@ -235,6 +233,10 @@ Cube::Cube(GLdouble w,bool center,GLdouble rotVel) : vectorTranslate(dvec3(0,0,0
 	if (!center) {
 		vectorTranslate = dvec3(w , w , -w );
 	}
+	
+	_angles.push_back(GLdouble(0.0));
+	_angles.push_back(GLdouble(0.0));
+	_angles.push_back(GLdouble(0.0));
 }
 
 Cube::~Cube()
@@ -246,7 +248,10 @@ Cube::~Cube()
 void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
-		dmat4 aMat = modelViewMat *translate(mModelMat,vectorTranslate); // glm matrix multiplication
+
+		dmat4 aMat = modelViewMat* rotate(dmat4(1), radians(_angles[2]), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(_angles[1]), dvec3(0, 0, 1)) * rotate(dmat4(1), radians(_angles[0]), dvec3(1, 0, 0))
+			* translate(mModelMat, vectorTranslate); // glm matrix multiplication			
+		
 		upload(aMat);
 
 		//set config
@@ -258,11 +263,19 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 
 		//reset config
 		glLineWidth(1);
-		glPolygonMode(GL_FRONT, GL_FILL);
-		glPolygonMode(GL_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 
 void Cube::update() {
 
+	_angles[state] += rotVel;
+	if (_angles[state] >= 180) {
+		state = (state+1)%3;
+		if (state == 0) {
+			_angles[0] = (int)(_angles[0] + 180) % 360;
+			_angles[1] = (int)(_angles[1] + 180) % 360;
+			_angles[2] = (int)(_angles[2] + 180) % 360;		
+		}
+	}	
 }
