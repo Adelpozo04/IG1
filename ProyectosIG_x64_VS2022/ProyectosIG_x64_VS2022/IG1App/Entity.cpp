@@ -249,8 +249,11 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat* rotate(dmat4(1), radians(_angles[2]), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(_angles[1]), dvec3(0, 0, 1)) * rotate(dmat4(1), radians(_angles[0]), dvec3(1, 0, 0))
-			* translate(mModelMat, vectorTranslate); // glm matrix multiplication			
+		dmat4 aMat = modelViewMat* 
+					rotate(dmat4(1), radians(_angles[2]), dvec3(0, 1, 0)) * 
+					rotate(dmat4(1), radians(_angles[1]), dvec3(0, 0, 1)) * 
+					rotate(dmat4(1), radians(_angles[0]), dvec3(1, 0, 0)) * 
+					translate(mModelMat, vectorTranslate); // glm matrix multiplication			
 		
 		upload(aMat);
 
