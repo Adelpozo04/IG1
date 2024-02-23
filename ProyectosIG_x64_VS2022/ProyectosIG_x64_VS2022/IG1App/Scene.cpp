@@ -39,6 +39,8 @@ Scene::init()
 	//setScene(1);
 
 	
+
+	
 }
 void
 Scene::free()
@@ -56,12 +58,14 @@ Scene::setGL()
 	// OpenGL basic setting
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
+	glEnable(GL_TEXTURE_2D);
 }
 void
 Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0); // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
+	glDisable(GL_TEXTURE_2D);
 }
 
 void
@@ -103,6 +107,6 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 1) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new Cube(100,false,1.f));
+		gObjects.push_back(new Ground(200, 400));
 	}
 }

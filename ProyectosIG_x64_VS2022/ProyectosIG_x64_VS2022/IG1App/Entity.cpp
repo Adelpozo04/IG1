@@ -259,6 +259,7 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_BACK, GL_POINT);
 		glLineWidth(2);
 
+
 		mMesh->render();
 
 		//reset config
@@ -278,4 +279,47 @@ void Cube::update() {
 			_angles[2] = (int)(_angles[2] + 180) % 360;		
 		}
 	}	
+}
+
+Ground::Ground(GLdouble w, GLdouble h)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateRectangleTexCor(w, h);
+
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/papelE.bmp");
+
+}
+
+Ground::~Ground()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Ground::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
