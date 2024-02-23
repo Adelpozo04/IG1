@@ -1,0 +1,6 @@
+Adrián del Pozo Hernández
+Samuel García Bazán
+
+Partes Opcionales:
+Ejercicio 17(animacion del cubo)
+Además si se vuelve a pulsar a la tecla U, se paran las animaciones
