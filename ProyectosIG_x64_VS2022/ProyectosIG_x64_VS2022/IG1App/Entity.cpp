@@ -300,10 +300,10 @@ void Cube::update() {
 Ground::Ground(GLdouble w,GLdouble h)
 {
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateRectangleTexCor(w, h);
-	
+	//mMesh = Mesh::generateRectangleTexCor(w, h);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 4, 4);
 	mTexture = new Texture();
-	mTexture->load("Bmps/papelE.bmp");
+	mTexture->load("Bmps/baldosaC.bmp");
 
 }
 
@@ -327,7 +327,9 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 
 
+		mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_REPLACE);
+	
 
 		mMesh->render();
 

@@ -288,3 +288,18 @@ Mesh* Mesh::generateRectangleTexCor(GLdouble w, GLdouble h)
 	return m;
 
 }
+
+Mesh* Mesh::generaRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	Mesh* m = Mesh::generateRectangle(w, h);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+	
+	m->vTexCoords.emplace_back(0, rh);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(rw, rh);
+	m->vTexCoords.emplace_back(rw, 0);
+	return m;
+	
+}

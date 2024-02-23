@@ -16,6 +16,7 @@ public:
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateCube(GLdouble longitud);
 	static Mesh* generateRectangleTexCor(GLdouble w, GLdouble h);
+	static Mesh* generaRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 
 
 
