@@ -17,6 +17,8 @@ void
 Mesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
+
+
 		// transfer the coordinates of the vertices
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(
@@ -29,10 +31,19 @@ Mesh::render() const
 			                                    // each component, stride, pointer
 		}
 
+
+		if (vTexCoords.size() > 0) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+
+		}
+
+
 		draw();
 
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 
@@ -263,4 +274,17 @@ Mesh::generateCube(GLdouble w) {
 	}
 
 	return mesh;
+}
+
+Mesh* Mesh::generateRectangleTexCor(GLdouble w, GLdouble h)
+{
+	Mesh* m = Mesh::generateRectangle(w, h);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+	return m;
+
 }

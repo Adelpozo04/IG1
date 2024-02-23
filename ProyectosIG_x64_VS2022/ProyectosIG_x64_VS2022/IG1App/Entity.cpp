@@ -300,7 +300,11 @@ void Cube::update() {
 Ground::Ground(GLdouble w,GLdouble h)
 {
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateRGBRectangle(w, h);
+	mMesh = Mesh::generateRectangleTexCor(w, h);
+	
+	mTexture = new Texture();
+	mTexture->load("Bmps/papelE.bmp");
+
 }
 
 Ground::~Ground()
@@ -314,19 +318,22 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 
 	if(mMesh != nullptr) {
 
-		;
 		dmat4 aMat = modelViewMat * mModelMat * 
 						rotate(dmat4(1), radians(90.0), glm::dvec3(1, 0, 0)); // glm matrix multiplication
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
-		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
+
+
+		mTexture->bind(GL_REPLACE);
+
 		mMesh->render();
 
+		mTexture->unbind();
+
 		//reset config
-		glColor4d(0.0, 0.0, 0.0, 1.0);
 		glLineWidth(1);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

@@ -15,6 +15,7 @@ public:
 	static Mesh* generateRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateCube(GLdouble longitud);
+	static Mesh* generateRectangleTexCor(GLdouble w, GLdouble h);
 
 
 
@@ -29,7 +30,7 @@ public:
 	GLuint size() const { return mNumVertices; }; // number of elements
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
-
+	std::vector<glm::dvec2> vTexCoords;
 
 	void changePrimitive(GLuint primitive) {
 		mPrimitive = primitive;
