@@ -326,3 +326,38 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+BoxOutline::BoxOutline(GLdouble lenght)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutline(lenght);
+
+}
+
+BoxOutline::~BoxOutline()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void BoxOutline::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mMesh->render();
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

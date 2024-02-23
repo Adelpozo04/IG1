@@ -305,3 +305,51 @@ Mesh::generateCube(GLdouble w) {
 
 	return mesh;
 }
+
+Mesh*
+Mesh::generateBoxOutline(GLdouble w) {
+	//generamos un cubo a partir de 12 triangulos
+	//36 vertices
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 10;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, w, -w); //1 1 0
+	points.emplace_back(w, -w, -w); //1 0 0
+	points.emplace_back(-w, -w, -w); // 0 0 0
+	points.emplace_back(-w, w, -w); // 0 1 0
+
+	points.emplace_back(w, w, w); // 1 1 1
+	points.emplace_back(w, -w, w); // 1 0 1
+	points.emplace_back(-w, -w, w); // 0 0 1
+	points.emplace_back(-w, w, w); // 0 1 1
+
+	//FACE 0
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[4]);
+
+	//FACE 1
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+
+	mesh->vVertices.push_back(points[3]);
+	
+	return mesh;
+}
+
