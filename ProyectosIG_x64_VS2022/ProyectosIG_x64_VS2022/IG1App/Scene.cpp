@@ -105,4 +105,10 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Cube(100,false,1.f));
 	}
+	else if (mId == 18) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new Ground(200, 400));
+
+
+	}
 }

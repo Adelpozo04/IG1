@@ -103,7 +103,10 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		glPolygonMode(GL_BACK, GL_LINE);
 		
 
-		dmat4 aMat =modelViewMat * rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * translate(mModelMat,vectorTranslate) * rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
+		dmat4 aMat = modelViewMat * 
+						rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * 
+						translate(mModelMat,vectorTranslate) * 
+						rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
 		upload(aMat);
 
 		mMesh->changePrimitive(GL_TRIANGLES);
@@ -227,6 +230,11 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+
+#pragma region Cube
+
+
+
 Cube::Cube(GLdouble w,bool center,GLdouble rotVel) : vectorTranslate(dvec3(0,0,0)) , rotVel(rotVel)
 {
 	mMesh = Mesh::generateCube(w);
@@ -282,3 +290,51 @@ void Cube::update() {
 		}
 	}	
 }
+
+#pragma endregion
+
+
+#pragma region Ground
+
+
+Ground::Ground(GLdouble w,GLdouble h)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateRGBRectangle(w, h);
+}
+
+Ground::~Ground()
+{
+
+}
+
+
+void Ground::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if(mMesh != nullptr) {
+
+		;
+		dmat4 aMat = modelViewMat * mModelMat * 
+						rotate(dmat4(1), radians(90.0), glm::dvec3(1, 0, 0)); // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//set config
+		glLineWidth(2);
+		glColor4d(mColor.r, mColor.g, mColor.b, mColor.a);
+		mMesh->render();
+
+		//reset config
+		glColor4d(0.0, 0.0, 0.0, 1.0);
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+
+
+#pragma endregion

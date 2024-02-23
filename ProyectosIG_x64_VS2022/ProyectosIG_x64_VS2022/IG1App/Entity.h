@@ -101,4 +101,14 @@ public:
 	void update() override;
 };
 
+
+class Ground : public Abs_Entity {
+
+public:
+	explicit Ground(GLdouble w, GLdouble h);
+	~Ground();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
 #endif //_H_Entities_H_
