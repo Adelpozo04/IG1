@@ -358,8 +358,13 @@ BoxOutline::BoxOutline(GLdouble w)
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
 
 	mTexture = new Texture();
-
 	mTexture->load("Bmps/container.bmp");
+
+	mBackTexture = new Texture();
+
+	mBackTexture->load("Bmps/papelE.bmp");
+
+
 }
 
 BoxOutline::~BoxOutline()
@@ -370,21 +375,38 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
+		//matriz del modelo
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 
+		//modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
 
 
-		//mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_REPLACE);
+		glEnable(GL_CULL_FACE);
+
+		glCullFace(GL_BACK);
+
+
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
 
 
 		mMesh->render();
 		
 		mTexture->unbind();
+
+		mBackTexture->bind(GL_MODULATE);
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+		mBackTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
 
 		//reset config
 		glLineWidth(1);

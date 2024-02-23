@@ -117,6 +117,8 @@ public:
 
 class BoxOutline  : public Abs_Entity {
 
+protected:
+	Texture* mBackTexture;
 public:
 	explicit BoxOutline(GLdouble w);
 	~BoxOutline();
