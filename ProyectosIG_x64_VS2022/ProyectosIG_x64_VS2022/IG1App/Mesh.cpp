@@ -175,6 +175,23 @@ Mesh::generateRectangleTexCor(GLdouble w, GLdouble h) {
 	return mesh;
 }
 
+Mesh*
+Mesh::generateRectangleTexCor(GLdouble w, GLdouble h, GLdouble rw, GLdouble rh) {
+
+
+	Mesh* mesh = generateRectangle(w, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	mesh->vTexCoords.emplace_back(0.0, rh);
+	mesh->vTexCoords.emplace_back(0.0, 0.0);
+	mesh->vTexCoords.emplace_back(rw, rh);
+	mesh->vTexCoords.emplace_back(rw, 0.0);
+
+
+	return mesh;
+}
+
 
 Mesh*
 Mesh::generateCube(GLdouble w) {

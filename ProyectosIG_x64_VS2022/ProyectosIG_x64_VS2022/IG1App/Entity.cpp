@@ -289,7 +289,7 @@ Ground::Ground(GLdouble w, GLdouble h)
 
 
 	mTexture = new Texture;
-	mTexture->load("Bmps/papelE.bmp");
+	mTexture->load("Bmps/baldosaC.bmp");
 
 }
 
@@ -311,6 +311,9 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+
 
 		mTexture->bind(GL_REPLACE);
 
