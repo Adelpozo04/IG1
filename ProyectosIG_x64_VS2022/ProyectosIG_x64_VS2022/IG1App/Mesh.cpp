@@ -306,13 +306,14 @@ Mesh* Mesh::generaRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 
 Mesh* Mesh::generateBoxOutline(GLdouble w)
 {
-	Mesh* mesh = new Mesh;
+	Mesh* mesh = new Mesh();
 
 	mesh->mPrimitive = GL_TRIANGLE_STRIP;
 
 	mesh->mNumVertices = 10;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
 
 
 	//posiciones de los puntos
@@ -343,4 +344,28 @@ Mesh* Mesh::generateBoxOutline(GLdouble w)
 	mesh->vVertices.push_back(points[3]);
 
 	return mesh;
+}
+
+Mesh* Mesh::generateBoxOutlineTexCor(GLdouble longitud)
+{
+
+	Mesh* m = generateBoxOutline(longitud);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+
+	return m;
 }
