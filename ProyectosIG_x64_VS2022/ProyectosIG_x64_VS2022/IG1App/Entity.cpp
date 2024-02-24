@@ -309,7 +309,8 @@ Ground::Ground(GLdouble w,GLdouble h)
 
 Ground::~Ground()
 {
-
+	delete mMesh;
+	mMesh = nullptr;
 }
 
 
@@ -357,11 +358,14 @@ BoxOutline::BoxOutline(GLdouble w)
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
 
+
+	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
+
+	//mTexture actua como frontTexture
 	mTexture = new Texture();
 	mTexture->load("Bmps/container.bmp");
 
 	mBackTexture = new Texture();
-
 	mBackTexture->load("Bmps/papelE.bmp");
 
 
@@ -369,6 +373,8 @@ BoxOutline::BoxOutline(GLdouble w)
 
 BoxOutline::~BoxOutline()
 {
+	delete mMesh;
+	mMesh = nullptr;
 }
 
 void BoxOutline::render(glm::dmat4 const& modelViewMat) const
@@ -418,4 +424,44 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+#pragma region Star3D
 
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
+{
+	mMesh = Mesh::generateStar3D(re, np, h);
+
+
+}
+
+Star3D::~Star3D()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Star3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//set config
+		glLineWidth(2);
+
+		mMesh->render();
+
+		aMat = rotate(aMat,radians(180.0),dvec3(0,1,0));
+
+		upload(aMat);
+		mMesh->render();
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+#pragma endregion

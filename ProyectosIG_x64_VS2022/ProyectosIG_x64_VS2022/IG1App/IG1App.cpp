@@ -63,7 +63,7 @@ IG1App::init()
 
 	mCamera->set3D();
 	mScene->init();
-	mScene->setScene(21);
+	mScene->setScene(26);
 }
 
 void

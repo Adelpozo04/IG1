@@ -113,9 +113,12 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Ground(200, 400));
 	}
-	else if (mId == 21) {
+	else if (mId == 24) {
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new BoxOutline(100));
-
+	}
+	else if (mId == 26) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new Star3D(100, 6, 80));
 	}
 }

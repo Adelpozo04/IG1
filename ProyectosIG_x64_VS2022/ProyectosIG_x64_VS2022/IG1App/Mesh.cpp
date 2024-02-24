@@ -369,3 +369,32 @@ Mesh* Mesh::generateBoxOutlineTexCor(GLdouble longitud)
 
 	return m;
 }
+
+Mesh* Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	mesh->mNumVertices =(np*2) + 2;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	//punto de origen de la estrella(primer vertice)
+	mesh->vVertices.emplace_back(0, 0, 0);
+
+	float angle = 360.0 / np;
+	GLdouble ri = re / 2.0;
+
+	for (int i = 0; i < np; i++) {
+		mesh->vVertices.emplace_back(re * cos(glm::radians(i * angle)), re * sin(glm::radians(i * angle)), h);
+		mesh->vVertices.emplace_back(ri * cos(glm::radians((i * angle)+ angle/2)), ri * sin(glm::radians((i * angle)+angle/2)), h);
+	}
+
+	//añadir otra vez el segundo verice(primero sin contar el centro)
+	mesh->vVertices.emplace_back(re * cos(glm::radians(0.)), re * sin(glm::radians( 0.)), h);
+
+
+
+	return mesh;
+}

@@ -9,17 +9,20 @@
 class Mesh
 {
 public:
+	//practica 1
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	static Mesh* generateRegularPolygon(GLuint num, GLdouble r); //creates a regular polygon
 	static Mesh* generateTriangleRGB(GLdouble r); //creates a triangleRGB
 	static Mesh* generateRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateRGBRectangle(GLdouble w, GLdouble h);
 	static Mesh* generateCube(GLdouble longitud);
+
+	//practica 2
 	static Mesh* generateRectangleTexCor(GLdouble w, GLdouble h);
 	static Mesh* generaRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
-
 	static Mesh* generateBoxOutline(GLdouble length);
 	static Mesh* generateBoxOutlineTexCor(GLdouble longitud);
+	static Mesh* generateStar3D(GLdouble re, GLuint np, GLdouble h);
 
 
 
