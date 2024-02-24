@@ -398,3 +398,21 @@ Mesh* Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
 
 	return mesh;
 }
+
+Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = generateStar3D(re, np, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	vector<vec2> texPoints{ {0,0},{0.5,0},{0,0 },{0,0.5} };
+
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+
+		mesh->vTexCoords.push_back(texPoints[i % 4]);
+	} 
+
+	return mesh;
+}

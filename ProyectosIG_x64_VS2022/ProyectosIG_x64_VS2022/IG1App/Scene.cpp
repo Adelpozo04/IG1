@@ -119,6 +119,6 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 26) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new Star3D(100, 6, 80));
+		gObjects.push_back(new Star3D(100, 8, 80));
 	}
 }

@@ -428,8 +428,11 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 
 Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
 {
-	mMesh = Mesh::generateStar3D(re, np, h);
+	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
+	mTexture = new Texture();
+
+	mTexture->load("Bmps/baldosaP.bmp");
 
 }
 
@@ -446,9 +449,12 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
 
 		mMesh->render();
 
@@ -457,6 +463,8 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 		upload(aMat);
 		mMesh->render();
 
+
+		mTexture->unbind();
 		//reset config
 		glLineWidth(1);
 
