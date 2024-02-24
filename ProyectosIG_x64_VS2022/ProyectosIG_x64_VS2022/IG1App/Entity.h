@@ -127,12 +127,17 @@ public:
 };
 
 class Star3D : public Abs_Entity {
+	GLdouble zAngle;
+	GLdouble yAngle;
+	GLdouble zRotVel;
+	GLdouble YRotVel;
 
 public:
-	explicit Star3D(GLdouble re, GLuint np, GLdouble h);
+	explicit Star3D(GLdouble re, GLuint np, GLdouble h,GLdouble yVel,GLdouble zVel);
 	~Star3D();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+	void update() override;
 };
 
 

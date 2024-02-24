@@ -426,7 +426,8 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 
 #pragma region Star3D
 
-Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel) 
+	:YRotVel(yVel),zRotVel(zVel)
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
@@ -434,6 +435,8 @@ Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
 
 	mTexture->load("Bmps/baldosaP.bmp");
 
+	yAngle = 0;
+	zAngle = 0;
 }
 
 Star3D::~Star3D()
@@ -446,7 +449,8 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat = modelViewMat* rotate(dmat4(1), radians(yAngle), dvec3(0, 1, 0)) * mModelMat *
+						rotate(dmat4(1),radians(zAngle),dvec3(0,0,1) ); // glm matrix multiplication
 		upload(aMat);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -470,6 +474,12 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+void Star3D::update()
+{
+	zAngle += zRotVel;
+	yAngle += YRotVel;
 }
 
 #pragma endregion
