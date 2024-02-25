@@ -115,7 +115,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 29) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new BoxOutline(100));
+		gObjects.push_back(new BoxOutline(100,1));
 	}
 	else if (mId == 26) {
 		gObjects.push_back(new EjesRGB(400.0));

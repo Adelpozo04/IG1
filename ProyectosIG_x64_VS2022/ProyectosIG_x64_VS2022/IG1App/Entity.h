@@ -123,11 +123,20 @@ protected:
 	Mesh* botomMesh;
 	Mesh* topMesh;
 
-	glm::dvec3 translationVec;
+	glm::dvec3 translationVecY;
+	glm::dvec3 translationVecX;
+
+	GLdouble topVel;
+	GLdouble topAngle;
+
+	int state = 0;
+
 public:
-	explicit BoxOutline(GLdouble w);
+	explicit BoxOutline(GLdouble w,GLdouble topVel);
 	~BoxOutline();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
 
 private:
 

@@ -352,7 +352,7 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 #pragma region BoxOutline
 
 
-BoxOutline::BoxOutline(GLdouble w)
+BoxOutline::BoxOutline(GLdouble w,GLdouble topVel):topVel(topVel)
 {
 
 	mModelMat = dmat4(1);
@@ -369,7 +369,10 @@ BoxOutline::BoxOutline(GLdouble w)
 	mBackTexture = new Texture();
 	mBackTexture->load("Bmps/papelE.bmp");
 
-	translationVec = dvec3(0, w, 0);
+	translationVecY = dvec3(0, w, 0);
+	translationVecX = dvec3(w, 0, 0);
+
+	topAngle = 0;
 }
 
 BoxOutline::~BoxOutline()
@@ -437,20 +440,34 @@ void BoxOutline::renderMainMesh(glm::dmat4 const& modelViewMat)const {
 }
 void BoxOutline::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
 	//upload de la matriz del botomMesh
-	dmat4 aMat = modelViewMat * translate(mModelMat, -translationVec) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	dmat4 aMat = modelViewMat * translate(mModelMat, -translationVecY) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
 	upload(aMat);
 	//render del botom mesh
 	botomMesh->render();
 }
 void BoxOutline::renderTopMesh(glm::dmat4 const& modelViewMat)const {
 	//upload matriz del top mesh
-	dmat4 aMat = modelViewMat * translate(mModelMat, translationVec) * rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationVecY) * 
+		translate(mModelMat, translationVecX)*
+		rotate(mModelMat,radians(-topAngle),dvec3(0,0,1))*
+		translate(mModelMat, -translationVecX)*
+		rotate(mModelMat, radians(-90.0), dvec3(1, 0, 0)); // glm matrix multiplication
 	upload(aMat);
 	//render del top mesh
 	topMesh->render();
 
 }
 
+void BoxOutline::update() {
+	if (state == 0) {
+		topAngle += topVel;
+		if (topAngle >= 180) state = 1;
+	}
+	else if (state == 1) {
+		topAngle -= topVel;
+		if (topAngle <= 0) state = 0;
+	}
+}
 #pragma endregion
 
 #pragma region Star3D
