@@ -113,7 +113,7 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Ground(200, 400));
 	}
-	else if (mId == 24) {
+	else if (mId == 29) {
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new BoxOutline(100));
 	}

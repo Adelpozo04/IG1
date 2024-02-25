@@ -357,7 +357,8 @@ BoxOutline::BoxOutline(GLdouble w)
 
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
-
+	topMesh = Mesh::generateRectangleTexCor(w*2, w*2);
+	botomMesh = Mesh::generateRectangleTexCor(w*2, w*2);
 
 	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
 
@@ -368,7 +369,7 @@ BoxOutline::BoxOutline(GLdouble w)
 	mBackTexture = new Texture();
 	mBackTexture->load("Bmps/papelE.bmp");
 
-
+	translationVec = dvec3(0, w, 0);
 }
 
 BoxOutline::~BoxOutline()
@@ -381,46 +382,74 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		//matriz del modelo
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		upload(aMat);
-
 		//modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
-
-
+		//enable face culling 
 		glEnable(GL_CULL_FACE);
 
+		//cull back face
 		glCullFace(GL_BACK);
 
 
-
+		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_MODULATE);
 
+		renderBottomMesh(modelViewMat);
+		renderMainMesh(modelViewMat);
+		renderTopMesh(modelViewMat);
 
-		mMesh->render();
-		
+		//unbind front texture
 		mTexture->unbind();
-
+		//bind backTexture
 		mBackTexture->bind(GL_MODULATE);
+		//culling front face
 		glCullFace(GL_FRONT);
 
-		mMesh->render();
 
+		renderBottomMesh(modelViewMat);
+		renderMainMesh(modelViewMat);
+		renderTopMesh(modelViewMat);
+
+
+		//unbing back texture
 		mBackTexture->unbind();
 
-		glDisable(GL_CULL_FACE);
 
+		//disableFaceCulling
+		glDisable(GL_CULL_FACE);
 		//reset config
 		glLineWidth(1);
-
+		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 
+
+void BoxOutline::renderMainMesh(glm::dmat4 const& modelViewMat)const {
+	//matriz del modelo principal
+	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	upload(aMat);
+	//render main mesh(front)
+	mMesh->render();
+}
+void BoxOutline::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
+	//upload de la matriz del botomMesh
+	dmat4 aMat = modelViewMat * translate(mModelMat, -translationVec) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	upload(aMat);
+	//render del botom mesh
+	botomMesh->render();
+}
+void BoxOutline::renderTopMesh(glm::dmat4 const& modelViewMat)const {
+	//upload matriz del top mesh
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationVec) * rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	upload(aMat);
+	//render del top mesh
+	topMesh->render();
+
+}
 
 #pragma endregion
 

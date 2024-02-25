@@ -119,10 +119,21 @@ class BoxOutline  : public Abs_Entity {
 
 protected:
 	Texture* mBackTexture;
+
+	Mesh* botomMesh;
+	Mesh* topMesh;
+
+	glm::dvec3 translationVec;
 public:
 	explicit BoxOutline(GLdouble w);
 	~BoxOutline();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+private:
+
+	void renderMainMesh(glm::dmat4 const& modelViewMat) const;
+	void renderBottomMesh(glm::dmat4 const& modelViewMat) const;
+	void renderTopMesh(glm::dmat4 const& modelViewMat) const;
 
 };
 
