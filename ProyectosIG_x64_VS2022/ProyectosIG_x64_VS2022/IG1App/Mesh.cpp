@@ -370,3 +370,33 @@ Mesh::generateBoxOutline(GLdouble w) {
 	return mesh;
 }
 
+Mesh*
+Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h) {
+	
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	mesh->mNumVertices = np * 2 + 1;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	double angle = 360.f / mesh->mNumVertices - 1;
+
+	GLdouble ri = re / 2;
+
+	for (int i = 0; i < mesh->mNumVertices - 1; i++) {
+
+		if (i % 2 == 0) {
+			mesh->vVertices.emplace_back(re * cos(glm::radians(i * angle)), re * sin(glm::radians(i * angle)), h);
+		}
+		else {
+			mesh->vVertices.emplace_back(ri * cos(glm::radians(i * angle)), ri * sin(glm::radians(i * angle)), h);
+		}
+		
+	}
+
+	return mesh;
+}
+
