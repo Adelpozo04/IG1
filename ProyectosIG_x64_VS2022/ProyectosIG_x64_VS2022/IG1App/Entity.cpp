@@ -336,6 +336,9 @@ BoxOutline::BoxOutline(GLdouble lenght)
 	mTexture = new Texture;
 	mTexture->load("Bmps/container.bmp");
 
+	mTexture2 = new Texture;
+	mTexture2->load("Bmps/baldosaC.bmp");
+
 }
 
 BoxOutline::~BoxOutline()
@@ -357,13 +360,33 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 
 		glLineWidth(2);
 
+
+		glEnable(GL_CULL_FACE);
+
 		mTexture->setWrap(GL_REPEAT);
 
 		mTexture->bind(GL_REPLACE);
 
+		glCullFace(GL_BACK);
+
 		mMesh->render();
 
+
+		mTexture2->setWrap(GL_REPEAT);
+
+		mTexture2->bind(GL_REPLACE);
+
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+		glDisable(GL_CULL_FACE);
+
 		mTexture->unbind();
+
+		mTexture2->unbind();
+
+
 
 		//reset config
 		glLineWidth(1);

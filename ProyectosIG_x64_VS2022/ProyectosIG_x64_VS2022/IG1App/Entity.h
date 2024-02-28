@@ -130,6 +130,10 @@ public:
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+protected:
+
+	Texture* mTexture2;
+
 };
 
 #endif //_H_Entities_H_
