@@ -333,6 +333,9 @@ BoxOutline::BoxOutline(GLdouble lenght)
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutline(lenght);
 
+	mTexture = new Texture;
+	mTexture->load("Bmps/container.bmp");
+
 }
 
 BoxOutline::~BoxOutline()
@@ -354,7 +357,13 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 
 		glLineWidth(2);
 
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_REPLACE);
+
 		mMesh->render();
+
+		mTexture->unbind();
 
 		//reset config
 		glLineWidth(1);
