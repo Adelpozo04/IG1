@@ -398,7 +398,7 @@ Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
 {
 
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateStar3D(re, np, h);
+	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
 	mTexture = new Texture;
 	mTexture->load("Bmps/baldosaP.bmp");
@@ -415,7 +415,8 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat * mModelMat;
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(angleZ), dvec3(0.0, 0.0, 1.0)) 
+			* rotate(dmat4(1), radians(angleY), dvec3(0.0, 1.0, 0.0));
 
 		upload(aMat);
 
@@ -430,7 +431,8 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 
 		mMesh->render();
 
-		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(180.0), dvec3(1.0, 0.0, 0.0));
+		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(180.0), dvec3(1.0, 0.0, 0.0)) * rotate(dmat4(1), radians(angleZ), dvec3(0.0, 0.0, 1.0))
+			* rotate(dmat4(1), radians(angleY), dvec3(0.0, 1.0, 0.0));
 
 		upload(aMat);
 
@@ -445,5 +447,9 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 }
 
 void Star3D::update() {
+
+	angleY += 1.0;
+
+	angleZ += 1.0;
 
 }

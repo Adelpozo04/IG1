@@ -151,7 +151,9 @@ public:
 
 private:
 
-	GLdouble angle = 0.0;
+	GLdouble angleY = 0.0;
+
+	GLdouble angleZ = 0.0;
 
 };
 
