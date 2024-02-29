@@ -393,3 +393,57 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateStar3D(re, np, h);
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/baldosaP.bmp");
+
+}
+
+Star3D::~Star3D()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Star3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(180.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Star3D::update() {
+
+}

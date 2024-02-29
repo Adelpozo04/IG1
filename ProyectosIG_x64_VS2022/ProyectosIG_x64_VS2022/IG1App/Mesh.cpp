@@ -377,25 +377,52 @@ Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h) {
 
 	mesh->mPrimitive = GL_TRIANGLE_FAN;
 
-	mesh->mNumVertices = np * 2 + 1;
+	mesh->mNumVertices = np * 2 + 2;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 
-	double angle = 360.f / mesh->mNumVertices - 1;
+	double angle = 360.f / (mesh->mNumVertices - 2);
 
 	GLdouble ri = re / 2;
+
+	mesh->vVertices.emplace_back(0.0, 0.0, 0.0);
+
+
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
+
+	mesh->vTexCoords.emplace_back(0.0, 0.0);
+	mesh->vTexCoords.emplace_back(0.5, 0.0);
+	mesh->vTexCoords.emplace_back(1.0, 0.0);
+	mesh->vTexCoords.emplace_back(1.0, 0.5);
+	mesh->vTexCoords.emplace_back(1.0, 1.0);
+	mesh->vTexCoords.emplace_back(0.5, 1.0);
+	mesh->vTexCoords.emplace_back(0.0, 1.0);
+	mesh->vTexCoords.emplace_back(0.0, 0.5);
+
+	mesh->vTexCoords.emplace_back(0.0, 0.0);
+	mesh->vTexCoords.emplace_back(0.5, 0.0);
+	mesh->vTexCoords.emplace_back(1.0, 0.0);
+	mesh->vTexCoords.emplace_back(1.0, 0.5);
+	mesh->vTexCoords.emplace_back(1.0, 1.0);
+
+
+	
 
 	for (int i = 0; i < mesh->mNumVertices - 1; i++) {
 
 		if (i % 2 == 0) {
 			mesh->vVertices.emplace_back(re * cos(glm::radians(i * angle)), re * sin(glm::radians(i * angle)), h);
+
 		}
 		else {
 			mesh->vVertices.emplace_back(ri * cos(glm::radians(i * angle)), ri * sin(glm::radians(i * angle)), h);
+
 		}
 		
 	}
+
+
 
 	return mesh;
 }
