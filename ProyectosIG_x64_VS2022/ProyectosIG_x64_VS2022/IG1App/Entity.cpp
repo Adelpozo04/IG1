@@ -551,31 +551,85 @@ GlassParapet::~GlassParapet()
 
 void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 {
-	
-	//modo de pintado
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//set config
-	glLineWidth(2);
 
-	dmat4 aMat = modelViewMat* mModelMat;
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
 
-	upload(aMat);
-	//bind front texture
-	mTexture->setWrap(GL_REPEAT);
-	mTexture->bind(GL_MODULATE);
+		dmat4 aMat = modelViewMat * mModelMat;
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
 
-	mMesh->render();
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
 
 
-	mTexture->unbind();
-	
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	//reset config
-	glLineWidth(1);
-	//reset modo de pintado
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
 
-	
+Grass::Grass(GLdouble w, GLdouble h)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
+}
+
+Grass::~Grass()
+{
+
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Grass::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1),radians(-90.0),dvec3(0,0,1));
+
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat);
+		mMesh->render();
+
+		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
