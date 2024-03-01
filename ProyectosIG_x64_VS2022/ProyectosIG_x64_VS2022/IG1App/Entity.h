@@ -157,4 +157,27 @@ private:
 
 };
 
+class Box : public Abs_Entity {
+
+
+public:
+
+	explicit Box(GLdouble lenght);
+
+	~Box();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+	Texture* mTexture2;
+
+	Mesh* mMeshTapa = nullptr;
+
+	Mesh* mMeshFondo = nullptr;
+
+	GLdouble lenghtCube = 0.0;
+
+};
+
 #endif //_H_Entities_H_

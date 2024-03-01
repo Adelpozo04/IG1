@@ -109,6 +109,7 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		//gObjects.push_back(new Ground(200, 400));
 		//gObjects.push_back(new BoxOutline(100));
-		gObjects.push_back(new Star3D(200, 8, 200));
+		//gObjects.push_back(new Star3D(200, 8, 200));
+		gObjects.push_back(new Box(200));
 	}
 }

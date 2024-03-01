@@ -167,7 +167,6 @@ Mesh::generateRectangleTexCor(GLdouble w, GLdouble h) {
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 
 	mesh->vTexCoords.emplace_back(0.0, 1.0);
-	mesh->vTexCoords.emplace_back(0.0, 1.0);
 	mesh->vTexCoords.emplace_back(0.0, 0.0);
 	mesh->vTexCoords.emplace_back(1.0, 1.0);
 	mesh->vTexCoords.emplace_back(1.0, 0.0);
@@ -326,15 +325,15 @@ Mesh::generateBoxOutline(GLdouble w) {
 	vector<glm::vec3> points;
 	points.reserve(8);
 
-	points.emplace_back(w, w, -w); //1 1 0
-	points.emplace_back(w, -w, -w); //1 0 0
-	points.emplace_back(-w, -w, -w); // 0 0 0
-	points.emplace_back(-w, w, -w); // 0 1 0
+	points.emplace_back(w / 2, w / 2, -w / 2); //1 1 0
+	points.emplace_back(w / 2, -w / 2, -w / 2); //1 0 0
+	points.emplace_back(-w / 2, -w / 2, -w / 2); // 0 0 0
+	points.emplace_back(-w / 2, w / 2, -w / 2); // 0 1 0
 
-	points.emplace_back(w, w, w); // 1 1 1
-	points.emplace_back(w, -w, w); // 1 0 1
-	points.emplace_back(-w, -w, w); // 0 0 1
-	points.emplace_back(-w, w, w); // 0 1 1
+	points.emplace_back(w / 2, w / 2, w / 2); // 1 1 1
+	points.emplace_back(w / 2, -w / 2, w / 2); // 1 0 1
+	points.emplace_back(-w / 2, -w / 2, w / 2); // 0 0 1
+	points.emplace_back(-w / 2, w / 2, w / 2); // 0 1 1
 
 	//FACE 0
 	mesh->vVertices.push_back(points[2]);

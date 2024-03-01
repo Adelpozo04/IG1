@@ -453,3 +453,138 @@ void Star3D::update() {
 	angleZ += 1.0;
 
 }
+
+
+Box::Box(GLdouble lenght)
+{
+
+	lenghtCube = lenght;
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutline(lenght);
+
+	mMeshTapa = Mesh::generateRectangleTexCor(lenght, lenght);
+
+	mMeshFondo = Mesh::generateRectangleTexCor(lenght, lenght);
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/container.bmp");
+
+	mTexture2 = new Texture;
+	mTexture2->load("Bmps/baldosaC.bmp");
+
+}
+
+Box::~Box()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Box::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		//Render del Outline
+
+		glEnable(GL_CULL_FACE);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_REPLACE);
+
+		glCullFace(GL_BACK);
+
+		mMesh->render();
+
+		mTexture2->setWrap(GL_REPEAT);
+
+		mTexture2->bind(GL_REPLACE);
+
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+		glDisable(GL_CULL_FACE);
+
+		mTexture->unbind();
+
+		mTexture2->unbind();
+
+		//Render de la tapa
+
+		aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(0.0, lenghtCube / 2, 0.0)) 
+			* rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_REPLACE);
+
+		glCullFace(GL_FRONT);
+
+		mMeshTapa->render();
+
+		mTexture2->setWrap(GL_REPEAT);
+
+		mTexture2->bind(GL_REPLACE);
+
+		glCullFace(GL_BACK);
+
+		mMeshTapa->render();
+
+		glDisable(GL_CULL_FACE);
+
+		mTexture->unbind();
+
+		mTexture2->unbind();
+
+		//Tapa inferior
+
+		aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(0.0, -lenghtCube / 2, 0.0))
+			* rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		glEnable(GL_CULL_FACE);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_REPLACE);
+
+		glCullFace(GL_BACK);
+
+		mMeshTapa->render();
+
+		mTexture2->setWrap(GL_REPEAT);
+
+		mTexture2->bind(GL_REPLACE);
+
+		glCullFace(GL_FRONT);
+
+		mMeshTapa->render();
+
+		glDisable(GL_CULL_FACE);
+
+		mTexture->unbind();
+
+		mTexture2->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
