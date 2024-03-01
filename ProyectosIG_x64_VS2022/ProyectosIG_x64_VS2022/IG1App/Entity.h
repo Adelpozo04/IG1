@@ -161,4 +161,16 @@ public:
 };
 
 
+class GlassParapet : public Abs_Entity {
+
+
+public:
+
+	explicit GlassParapet(GLdouble longitud);
+	~GlassParapet();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+
 #endif //_H_Entities_H_

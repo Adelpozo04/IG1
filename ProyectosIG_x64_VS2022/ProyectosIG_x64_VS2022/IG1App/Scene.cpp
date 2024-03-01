@@ -57,6 +57,8 @@ Scene::setGL()
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+
 
 }
 void
@@ -65,6 +67,7 @@ Scene::resetGL()
 	glClearColor(.0, .0, .0, .0); // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
 
 }
 
@@ -120,5 +123,10 @@ void Scene::setScene(GLuint id)
 	else if (mId == 26) {
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Star3D(100, 8, 80,1,2));
+	}
+	else if (mId == 31) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new GlassParapet(100));
+
 	}
 }

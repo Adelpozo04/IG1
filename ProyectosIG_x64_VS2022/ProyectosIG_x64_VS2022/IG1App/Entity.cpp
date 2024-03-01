@@ -452,6 +452,7 @@ void BoxOutline::renderTopMesh(glm::dmat4 const& modelViewMat)const {
 		rotate(mModelMat,radians(-topAngle),dvec3(0,0,1))*
 		translate(mModelMat, -translationVecX)*
 		rotate(mModelMat, radians(-90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+
 	upload(aMat);
 	//render del top mesh
 	topMesh->render();
@@ -529,3 +530,52 @@ void Star3D::update()
 }
 
 #pragma endregion
+
+GlassParapet::GlassParapet(GLdouble longitud)
+{	
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCorTransparent(longitud);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/windowV.bmp");
+
+}
+
+GlassParapet::~GlassParapet()
+{
+	
+	delete mMesh;
+	mMesh = nullptr;
+	
+}
+
+void GlassParapet::render(glm::dmat4 const& modelViewMat) const
+{
+	
+	//modo de pintado
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//set config
+	glLineWidth(2);
+
+	dmat4 aMat = modelViewMat* mModelMat;
+
+	upload(aMat);
+	//bind front texture
+	mTexture->setWrap(GL_REPEAT);
+	mTexture->bind(GL_MODULATE);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	mMesh->render();
+
+
+	mTexture->unbind();
+	
+
+	//reset config
+	glLineWidth(1);
+	//reset modo de pintado
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	
+}

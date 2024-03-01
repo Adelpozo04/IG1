@@ -63,7 +63,7 @@ IG1App::init()
 
 	mCamera->set3D();
 	mScene->init();
-	mScene->setScene(29);
+	mScene->setScene(31);
 }
 
 void
@@ -83,8 +83,9 @@ IG1App::iniWinOpenGL()
 	// glutInitWindowPosition (140, 140);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE |
-	                    GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth
+	                  GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth
 	                                                    // buffer and stencil buffer
+	
 
 	mWinId = glutCreateWindow(
 	  "IG1App"); // with its associated OpenGL context, return window's identifier

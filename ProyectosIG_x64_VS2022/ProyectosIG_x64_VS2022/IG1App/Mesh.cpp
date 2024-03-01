@@ -370,6 +370,21 @@ Mesh* Mesh::generateBoxOutlineTexCor(GLdouble longitud)
 	return m;
 }
 
+Mesh* Mesh::generateBoxOutlineTexCorTransparent(GLdouble longitud)
+{
+	
+	Mesh* mesh = generateBoxOutlineTexCor(longitud);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+	}
+
+	return mesh;
+	
+}
+
 Mesh* Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
 {
 	Mesh* mesh = new Mesh();
