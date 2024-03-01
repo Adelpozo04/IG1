@@ -704,6 +704,7 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 		aMat = aMat * rotate(dmat4(1), radians(120.0), dvec3(1.0, 0.0, 0.0));
 
+
 		upload(aMat);
 
 		mMesh->render();
