@@ -203,4 +203,21 @@ protected:
 
 };
 
+class Grass : public Abs_Entity {
+
+
+public:
+
+	explicit Grass(GLdouble lenght);
+
+	~Grass();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+	GLdouble lenghtCube = 0.0;
+
+};
+
 #endif //_H_Entities_H_

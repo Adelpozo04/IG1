@@ -25,6 +25,8 @@ public:
 
   GLuint width() const { return mWidth; };
   GLuint height() const { return mHeight; };
+
+  void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha);
   
   void setWrap(GLuint wp);  // GL_REPEAT, GL_CLAMP 
 

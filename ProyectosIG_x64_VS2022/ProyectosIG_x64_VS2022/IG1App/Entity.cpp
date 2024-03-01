@@ -662,3 +662,65 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+Grass::Grass(GLdouble lenght)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateRectangleTexCor(lenght, lenght, 1, 1);
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/grass.bmp", glm::u8vec3(0, 0, 0), 0);
+
+
+}
+
+Grass::~Grass()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Grass::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0.0, 0.0, 1.0));
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		aMat = aMat * rotate(dmat4(1), radians(120.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		mMesh->render();
+
+		aMat = aMat * rotate(dmat4(1), radians(120.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
