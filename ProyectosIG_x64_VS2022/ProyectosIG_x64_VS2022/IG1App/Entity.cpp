@@ -415,8 +415,10 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(angleZ), dvec3(0.0, 0.0, 1.0)) 
-			* rotate(dmat4(1), radians(angleY), dvec3(0.0, 1.0, 0.0));
+		dmat4 aMat = modelViewMat * rotate(dmat4(1), radians(angleY), dvec3(0.0, 1.0, 0.0))
+			* mModelMat
+			* rotate(dmat4(1), radians(angleZ), dvec3(0.0, 0.0, 1.0));
+			
 
 		upload(aMat);
 
@@ -431,8 +433,7 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 
 		mMesh->render();
 
-		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(180.0), dvec3(1.0, 0.0, 0.0)) * rotate(dmat4(1), radians(angleZ), dvec3(0.0, 0.0, 1.0))
-			* rotate(dmat4(1), radians(angleY), dvec3(0.0, 1.0, 0.0));
+		aMat = aMat * rotate(dmat4(1), radians(180.0), dvec3(1.0, 0.0, 0.0));
 
 		upload(aMat);
 
@@ -448,9 +449,9 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 
 void Star3D::update() {
 
-	angleY += 1.0;
+	angleY += 0.125;
 
-	angleZ += 1.0;
+	angleZ += 0.25;
 
 }
 
@@ -610,5 +611,54 @@ void Box::update() {
 	}
 	else {
 		angle -= 1.0;
+	}
+}
+
+GlassParapet::GlassParapet(GLdouble lenght)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineColor(lenght);
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/windowV.bmp");
+
+
+}
+
+GlassParapet::~GlassParapet()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void GlassParapet::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

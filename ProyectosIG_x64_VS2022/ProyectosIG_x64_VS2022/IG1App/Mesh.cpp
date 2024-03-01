@@ -317,7 +317,6 @@ Mesh::generateBoxOutline(GLdouble w) {
 
 	mesh->mNumVertices = 10;
 	mesh->vVertices.reserve(mesh->mNumVertices);
-	mesh->vColors.reserve(mesh->mNumVertices);
 	mesh->vTexCoords.reserve(mesh->mNumVertices);
 
 
@@ -367,6 +366,22 @@ Mesh::generateBoxOutline(GLdouble w) {
 
 	
 	return mesh;
+}
+
+Mesh*
+Mesh::generateBoxOutlineColor(GLdouble w) {
+
+
+	Mesh* mesh = generateBoxOutline(w);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+	}
+
+	return mesh;
+
 }
 
 Mesh*

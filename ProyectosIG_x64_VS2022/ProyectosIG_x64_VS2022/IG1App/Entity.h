@@ -186,4 +186,21 @@ protected:
 
 };
 
+class GlassParapet : public Abs_Entity {
+
+
+public:
+
+	explicit GlassParapet(GLdouble lenght);
+
+	~GlassParapet();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+	GLdouble lenghtCube = 0.0;
+
+};
+
 #endif //_H_Entities_H_
