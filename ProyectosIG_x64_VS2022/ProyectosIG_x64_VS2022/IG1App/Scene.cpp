@@ -55,7 +55,7 @@ Scene::setGL()
 {
 	// OpenGL basic setting
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
-	glEnable(GL_DEPTH);          // enable Depth test
+	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 
@@ -65,7 +65,7 @@ void
 Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0); // background color (alpha=1 -> opaque)
-	glDisable(GL_DEPTH);     // disable Depth test
+	glDisable(GL_DEPTH_TEST);     // disable Depth test
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 
@@ -116,9 +116,13 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Ground(200, 400));
 	}
+	else if (mId == 24) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new BoxOutLine(100));
+	}
 	else if (mId == 29) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new BoxOutline(100,1));
+		gObjects.push_back(new Box(100,1));
 	}
 	else if (mId == 26) {
 		gObjects.push_back(new EjesRGB(400.0));

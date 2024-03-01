@@ -115,7 +115,19 @@ public:
 
 };
 
-class BoxOutline  : public Abs_Entity {
+class BoxOutLine : public Abs_Entity {
+
+protected:
+	Texture* mBackTexture;
+
+public:
+	explicit BoxOutLine(GLdouble w);
+	~BoxOutLine();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+class Box  : public Abs_Entity {
 
 protected:
 	Texture* mBackTexture;
@@ -132,8 +144,8 @@ protected:
 	int state = 0;
 
 public:
-	explicit BoxOutline(GLdouble w,GLdouble topVel);
-	~BoxOutline();
+	explicit Box(GLdouble w,GLdouble topVel);
+	~Box();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 	void update() override;

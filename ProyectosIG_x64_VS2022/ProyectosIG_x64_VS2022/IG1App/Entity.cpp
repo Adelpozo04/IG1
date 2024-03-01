@@ -352,7 +352,7 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 #pragma region BoxOutline
 
 
-BoxOutline::BoxOutline(GLdouble w,GLdouble topVel):topVel(topVel)
+Box::Box(GLdouble w,GLdouble topVel):topVel(topVel)
 {
 
 	mModelMat = dmat4(1);
@@ -375,13 +375,17 @@ BoxOutline::BoxOutline(GLdouble w,GLdouble topVel):topVel(topVel)
 	topAngle = 0;
 }
 
-BoxOutline::~BoxOutline()
+Box::~Box()
 {
 	delete mMesh;
+	delete topMesh;
+	delete botomMesh;
 	mMesh = nullptr;
+	topMesh = nullptr;
+	botomMesh = nullptr;
 }
 
-void BoxOutline::render(glm::dmat4 const& modelViewMat) const
+void Box::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
@@ -431,21 +435,21 @@ void BoxOutline::render(glm::dmat4 const& modelViewMat) const
 }
 
 
-void BoxOutline::renderMainMesh(glm::dmat4 const& modelViewMat)const {
+void Box::renderMainMesh(glm::dmat4 const& modelViewMat)const {
 	//matriz del modelo principal
 	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 	upload(aMat);
 	//render main mesh(front)
 	mMesh->render();
 }
-void BoxOutline::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
+void Box::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
 	//upload de la matriz del botomMesh
 	dmat4 aMat = modelViewMat * translate(mModelMat, -translationVecY) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
 	upload(aMat);
 	//render del botom mesh
 	botomMesh->render();
 }
-void BoxOutline::renderTopMesh(glm::dmat4 const& modelViewMat)const {
+void Box::renderTopMesh(glm::dmat4 const& modelViewMat)const {
 	//upload matriz del top mesh
 	dmat4 aMat = modelViewMat * translate(mModelMat, translationVecY) * 
 		translate(mModelMat, translationVecX)*
@@ -459,7 +463,7 @@ void BoxOutline::renderTopMesh(glm::dmat4 const& modelViewMat)const {
 
 }
 
-void BoxOutline::update() {
+void Box::update() {
 	if (state == 0) {
 		topAngle += topVel;
 		if (topAngle >= 180) state = 1;
@@ -531,6 +535,11 @@ void Star3D::update()
 
 #pragma endregion
 
+
+#pragma region GlassParapet
+
+
+
 GlassParapet::GlassParapet(GLdouble longitud)
 {	
 	mModelMat = dmat4(1);
@@ -580,6 +589,12 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+#pragma endregion
+
+
+#pragma region Grass
+
+
 Grass::Grass(GLdouble w, GLdouble h)
 {
 	mModelMat = dmat4(1);
@@ -605,15 +620,15 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		//set config
 		glLineWidth(2);
 
-		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1),radians(-90.0),dvec3(0,0,1));
-
-		upload(aMat);
 		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_MODULATE);
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+		
+		
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1),radians(-90.0),dvec3(0,0,1));
+		upload(aMat);
 		mMesh->render();
 
 		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
@@ -626,10 +641,88 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 		mTexture->unbind();
 
-
 		//reset config
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+#pragma endregion
+
+BoxOutLine::BoxOutLine(GLdouble w)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCor(w);
+
+	mTexture = new Texture();
+
+	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
+
+	//mTexture actua como frontTexture
+	mTexture = new Texture();
+	mTexture->load("Bmps/container.bmp");
+
+	mBackTexture = new Texture();
+	mBackTexture->load("Bmps/papelE.bmp");
+
+}
+
+
+
+BoxOutLine::~BoxOutLine()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+		//enable face culling 
+		glEnable(GL_CULL_FACE);
+
+		//cull back face
+		glCullFace(GL_BACK);
+
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+	
+		//matriz del modelo principal
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		//render main mesh(front)
+		mMesh->render();
+
+		//unbind front texture
+		mTexture->unbind();
+		//bind backTexture
+		mBackTexture->bind(GL_MODULATE);
+		//culling front face
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+
+		//unbing back texture
+		mBackTexture->unbind();
+
+
+		//disableFaceCulling
+		glDisable(GL_CULL_FACE);
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
 	}
 }
