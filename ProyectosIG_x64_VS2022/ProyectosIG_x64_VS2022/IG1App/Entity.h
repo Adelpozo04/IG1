@@ -168,6 +168,8 @@ public:
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+	void update() override;
+
 protected:
 
 	Texture* mTexture2;
@@ -177,6 +179,10 @@ protected:
 	Mesh* mMeshFondo = nullptr;
 
 	GLdouble lenghtCube = 0.0;
+
+	GLdouble angle = 0.0;
+
+	bool opening = true;
 
 };
 

@@ -523,7 +523,10 @@ void Box::render(glm::dmat4 const& modelViewMat) const
 		//Render de la tapa
 
 		aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(0.0, lenghtCube / 2, 0.0)) 
-			* rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+			* rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0))
+			* translate(dmat4(1), dvec3(-lenghtCube / 2, 0.0, 0.0))
+			* rotate(dmat4(1), radians(angle), dvec3(0.0, 1.0, 0.0))
+			* translate(dmat4(1), dvec3(lenghtCube / 2, 0.0, 0.0));
 
 		upload(aMat);
 
@@ -586,5 +589,26 @@ void Box::render(glm::dmat4 const& modelViewMat) const
 		//reset config
 		glLineWidth(1);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Box::update() {
+
+	
+
+	if (angle >= 90) {
+		angle = 90;
+		opening = false;
+	}
+	else if (angle <= 0){
+		angle = 0;
+		opening = true;
+	}
+	
+	if (opening) {
+		angle += 1.0;
+	}
+	else {
+		angle -= 1.0;
 	}
 }
