@@ -91,5 +91,13 @@ void Texture::load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha
 
 }
 
+void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer) {
+
+	glReadBuffer(buffer);
+
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 100, 100, width, height, 0);
+
+}
+
 
 

@@ -220,4 +220,27 @@ protected:
 
 };
 
+
+class Photo : public Abs_Entity {
+
+
+public:
+
+	explicit Photo(GLdouble w, GLdouble h);
+
+	~Photo();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+protected:
+
+	GLdouble width;
+
+	GLdouble height;
+
+};
+
+
 #endif //_H_Entities_H_

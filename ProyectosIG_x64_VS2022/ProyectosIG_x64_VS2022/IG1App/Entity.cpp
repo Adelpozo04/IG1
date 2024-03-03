@@ -685,6 +685,7 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
+
 		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0.0, 0.0, 1.0));
 
 		upload(aMat);
@@ -722,6 +723,62 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+Photo::Photo(GLdouble w, GLdouble h)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateRectangleTexCor(w, h);
+
+
+	mTexture = new Texture;
+	mTexture->load("Bmps/baldosaC.bmp");
+
+	width = w;
+
+	height = h;
+
+}
+
+Photo::~Photo()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Photo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+
+
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Photo::update() {
+
+	mTexture->loadColorBuffer(width / 2, height / 2, GL_FRONT);
+
 }
 
 
