@@ -115,8 +115,8 @@ void Scene::setScene(GLuint id)
 		//gObjects.push_back(new BoxOutline(100));
 		//gObjects.push_back(new Star3D(200, 8, 200));
 		//gObjects.push_back(new Box(200));
-		//gObjects.push_back(new GlassParapet(200));
-		//gObjects.push_back(new Grass(100));
-		gObjects.push_back(new Photo(100, 100));
+		gObjects.push_back(new Grass(100));
+		gObjects.push_back(new GlassParapet(200));	
+		//gObjects.push_back(new Photo(100, 100));
 	}
 }

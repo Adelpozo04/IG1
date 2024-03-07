@@ -141,7 +141,7 @@ void
 IG1App::key(unsigned char key, int x, int y)
 {
 	bool need_redisplay = true;
-	PixMap32RGBA pixMap;
+	Texture* tex = new Texture();
 
 	switch (key) {
 		case 27:                     // Escape key
@@ -173,11 +173,12 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'U':
 			changeAutoUpdate();
 			break;
-		case 'F':
-			glReadBuffer(GL_FRONT);	
-			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_INT, pixMap.data());
-			pixMap.save_bmp24BGR("Bmps/data.bmp");
-			glReadBuffer(GL_BACK);
+		case 'F':	
+			
+			tex->loadColorBuffer(800, 600, GL_FRONT);
+
+			tex->saveData();
+			
 			break;
 		default:
 			need_redisplay = false;

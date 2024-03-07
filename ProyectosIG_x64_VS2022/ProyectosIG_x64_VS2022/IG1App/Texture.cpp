@@ -112,15 +112,17 @@ void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer) {
 
 }
 
-void Texture::saveData(const std::string& BMP_Name, GLuint buffer) {
-
-	glReadBuffer(buffer);
+void Texture::saveData() {
 
 	PixMap32RGBA pixMap;
 
-	pixMap.save_bmp24BGR(BMP_Name);
+	pixMap.reserve(mWidth, mHeight);
 
-	glReadBuffer(GL_BACK);
+	glBindTexture(GL_TEXTURE_2D, mId);
+
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+
+	pixMap.save_bmp24BGR("Bmps/data.bmp");
 
 }
 

@@ -30,7 +30,7 @@ public:
 
   void loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer);
 
-  void saveData(const std::string& BMP_Name, GLuint buffer);
+  void saveData();
   
   void setWrap(GLuint wp);  // GL_REPEAT, GL_CLAMP 
 
