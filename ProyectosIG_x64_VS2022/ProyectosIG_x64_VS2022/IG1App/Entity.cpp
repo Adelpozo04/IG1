@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+
 
 using namespace glm;
 
@@ -349,7 +351,89 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
-#pragma region BoxOutline
+#pragma region BoxOutLine
+
+
+BoxOutLine::BoxOutLine(GLdouble w)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCor(w);
+
+	mTexture = new Texture();
+
+	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
+
+	//mTexture actua como frontTexture
+	mTexture = new Texture();
+	mTexture->load("Bmps/container.bmp");
+
+	mBackTexture = new Texture();
+	mBackTexture->load("Bmps/papelE.bmp");
+
+}
+
+
+
+BoxOutLine::~BoxOutLine()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+		//enable face culling 
+		glEnable(GL_CULL_FACE);
+
+		//cull back face
+		glCullFace(GL_BACK);
+
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+
+		//matriz del modelo principal
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		//render main mesh(front)
+		mMesh->render();
+
+		//unbind front texture
+		mTexture->unbind();
+		//bind backTexture
+		mBackTexture->bind(GL_MODULATE);
+		//culling front face
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+
+		//unbing back texture
+		mBackTexture->unbind();
+
+
+		//disableFaceCulling
+		glDisable(GL_CULL_FACE);
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	}
+}
+
+
+#pragma endregion
+
+#pragma region Box
 
 
 Box::Box(GLdouble w,GLdouble topVel):topVel(topVel)
@@ -651,33 +735,28 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
-BoxOutLine::BoxOutLine(GLdouble w)
+#pragma region Photo
+
+
+
+Photo::Photo(GLdouble w, GLdouble h)
 {
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateBoxOutlineTexCor(w);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
 
 	mTexture = new Texture();
-
-	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
-
-	//mTexture actua como frontTexture
-	mTexture = new Texture();
-	mTexture->load("Bmps/container.bmp");
-
-	mBackTexture = new Texture();
-	mBackTexture->load("Bmps/papelE.bmp");
+	mTexture->loadColorBuffer(800, 600);
 
 }
 
-
-
-BoxOutLine::~BoxOutLine()
+Photo::~Photo()
 {
+
 	delete mMesh;
 	mMesh = nullptr;
 }
 
-void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
+void Photo::render(glm::dmat4 const& modelViewMat) const
 {
 
 	if (mMesh != nullptr) {
@@ -685,44 +764,28 @@ void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
-		//enable face culling 
-		glEnable(GL_CULL_FACE);
-
-		//cull back face
-		glCullFace(GL_BACK);
-
 
 		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_MODULATE);
+		
 
-	
-		//matriz del modelo principal
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		dmat4 aMat = modelViewMat * translate(dmat4(1),dvec3(0,0.1,0)) * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
 		upload(aMat);
-		//render main mesh(front)
 		mMesh->render();
 
-		//unbind front texture
 		mTexture->unbind();
-		//bind backTexture
-		mBackTexture->bind(GL_MODULATE);
-		//culling front face
-		glCullFace(GL_FRONT);
 
-		mMesh->render();
-
-
-		//unbing back texture
-		mBackTexture->unbind();
-
-
-		//disableFaceCulling
-		glDisable(GL_CULL_FACE);
 		//reset config
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
 	}
 }
+
+
+void Photo::update() {
+	mTexture->loadColorBuffer(800, 600);
+}
+#pragma endregion
+

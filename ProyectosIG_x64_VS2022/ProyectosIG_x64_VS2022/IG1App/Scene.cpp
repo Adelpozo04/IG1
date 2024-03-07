@@ -136,6 +136,11 @@ void Scene::setScene(GLuint id)
 	else if (mId == 34) {
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Grass(100,100));
+	}
+	else if(mId == 36) {
+		gObjects.push_back(new EjesRGB(400.0));
+		gObjects.push_back(new Photo(100,100));
+		gObjects.push_back(new Ground(400,400));
 
 	}
 }
