@@ -78,6 +78,7 @@ Scene::render(Camera const& cam) const
 	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
 	}
+	
 }
 
 void Scene::update()
@@ -142,7 +143,11 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new Ground(400,400));
 		gObjects.push_back(new Grass(100, 100));
 
-		gObjects.push_back(new Box(50, 1, dvec3(-180, 50.1, -180)));
+		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
+		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, dvec3(-160, 165.1, -160)));
+		gObjects.push_back(new GlassParapet(200));
+
+
 
 
 	}

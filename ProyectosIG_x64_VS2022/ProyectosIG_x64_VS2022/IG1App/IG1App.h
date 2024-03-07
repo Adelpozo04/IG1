@@ -55,6 +55,9 @@ protected:
 	static void s_specialKey(int key, int x, int y) { s_ig1app.specialKey(key, x, y); };
 	static void update() { s_ig1app.update_(); };
 
+	void savePhoto();
+
+
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
 	// Camera position, view volume and projection

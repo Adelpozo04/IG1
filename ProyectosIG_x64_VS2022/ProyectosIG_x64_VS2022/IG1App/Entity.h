@@ -166,8 +166,10 @@ class Star3D : public Abs_Entity {
 	GLdouble zRotVel;
 	GLdouble YRotVel;
 
+	glm::dvec3 traslationVec;
+
 public:
-	explicit Star3D(GLdouble re, GLuint np, GLdouble h,GLdouble yVel,GLdouble zVel);
+	explicit Star3D(GLdouble re, GLuint np, GLdouble h,GLdouble yVel,GLdouble zVel, glm::dvec3 traslationVec = glm::dvec3(0,0,0));
 	~Star3D();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 

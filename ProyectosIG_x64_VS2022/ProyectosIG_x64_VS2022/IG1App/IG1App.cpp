@@ -2,6 +2,7 @@
 #include "CheckML.h"
 #include <iostream>
 
+
 using namespace std;
 
 // static single instance (singleton pattern)
@@ -173,6 +174,9 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'U':
 			changeAutoUpdate();
 			break;
+		case 'F':
+			savePhoto();
+			break;
 		default:
 			need_redisplay = false;
 			break;
@@ -216,4 +220,29 @@ IG1App::specialKey(int key, int x, int y)
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to
 		                     // display()
+}
+
+void IG1App::savePhoto()
+{
+	/*
+	PixMap32RGBA pixMap;
+	PixMap32RGBA::rgba_color*  pixels = new PixMap32RGBA::rgba_color();
+
+	Texture* texture= new Texture();
+
+	texture->loadColorBuffer(800, 600);
+	texture->bind(GL_MODULATE);
+
+	pixMap.reserve(255, 255);
+	//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	
+	pixMap.save_bmp24BGR("Bmps/photo.bmp");
+
+	texture->unbind();
+	*/
+	Texture* tex = new Texture();
+
+	tex->loadColorBuffer(800, 600);
+
+	tex->saveData("Bmps/photo.bmp");
 }

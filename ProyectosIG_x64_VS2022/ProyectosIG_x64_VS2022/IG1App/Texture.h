@@ -6,7 +6,6 @@
 #include <glm/glm.hpp>
 #include "Pixmap32RGBA.h"
 #include <string>
-
 //-------------------------------------------------------------------------
 
 class Texture
@@ -31,6 +30,8 @@ public:
   void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha);
 
   void loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer = GL_FRONT);
+
+  void saveData(const std::string& BMP_Name);
 
 protected:
 

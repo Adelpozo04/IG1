@@ -1,5 +1,6 @@
 #include "Texture.h"
-
+#include <GL/freeglut.h> // OpenGL Utility Toolkit
+#include <glm/glm.hpp>   // OpenGL Mathematics
 //-------------------------------------------------------------------------
 
 Texture::~Texture() 
@@ -109,5 +110,19 @@ void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer)
 	unbind();
 	//restore read buffer
 	glReadBuffer(GL_BACK);
+}
+void Texture::saveData(const std::string& BMP_Name) 
+{
+	PixMap32RGBA pixMap;
+
+
+	pixMap.reserve(mWidth, mHeight);
+
+	glBindTexture(GL_TEXTURE_2D, mId);
+
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+
+	pixMap.save_bmp24BGR(BMP_Name);
+
 }
 //-------------------------------------------------------------------------

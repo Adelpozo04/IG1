@@ -563,12 +563,14 @@ void Box::update() {
 
 #pragma region Star3D
 
-Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel) 
-	:YRotVel(yVel),zRotVel(zVel)
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel, glm::dvec3 traslationVec ) 
+	:YRotVel(yVel),zRotVel(zVel), traslationVec(traslationVec)
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
 	mTexture = new Texture();
+
+
 
 	mTexture->load("Bmps/baldosaP.bmp");
 
@@ -586,7 +588,7 @@ void Star3D::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat* rotate(dmat4(1), radians(yAngle), dvec3(0, 1, 0)) * mModelMat *
+		dmat4 aMat = modelViewMat* translate(mModelMat,traslationVec) * rotate(dmat4(1), radians(yAngle), dvec3(0, 1, 0)) * mModelMat *
 						rotate(dmat4(1),radians(zAngle),dvec3(0,0,1) ); // glm matrix multiplication
 		upload(aMat);
 
@@ -648,6 +650,7 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 {
 
 	if (mMesh != nullptr) {
+		
 		//modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
@@ -671,6 +674,9 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+	
 
 	}
 }
@@ -706,6 +712,10 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		//glDisable(GL_DEPTH_TEST);
 		//glEnable(GL_DEPTH);
 
+
+		glEnable(GL_ALPHA_TEST);
+
+		glAlphaFunc(GL_GREATER, 0);
 		//modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
@@ -738,6 +748,8 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+
+		glDisable(GL_ALPHA_TEST);
 		//glDisable(GL_DEPTH);
 		//glEnable(GL_DEPTH_TEST);
 
@@ -781,8 +793,7 @@ void Photo::render(glm::dmat4 const& modelViewMat) const
 		mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_MODULATE);
 		
-
-		dmat4 aMat = modelViewMat * translate(dmat4(1),dvec3(0,0.1,0)) * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
+		dmat4 aMat = modelViewMat * translate(dmat4(1),dvec3(0,0.1,0)) * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
 		upload(aMat);
 		mMesh->render();
 

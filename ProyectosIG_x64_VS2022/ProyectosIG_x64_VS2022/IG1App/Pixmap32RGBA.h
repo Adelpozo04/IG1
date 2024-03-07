@@ -53,6 +53,7 @@ public:
    void set_pixel(const GLsizei x, const GLsizei y, const rgba_color & rgba) noexcept
    { data_[y * width_ + x] = rgba; }
 
+
 protected:
 
    void load_headers(std::ifstream & stream, unsigned int & width, unsigned int & height) const; // throw(std::ios_base::failure);
