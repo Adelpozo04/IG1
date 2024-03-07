@@ -56,12 +56,18 @@ Scene::setGL()
 	// OpenGL basic setting
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+
 }
 void
 Scene::resetGL()
 {
 	glClearColor(.0, .0, .0, .0); // background color (alpha=1 -> opaque)
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+
 }
 
 void
@@ -72,6 +78,7 @@ Scene::render(Camera const& cam) const
 	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
 	}
+	
 }
 
 void Scene::update()
@@ -87,8 +94,14 @@ void Scene::setScene(GLuint id)
 
 	mId = id;
 
-	if (mId == 0) {
+	bool ejes = false;
+
+	if (ejes) {
 		gObjects.push_back(new EjesRGB(400.0));
+	}
+
+
+	if (mId == 0) {
 
 		//circunferencia magenta
 		gObjects.push_back(new RegularPolygon(50, 100));
@@ -102,7 +115,35 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new Rectangle_RGB(200, 100));
 	}
 	else if (mId == 1) {
-		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Cube(100,false,1.f));
+	}
+	else if (mId == 18) {
+		gObjects.push_back(new Ground(200, 400));
+	}
+	else if (mId == 24) {
+		gObjects.push_back(new BoxOutLine(100));
+	}
+	else if (mId == 29) {
+		gObjects.push_back(new Box(100,1,dvec3(0,0,0)));
+	}
+	else if (mId == 26) {
+		gObjects.push_back(new Star3D(100, 8, 80,1,2));
+	}
+	else if (mId == 31) {
+		gObjects.push_back(new GlassParapet(100));
+
+	}
+	else if (mId == 34) {
+		gObjects.push_back(new Grass(100,100));
+	}
+	else if(mId == 38) {
+		gObjects.push_back(new Photo(100,100));
+		gObjects.push_back(new Ground(400,400));
+		gObjects.push_back(new Grass(100, 100, dvec3(160, 50, 160)));
+
+		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
+		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, dvec3(-160, 165.1, -160)));
+		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
+		gObjects.push_back(new GlassParapet(200));
 	}
 }

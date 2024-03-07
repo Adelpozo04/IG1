@@ -2,6 +2,7 @@
 #include "CheckML.h"
 #include <iostream>
 
+
 using namespace std;
 
 // static single instance (singleton pattern)
@@ -29,7 +30,7 @@ void IG1App::changeAutoUpdate()
 {
 
 	if (!autoUpdate) {
-		glutIdleFunc(update);
+		glutIdleFunc(s_update);
 		autoUpdate = true;
 	}
 	else {
@@ -63,7 +64,7 @@ IG1App::init()
 
 	mCamera->set3D();
 	mScene->init();
-	mScene->setScene(1);
+	mScene->setScene(38);
 }
 
 void
@@ -83,8 +84,9 @@ IG1App::iniWinOpenGL()
 	// glutInitWindowPosition (140, 140);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE |
-	                    GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth
+	                  GLUT_DEPTH /*| GLUT_STENCIL*/); // RGBA colors, double buffer, depth
 	                                                    // buffer and stencil buffer
+	
 
 	mWinId = glutCreateWindow(
 	  "IG1App"); // with its associated OpenGL context, return window's identifier
@@ -172,6 +174,9 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'U':
 			changeAutoUpdate();
 			break;
+		case 'F':
+			savePhoto();
+			break;
 		default:
 			need_redisplay = false;
 			break;
@@ -215,4 +220,13 @@ IG1App::specialKey(int key, int x, int y)
 	if (need_redisplay)
 		glutPostRedisplay(); // marks the window as needing to be redisplayed -> calls to
 		                     // display()
+}
+
+void IG1App::savePhoto()
+{
+	Texture* tex = new Texture();
+
+	tex->loadColorBuffer(800, 600);
+
+	tex->saveData("Bmps/photo.bmp");
 }

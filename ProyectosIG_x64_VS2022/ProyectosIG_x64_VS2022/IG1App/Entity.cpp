@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <iostream>
+
 
 using namespace glm;
 
@@ -103,7 +105,10 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		glPolygonMode(GL_BACK, GL_LINE);
 		
 
-		dmat4 aMat =modelViewMat * rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * translate(mModelMat,vectorTranslate) * rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
+		dmat4 aMat = modelViewMat * 
+						rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * 
+						translate(mModelMat,vectorTranslate) * 
+						rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
 		upload(aMat);
 
 		mMesh->changePrimitive(GL_TRIANGLES);
@@ -227,6 +232,11 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+
+#pragma region Cube
+
+
+
 Cube::Cube(GLdouble w,bool center,GLdouble rotVel) : vectorTranslate(dvec3(0,0,0)) , rotVel(rotVel)
 {
 	mMesh = Mesh::generateCube(w);
@@ -249,8 +259,11 @@ void Cube::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat* rotate(dmat4(1), radians(_angles[2]), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(_angles[1]), dvec3(0, 0, 1)) * rotate(dmat4(1), radians(_angles[0]), dvec3(1, 0, 0))
-			* translate(mModelMat, vectorTranslate); // glm matrix multiplication			
+		dmat4 aMat = modelViewMat* 
+					rotate(dmat4(1), radians(_angles[2]), dvec3(0, 1, 0)) * 
+					rotate(dmat4(1), radians(_angles[1]), dvec3(0, 0, 1)) * 
+					rotate(dmat4(1), radians(_angles[0]), dvec3(1, 0, 0)) * 
+					translate(mModelMat, vectorTranslate); // glm matrix multiplication			
 		
 		upload(aMat);
 
@@ -279,3 +292,576 @@ void Cube::update() {
 		}
 	}	
 }
+
+#pragma endregion
+
+
+#pragma region Ground
+
+
+Ground::Ground(GLdouble w,GLdouble h)
+{
+	mModelMat = dmat4(1);
+	//mMesh = Mesh::generateRectangleTexCor(w, h);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 4, 4);
+	mTexture = new Texture();
+	mTexture->load("Bmps/baldosaC.bmp");
+
+}
+
+Ground::~Ground()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+
+void Ground::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if(mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat * 
+						rotate(dmat4(1), radians(90.0), glm::dvec3(1, 0, 0)); // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+	
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+
+
+#pragma endregion
+
+#pragma region BoxOutLine
+
+
+BoxOutLine::BoxOutLine(GLdouble w)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCor(w);
+
+	mTexture = new Texture();
+
+	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
+
+	//mTexture actua como frontTexture
+	mTexture = new Texture();
+	mTexture->load("Bmps/container.bmp");
+
+	mBackTexture = new Texture();
+	mBackTexture->load("Bmps/papelE.bmp");
+
+}
+
+
+
+BoxOutLine::~BoxOutLine()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+		//enable face culling 
+		glEnable(GL_CULL_FACE);
+
+		//cull back face
+		glCullFace(GL_BACK);
+
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+
+		//matriz del modelo principal
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+		//render main mesh(front)
+		mMesh->render();
+
+		//unbind front texture
+		mTexture->unbind();
+		//bind backTexture
+		mBackTexture->bind(GL_MODULATE);
+		//culling front face
+		glCullFace(GL_FRONT);
+
+		mMesh->render();
+
+
+		//unbing back texture
+		mBackTexture->unbind();
+
+
+		//disableFaceCulling
+		glDisable(GL_CULL_FACE);
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	}
+}
+
+
+#pragma endregion
+
+#pragma region Box
+
+
+Box::Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec):topVel(topVel)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCor(w);
+	topMesh = Mesh::generateRectangleTexCor(w*2, w*2);
+	botomMesh = Mesh::generateRectangleTexCor(w*2, w*2);
+
+	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
+
+	//mTexture actua como frontTexture
+	mTexture = new Texture();
+	mTexture->load("Bmps/container.bmp");
+
+	mBackTexture = new Texture();
+	mBackTexture->load("Bmps/papelE.bmp");
+
+	translationVecY = dvec3(0, w, 0);
+	translationVecX = dvec3(w, 0, 0);
+
+	translationOffSet = OffSetVec;
+
+	topAngle = 0;
+}
+
+Box::~Box()
+{
+	delete mMesh;
+	delete topMesh;
+	delete botomMesh;
+	mMesh = nullptr;
+	topMesh = nullptr;
+	botomMesh = nullptr;
+}
+
+void Box::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+		//enable face culling 
+		glEnable(GL_CULL_FACE);
+
+		//cull back face
+		glCullFace(GL_BACK);
+
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		renderBottomMesh(modelViewMat);
+		renderMainMesh(modelViewMat);
+		renderTopMesh(modelViewMat);
+
+		//unbind front texture
+		mTexture->unbind();
+		//bind backTexture
+		mBackTexture->bind(GL_MODULATE);
+		//culling front face
+		glCullFace(GL_FRONT);
+
+
+		renderBottomMesh(modelViewMat);
+		renderMainMesh(modelViewMat);
+		renderTopMesh(modelViewMat);
+
+
+		//unbing back texture
+		mBackTexture->unbind();
+
+
+		//disableFaceCulling
+		glDisable(GL_CULL_FACE);
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+void Box::renderMainMesh(glm::dmat4 const& modelViewMat)const {
+	//matriz del modelo principal
+	dmat4 aMat = modelViewMat *translate(mModelMat,translationOffSet) * mModelMat; // glm matrix multiplication
+	upload(aMat);
+	//render main mesh(front)
+	mMesh->render();
+}
+void Box::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
+	//upload de la matriz del botomMesh
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationOffSet) * translate(mModelMat, -translationVecY) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	upload(aMat);
+	//render del botom mesh
+	botomMesh->render();
+}
+void Box::renderTopMesh(glm::dmat4 const& modelViewMat)const {
+	//upload matriz del top mesh
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationOffSet) * translate(mModelMat, translationVecY) *
+		translate(mModelMat, translationVecX)*
+		rotate(mModelMat,radians(-topAngle),dvec3(0,0,1))*
+		translate(mModelMat, -translationVecX)*
+		rotate(mModelMat, radians(-90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+
+	upload(aMat);
+	//render del top mesh
+	topMesh->render();
+
+}
+
+void Box::update() {
+	if (state == 0) {
+		topAngle += topVel;
+		if (topAngle >= 180) state = 1;
+	}
+	else if (state == 1) {
+		topAngle -= topVel;
+		if (topAngle <= 0) state = 0;
+	}
+}
+#pragma endregion
+
+#pragma region Star3D
+
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel, glm::dvec3 traslationVec ) 
+	:YRotVel(yVel),zRotVel(zVel), traslationVec(traslationVec)
+{
+	mMesh = Mesh::generateStar3DTexCor(re, np, h);
+
+	mTexture = new Texture();
+
+
+
+	mTexture->load("Bmps/baldosaP.bmp");
+
+	yAngle = 0;
+	zAngle = 0;
+}
+
+Star3D::~Star3D()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Star3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat* translate(mModelMat,traslationVec) * rotate(dmat4(1), radians(yAngle), dvec3(0, 1, 0)) * mModelMat *
+						rotate(dmat4(1),radians(zAngle),dvec3(0,0,1) ); // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		aMat = rotate(aMat,radians(180.0),dvec3(0,1,0));
+
+		upload(aMat);
+		mMesh->render();
+
+
+		mTexture->unbind();
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Star3D::update()
+{
+	zAngle += zRotVel;
+	yAngle += YRotVel;
+}
+
+#pragma endregion
+
+
+#pragma region GlassParapet
+
+
+
+GlassParapet::GlassParapet(GLdouble longitud)
+{	
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateBoxOutlineTexCorTransparent(longitud);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/windowV.bmp");
+
+}
+
+GlassParapet::~GlassParapet()
+{
+	
+	delete mMesh;
+	mMesh = nullptr;
+	
+}
+
+void GlassParapet::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+	
+
+	}
+}
+
+#pragma endregion
+
+
+#pragma region Grass
+
+
+Grass::Grass(GLdouble w, GLdouble h, glm::dvec3 traslationVec )
+	:traslationVec(traslationVec)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
+
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
+}
+
+Grass::~Grass()
+{
+
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Grass::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//set depth buffer
+		//glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH);
+
+
+		glEnable(GL_ALPHA_TEST);
+
+		glAlphaFunc(GL_GREATER, 0);
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		//mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+		dmat4 aMat = modelViewMat*translate(mModelMat,traslationVec) * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat);
+		mMesh->render();
+
+		dmat4 aMat2 = modelViewMat * translate(mModelMat, traslationVec) * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat2);
+		mMesh->render();
+
+		dmat4 aMat3 = modelViewMat * translate(mModelMat, traslationVec) * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat3);
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		glBlendFunc(GL_ONE, GL_ZERO);
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+		glDisable(GL_ALPHA_TEST);
+		//glDisable(GL_DEPTH);
+		//glEnable(GL_DEPTH_TEST);
+
+	}
+}
+
+
+#pragma endregion
+
+#pragma region Photo
+
+
+//foto dinamica apartado 37
+Photo::Photo(GLdouble w, GLdouble h)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
+
+	mTexture = new Texture();
+	mTexture->loadColorBuffer(800, 600);
+
+}
+
+Photo::~Photo()
+{
+
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Photo::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+		
+		dmat4 aMat = modelViewMat * translate(dmat4(1),dvec3(0,0.1,0)) * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+void Photo::update() {
+	mTexture->loadColorBuffer(800, 600);
+}
+#pragma endregion
+
+
+#pragma region Rectangle Photo
+
+
+//foto estatica, clase auxiliar
+RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec)
+	:traslationVec(traslationVec)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/photo.bmp");
+
+}
+
+RectanglePhoto::~RectanglePhoto()
+{
+
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		dmat4 aMat = modelViewMat*translate(mModelMat,traslationVec) * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+#pragma endregion

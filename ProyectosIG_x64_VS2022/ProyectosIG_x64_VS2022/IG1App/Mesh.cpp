@@ -17,6 +17,8 @@ void
 Mesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
+
+
 		// transfer the coordinates of the vertices
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glVertexPointer(
@@ -29,10 +31,19 @@ Mesh::render() const
 			                                    // each component, stride, pointer
 		}
 
+
+		if (vTexCoords.size() > 0) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+
+		}
+
+
 		draw();
 
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 }
 
@@ -237,30 +248,171 @@ Mesh::generateCube(GLdouble w) {
 
 	//COLORES PARA LOS VERTICES
 
-	for (int i = 0; i < 6; ++i) {
-		// Green for bottom face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+	vector<glm::dvec4> colors{ {0.0f, 1.0f, 0.0f, 1.0f} , {0.0f, 0.0f, 1.0f, 1.0f},{1.0f, 0.0f, 0.0f, 1.0f} };
+
+	for (int i = 0; i < 36; i++) {
+		int index = i / 6;
+
+		if (index == 0 || index == 5) mesh->vColors.push_back(colors[0]);
+		else if (index == 1 || index == 3)mesh->vColors.push_back(colors[1]);
+		else if (index == 2 || index == 4)mesh->vColors.push_back(colors[2]);
 	}
-	for (int i = 0; i < 6; ++i) {
-		// Blue for back face
-		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
+
+	return mesh;
+}
+
+Mesh* Mesh::generateRectangleTexCor(GLdouble w, GLdouble h)
+{
+	Mesh* m = Mesh::generateRectangle(w, h);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+	return m;
+
+}
+
+Mesh* Mesh::generaRectangleTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+	Mesh* m = Mesh::generateRectangle(w, h);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+	
+	m->vTexCoords.emplace_back(0, rh);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(rw, rh);
+	m->vTexCoords.emplace_back(rw, 0);
+	return m;
+	
+}
+
+Mesh* Mesh::generateBoxOutline(GLdouble w)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 10;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, w, -w);
+	points.emplace_back(w, -w, -w);
+	points.emplace_back(-w, -w, -w);
+	points.emplace_back(-w, w, -w);
+
+	points.emplace_back(w, w, w);
+	points.emplace_back(w, -w, w);
+	points.emplace_back(-w, -w, w);
+	points.emplace_back(-w, w, w);
+
+
+	
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+
+	return mesh;
+}
+
+Mesh* Mesh::generateBoxOutlineTexCor(GLdouble longitud)
+{
+
+	Mesh* m = generateBoxOutline(longitud);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+
+	return m;
+}
+
+Mesh* Mesh::generateBoxOutlineTexCorTransparent(GLdouble longitud)
+{
+	
+	Mesh* mesh = generateBoxOutlineTexCor(longitud);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
 	}
-	for (int i = 0; i < 6; ++i) {
-		// Red for front face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
+
+	return mesh;
+	
+}
+
+Mesh* Mesh::generateStar3D(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_FAN;
+
+	mesh->mNumVertices =(np*2) + 2;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	//punto de origen de la estrella(primer vertice)
+	mesh->vVertices.emplace_back(0, 0, 0);
+
+	float angle = 360.0 / np;
+	GLdouble ri = re / 2.0;
+
+	for (int i = 0; i < np; i++) {
+		mesh->vVertices.emplace_back(re * cos(glm::radians(i * angle)), re * sin(glm::radians(i * angle)), h);
+		mesh->vVertices.emplace_back(ri * cos(glm::radians((i * angle)+ angle/2)), ri * sin(glm::radians((i * angle)+angle/2)), h);
 	}
-	for (int i = 0; i < 6; ++i) {
-		//for bottom face
-		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Blue for back face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Red for front face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
-	}
+
+	//añadir otra vez el segundo verice(primero sin contar el centro)
+	mesh->vVertices.emplace_back(re * cos(glm::radians(0.)), re * sin(glm::radians( 0.)), h);
+
+
+
+	return mesh;
+}
+
+Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
+{
+	Mesh* mesh = generateStar3D(re, np, h);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	vector<vec2> texPoints{ {0,0},{0.5,0},{0,0 },{0,0.5} };
+
+	mesh->vTexCoords.emplace_back(0.5, 0.5);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+
+		mesh->vTexCoords.push_back(texPoints[i % 4]);
+	} 
 
 	return mesh;
 }
