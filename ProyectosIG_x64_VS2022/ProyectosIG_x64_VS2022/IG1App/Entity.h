@@ -191,10 +191,10 @@ public:
 
 class Grass : public Abs_Entity {
 
-
+	glm::dvec3 traslationVec;
 public:
 
-	explicit Grass(GLdouble w,GLdouble h);
+	explicit Grass(GLdouble w,GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
 	~Grass();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -211,6 +211,18 @@ public:
 
 	void update() override;
 
+};
+
+class RectanglePhoto : public Abs_Entity {
+
+	glm::dvec3 traslationVec;
+
+
+public:
+
+	explicit RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
+	~RectanglePhoto();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
 

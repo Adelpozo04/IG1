@@ -687,7 +687,8 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 #pragma region Grass
 
 
-Grass::Grass(GLdouble w, GLdouble h)
+Grass::Grass(GLdouble w, GLdouble h, glm::dvec3 traslationVec )
+	:traslationVec(traslationVec)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
@@ -727,15 +728,15 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1),radians(-90.0),dvec3(0,0,1));
+		dmat4 aMat = modelViewMat*translate(mModelMat,traslationVec) * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
 		upload(aMat);
 		mMesh->render();
 
-		dmat4 aMat2 = modelViewMat * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		dmat4 aMat2 = modelViewMat * translate(mModelMat, traslationVec) * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
 		upload(aMat2);
 		mMesh->render();
 
-		dmat4 aMat3 = modelViewMat * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		dmat4 aMat3 = modelViewMat * translate(mModelMat, traslationVec) * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
 		upload(aMat3);
 		mMesh->render();
 
@@ -812,3 +813,53 @@ void Photo::update() {
 }
 #pragma endregion
 
+
+#pragma region Rectangle Photo
+
+RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec)
+	:traslationVec(traslationVec)
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/photo.bmp");
+
+}
+
+RectanglePhoto::~RectanglePhoto()
+{
+
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		dmat4 aMat = modelViewMat*translate(mModelMat,traslationVec) * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+#pragma endregion

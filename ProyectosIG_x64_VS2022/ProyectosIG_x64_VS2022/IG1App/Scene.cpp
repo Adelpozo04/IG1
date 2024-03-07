@@ -49,6 +49,7 @@ Scene::free()
 		el = nullptr;
 	}
 	gObjects.resize(0);
+	//gObjects.clear();
 }
 void
 Scene::setGL()
@@ -141,14 +142,11 @@ void Scene::setScene(GLuint id)
 		//gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Photo(100,100));
 		gObjects.push_back(new Ground(400,400));
-		gObjects.push_back(new Grass(100, 100));
+		gObjects.push_back(new Grass(100, 100, dvec3(160, 50, 160)));
 
 		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
 		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, dvec3(-160, 165.1, -160)));
+		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
 		gObjects.push_back(new GlassParapet(200));
-
-
-
-
 	}
 }
