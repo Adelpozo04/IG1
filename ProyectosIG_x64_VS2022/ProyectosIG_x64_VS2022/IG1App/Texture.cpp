@@ -93,9 +93,34 @@ void Texture::load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha
 
 void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer) {
 
+	if (mId == 0) init();
+
+
+	mWidth = width;
+
+	mHeight = height;
+
 	glReadBuffer(buffer);
 
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 100, 100, width, height, 0);
+	bind(GL_MODULATE);
+
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
+
+	unbind();
+
+	glReadBuffer(GL_BACK);
+
+}
+
+void Texture::saveData(const std::string& BMP_Name, GLuint buffer) {
+
+	glReadBuffer(buffer);
+
+	PixMap32RGBA pixMap;
+
+	pixMap.save_bmp24BGR(BMP_Name);
+
+	glReadBuffer(GL_BACK);
 
 }
 

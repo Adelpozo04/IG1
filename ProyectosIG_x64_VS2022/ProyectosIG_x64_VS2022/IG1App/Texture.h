@@ -29,6 +29,8 @@ public:
   void load(const std::string& BMP_Name, glm::u8vec3 color, GLubyte alpha);
 
   void loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer);
+
+  void saveData(const std::string& BMP_Name, GLuint buffer);
   
   void setWrap(GLuint wp);  // GL_REPEAT, GL_CLAMP 
 

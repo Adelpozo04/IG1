@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
 using namespace glm;
 
 void
@@ -699,9 +700,11 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 		mTexture->bind(GL_MODULATE);
 
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		mMesh->render();
+
 
 		aMat = aMat * rotate(dmat4(1), radians(120.0), dvec3(1.0, 0.0, 0.0));
 
@@ -731,13 +734,7 @@ Photo::Photo(GLdouble w, GLdouble h)
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateRectangleTexCor(w, h);
 
-
 	mTexture = new Texture;
-	mTexture->load("Bmps/baldosaC.bmp");
-
-	width = w;
-
-	height = h;
 
 }
 
@@ -751,7 +748,7 @@ void Photo::render(glm::dmat4 const& modelViewMat) const
 {
 	if (mMesh != nullptr) {
 
-		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
+		dmat4 aMat = modelViewMat * mModelMat * translate(dmat4(1), dvec3(0, 0.1, 0)) * rotate(dmat4(1), radians(90.0), dvec3(1.0, 0.0, 0.0));
 
 		upload(aMat);
 
@@ -777,7 +774,7 @@ void Photo::render(glm::dmat4 const& modelViewMat) const
 
 void Photo::update() {
 
-	mTexture->loadColorBuffer(width / 2, height / 2, GL_FRONT);
+	mTexture->loadColorBuffer(800, 600, GL_FRONT);
 
 }
 
