@@ -763,7 +763,7 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 #pragma region Photo
 
 
-
+//foto dinamica apartado 37
 Photo::Photo(GLdouble w, GLdouble h)
 {
 	mModelMat = dmat4(1);
@@ -816,6 +816,8 @@ void Photo::update() {
 
 #pragma region Rectangle Photo
 
+
+//foto estatica, clase auxiliar
 RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec)
 	:traslationVec(traslationVec)
 {

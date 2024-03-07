@@ -248,29 +248,14 @@ Mesh::generateCube(GLdouble w) {
 
 	//COLORES PARA LOS VERTICES
 
-	for (int i = 0; i < 6; ++i) {
-		// Green for bottom face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Blue for back face
-		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Red for front face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
-	}
-	for (int i = 0; i < 6; ++i) {
-		//for bottom face
-		mesh->vColors.emplace_back(0.0f, 0.0f, 1.0f, 1.0f); // Blue
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Blue for back face
-		mesh->vColors.emplace_back(1.0f, 0.0f, 0.0f, 1.0f); // Red
-	}
-	for (int i = 0; i < 6; ++i) {
-		// Red for front face
-		mesh->vColors.emplace_back(0.0f, 1.0f, 0.0f, 1.0f); // Green
+	vector<glm::dvec4> colors{ {0.0f, 1.0f, 0.0f, 1.0f} , {0.0f, 0.0f, 1.0f, 1.0f},{1.0f, 0.0f, 0.0f, 1.0f} };
+
+	for (int i = 0; i < 36; i++) {
+		int index = i / 6;
+
+		if (index == 0 || index == 5) mesh->vColors.push_back(colors[0]);
+		else if (index == 1 || index == 3)mesh->vColors.push_back(colors[1]);
+		else if (index == 2 || index == 4)mesh->vColors.push_back(colors[2]);
 	}
 
 	return mesh;

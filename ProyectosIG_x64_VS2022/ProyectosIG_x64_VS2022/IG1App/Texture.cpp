@@ -111,10 +111,11 @@ void Texture::loadColorBuffer(GLsizei width, GLsizei height, GLuint buffer)
 	//restore read buffer
 	glReadBuffer(GL_BACK);
 }
+
+
 void Texture::saveData(const std::string& BMP_Name) 
 {
 	PixMap32RGBA pixMap;
-
 
 	pixMap.reserve(mWidth, mHeight);
 
