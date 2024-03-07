@@ -138,13 +138,15 @@ protected:
 	glm::dvec3 translationVecY;
 	glm::dvec3 translationVecX;
 
+	glm::dvec3 translationOffSet;
+
 	GLdouble topVel;
 	GLdouble topAngle;
 
 	int state = 0;
 
 public:
-	explicit Box(GLdouble w,GLdouble topVel);
+	explicit Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec);
 	~Box();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 

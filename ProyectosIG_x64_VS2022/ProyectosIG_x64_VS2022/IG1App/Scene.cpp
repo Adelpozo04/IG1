@@ -59,7 +59,6 @@ Scene::setGL()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 
-
 }
 void
 Scene::resetGL()
@@ -122,7 +121,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 29) {
 		gObjects.push_back(new EjesRGB(400.0));
-		gObjects.push_back(new Box(100,1));
+		gObjects.push_back(new Box(100,1,dvec3(0,0,0)));
 	}
 	else if (mId == 26) {
 		gObjects.push_back(new EjesRGB(400.0));
@@ -137,10 +136,14 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Grass(100,100));
 	}
-	else if(mId == 36) {
-		gObjects.push_back(new EjesRGB(400.0));
+	else if(mId == 38) {
+		//gObjects.push_back(new EjesRGB(400.0));
 		gObjects.push_back(new Photo(100,100));
 		gObjects.push_back(new Ground(400,400));
+		gObjects.push_back(new Grass(100, 100));
+
+		gObjects.push_back(new Box(50, 1, dvec3(-180, 50.1, -180)));
+
 
 	}
 }

@@ -436,7 +436,7 @@ void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
 #pragma region Box
 
 
-Box::Box(GLdouble w,GLdouble topVel):topVel(topVel)
+Box::Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec):topVel(topVel)
 {
 
 	mModelMat = dmat4(1);
@@ -455,6 +455,8 @@ Box::Box(GLdouble w,GLdouble topVel):topVel(topVel)
 
 	translationVecY = dvec3(0, w, 0);
 	translationVecX = dvec3(w, 0, 0);
+
+	translationOffSet = OffSetVec;
 
 	topAngle = 0;
 }
@@ -521,21 +523,21 @@ void Box::render(glm::dmat4 const& modelViewMat) const
 
 void Box::renderMainMesh(glm::dmat4 const& modelViewMat)const {
 	//matriz del modelo principal
-	dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+	dmat4 aMat = modelViewMat *translate(mModelMat,translationOffSet) * mModelMat; // glm matrix multiplication
 	upload(aMat);
 	//render main mesh(front)
 	mMesh->render();
 }
 void Box::renderBottomMesh(glm::dmat4 const& modelViewMat)const {
 	//upload de la matriz del botomMesh
-	dmat4 aMat = modelViewMat * translate(mModelMat, -translationVecY) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationOffSet) * translate(mModelMat, -translationVecY) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0)); // glm matrix multiplication
 	upload(aMat);
 	//render del botom mesh
 	botomMesh->render();
 }
 void Box::renderTopMesh(glm::dmat4 const& modelViewMat)const {
 	//upload matriz del top mesh
-	dmat4 aMat = modelViewMat * translate(mModelMat, translationVecY) * 
+	dmat4 aMat = modelViewMat * translate(mModelMat, translationOffSet) * translate(mModelMat, translationVecY) *
 		translate(mModelMat, translationVecX)*
 		rotate(mModelMat,radians(-topAngle),dvec3(0,0,1))*
 		translate(mModelMat, -translationVecX)*
@@ -684,6 +686,7 @@ Grass::Grass(GLdouble w, GLdouble h)
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
 
+
 	mTexture = new Texture();
 	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
 }
@@ -699,36 +702,45 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 {
 
 	if (mMesh != nullptr) {
+		//set depth buffer
+		//glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_DEPTH);
+
 		//modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
 
 		//bind front texture
-		mTexture->setWrap(GL_REPEAT);
+		//mTexture->setWrap(GL_REPEAT);
 		mTexture->bind(GL_MODULATE);
-
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		
+
+
 		dmat4 aMat = modelViewMat * mModelMat * rotate(dmat4(1),radians(-90.0),dvec3(0,0,1));
 		upload(aMat);
 		mMesh->render();
 
-		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
-		upload(aMat);
+		dmat4 aMat2 = modelViewMat * mModelMat * rotate(dmat4(1), radians(-120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat2);
 		mMesh->render();
 
-		aMat = modelViewMat * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
-		upload(aMat);
+		dmat4 aMat3 = modelViewMat * mModelMat * rotate(dmat4(1), radians(120.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 0, 1));
+		upload(aMat3);
 		mMesh->render();
 
 		mTexture->unbind();
 
+
+		glBlendFunc(GL_ONE, GL_ZERO);
 		//reset config
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		//glDisable(GL_DEPTH);
+		//glEnable(GL_DEPTH_TEST);
+
 	}
 }
 
