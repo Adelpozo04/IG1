@@ -16,6 +16,8 @@ Camera::Camera(Viewport* vp)
   , mViewPort(vp)
 {
 	setPM();
+
+	setAxes();
 }
 
 void
@@ -109,4 +111,20 @@ Camera::uploadPM() const
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(value_ptr(mProjMat)); // transfers projection matrix to the GPU
 	glMatrixMode(GL_MODELVIEW);
+}
+
+void
+Camera::setAxes() {
+
+	mRight = row(mViewMat, 0);
+	mUpward = row(mViewMat, 1);
+	mFront = row(mViewMat, 2);
+
+}
+
+glm::dvec3
+Camera::row(glm::dmat4 View, GLuint index) {
+
+	return View[index];
+
 }

@@ -59,6 +59,7 @@ Scene::setGL()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 
+
 }
 void
 Scene::resetGL()
@@ -137,6 +138,8 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new Grass(100,100));
 	}
 	else if(mId == 38) {
+		
+
 		gObjects.push_back(new Photo(100,100));
 		gObjects.push_back(new Ground(400,400));
 		gObjects.push_back(new Grass(100, 100, dvec3(160, 50, 160)));
