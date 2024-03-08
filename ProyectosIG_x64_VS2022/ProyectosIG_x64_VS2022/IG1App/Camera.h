@@ -33,6 +33,7 @@ public:
 	// updates the scale factor
 	void setScale(GLdouble s);
 
+
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const
 	{
@@ -45,6 +46,10 @@ protected:
 	glm::dvec3 mEye = {0.0, 0.0, 500.0}; // camera's position
 	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
 	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
+
+	glm::dvec3 mRight;
+	glm::dvec3 mUpward;
+	glm::dvec3 mFront;
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU
@@ -61,6 +66,12 @@ protected:
 
 	void setVM();
 	void setPM();
+
+
+	void setAxes();
+
+	glm::dvec3 row(glm::dmat4 mat, GLuint index);
+
 };
 
 #endif //_H_Camera_H_

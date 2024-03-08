@@ -16,6 +16,7 @@ Camera::Camera(Viewport* vp)
   , mViewPort(vp)
 {
 	setPM();
+
 }
 
 void
@@ -87,6 +88,18 @@ Camera::setScale(GLdouble s)
 	if (mScaleFact < 0)
 		mScaleFact = 0.01;
 	setPM();
+}
+
+void Camera::setAxes()
+{
+	mRight = row(mViewMat,0);
+	mUpward = row(mViewMat, 1);
+	mFront = row(mViewMat, 2);
+}
+
+glm::dvec3 Camera::row(glm::dmat4 mat, GLuint index)
+{
+	return mat[index];
 }
 
 void
