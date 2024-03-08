@@ -76,6 +76,28 @@ Camera::roll(GLdouble a)
 	// glm::rotate returns mViewMat * rotationMatrix
 }
 
+void 
+Camera::moveLR(GLdouble cs) {
+
+	mViewMat = translate(glm::dmat4(1), glm::dvec3(cs, 0, 0)) * mViewMat;
+	setAxes();
+}
+
+void 
+Camera::moveFB(GLdouble cs) {
+
+	mViewMat = translate(glm::dmat4(1), glm::dvec3(0, 0, cs)) * mViewMat;
+	setAxes();
+}
+
+void 
+Camera::moveUD(GLdouble cs) {
+
+	mViewMat = translate(glm::dmat4(1), glm::dvec3(0, cs, 0)) * mViewMat;
+	setAxes();
+
+}
+
 void
 Camera::setSize(GLdouble xw, GLdouble yh)
 {

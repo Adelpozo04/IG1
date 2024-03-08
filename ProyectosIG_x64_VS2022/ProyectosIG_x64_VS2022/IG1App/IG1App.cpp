@@ -177,6 +177,25 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'F':
 			savePhoto();
 			break;
+		case 'd':
+			mCamera->moveLR(5);
+			break;
+		case 'a':
+			mCamera->moveLR(-5);
+			break;
+		case 'w':
+			mCamera->moveUD(5);
+			break;
+		case 's':
+			mCamera->moveUD(-5);
+			break;
+		case 'W':
+			mCamera->moveFB(5);
+			break;
+		case 'S':
+			mCamera->moveFB(-5);
+			break;
+
 		default:
 			need_redisplay = false;
 			break;
@@ -212,6 +231,7 @@ IG1App::specialKey(int key, int x, int y)
 		case GLUT_KEY_DOWN:
 			mCamera->roll(-2); // rotates -1 on the Z axis
 			break;
+
 		default:
 			need_redisplay = false;
 			break;
