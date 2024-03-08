@@ -196,7 +196,7 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'S':
 			mCamera->moveFB(-5);
 			break;
-		case 'e':
+		case 'p':
 			mCamera->changePrj();
 			break;
 		default:
