@@ -139,6 +139,8 @@ Camera::setPM()
 	}
 	else {
 
+		//ya esta
+
 		mProjMat = frustum(-400 * mScaleFact,
 			400 * mScaleFact,
 			-300 * mScaleFact,
