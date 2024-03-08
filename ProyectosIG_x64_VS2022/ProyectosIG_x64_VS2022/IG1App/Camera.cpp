@@ -79,6 +79,24 @@ Camera::roll(GLdouble a)
 
 }
 
+void Camera::moveLR(GLdouble cs)
+{
+	mViewMat =  translate(dmat4(1), dvec3(cs, 0, 0)) * mViewMat;
+	setAxes();
+}
+
+void Camera::moveFB(GLdouble cs)
+{
+	mViewMat = translate(dmat4(1), dvec3(0, 0, cs)) * mViewMat;
+	setAxes();
+}
+
+void Camera::moveUD(GLdouble cs)
+{
+	mViewMat = translate(dmat4(1), dvec3(0, cs, 0)) * mViewMat;
+	setAxes();
+}
+
 void
 Camera::setSize(GLdouble xw, GLdouble yh)
 {

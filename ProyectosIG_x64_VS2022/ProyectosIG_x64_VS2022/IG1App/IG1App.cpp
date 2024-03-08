@@ -178,6 +178,18 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'F':
 			savePhoto();
 			break;
+		case 'a':
+			mCamera->moveLR(5);
+			break;
+		case 'd':
+			mCamera->moveLR(-5);
+			break;
+		case 'w':
+			mCamera->moveUD(-5);
+			break;
+		case 's':
+			mCamera->moveUD(5);
+			break;
 		default:
 			need_redisplay = false;
 			break;
