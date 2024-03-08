@@ -98,6 +98,14 @@ Camera::moveUD(GLdouble cs) {
 
 }
 
+void 
+Camera::changePrj() {
+
+	bOrto = !bOrto;
+	setPM();
+
+}
+
 void
 Camera::setSize(GLdouble xw, GLdouble yh)
 {
@@ -128,6 +136,16 @@ Camera::setPM()
 		                 mNearVal,
 		                 mFarVal);
 		// glm::ortho defines the orthogonal projection matrix
+	}
+	else {
+
+		mProjMat = frustum(-400 * mScaleFact,
+			400 * mScaleFact,
+			-300 * mScaleFact,
+			300 * mScaleFact,
+			500.,
+			10000.);
+
 	}
 }
 

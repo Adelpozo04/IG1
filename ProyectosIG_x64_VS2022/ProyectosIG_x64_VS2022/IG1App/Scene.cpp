@@ -48,6 +48,7 @@ Scene::free()
 		delete el;
 		el = nullptr;
 	}
+
 	gObjects.resize(0);
 }
 void

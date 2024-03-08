@@ -31,6 +31,8 @@ public:
 
 	void moveUD(GLdouble cs); // Arriba/Abajo
 
+	void changePrj();
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 
