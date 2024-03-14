@@ -217,22 +217,37 @@ IG1App::specialKey(int key, int x, int y)
 
 	switch (key) {
 		case GLUT_KEY_RIGHT:
-			if (mdf == GLUT_ACTIVE_CTRL)
-				mCamera->pitch(-2); // rotates -1 on the X axis
-			else
-				mCamera->pitch(2); // rotates 1 on the X axis
+			if (mdf == GLUT_ACTIVE_CTRL) {
+
+				//mCamera->pitch(-2); // rotates -1 on the X axis
+				mCamera->truePitch(-10);
+			}
+			else {
+
+				//mCamera->pitch(2); // rotates 1 on the X axis
+				mCamera->truePitch(10);
+			}
+				
 			break;
 		case GLUT_KEY_LEFT:
-			if (mdf == GLUT_ACTIVE_CTRL)
-				mCamera->yaw(2); // rotates 1 on the Y axis
-			else
-				mCamera->yaw(-2); // rotate -1 on the Y axis
+			if (mdf == GLUT_ACTIVE_CTRL) {
+
+				//mCamera->yaw(2); // rotates 1 on the Y axis
+				mCamera->trueYaw(10);
+			}
+			else {
+				//mCamera->yaw(-2); // rotate -1 on the Y axis
+				mCamera->trueYaw(-10);
+			}
+				
 			break;
 		case GLUT_KEY_UP:
-			mCamera->roll(2); // rotates 1 on the Z axis
+			mCamera->trueRoll(10);
+			//mCamera->roll(2); // rotates 1 on the Z axis
 			break;
 		case GLUT_KEY_DOWN:
-			mCamera->roll(-2); // rotates -1 on the Z axis
+			mCamera->trueRoll(-10);
+			//mCamera->roll(-2); // rotates -1 on the Z axis
 			break;
 
 		default:

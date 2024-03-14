@@ -77,24 +77,51 @@ Camera::roll(GLdouble a)
 }
 
 void 
+Camera::truePitch(GLdouble a) {
+
+	mLook += mUpward * a;
+	setVM();
+
+}
+
+void
+Camera::trueYaw(GLdouble a) {
+
+	mLook += mRight * a;
+	setVM();
+
+}
+
+void 
+Camera::trueRoll(GLdouble a) {
+
+	mLook += mFront * a;
+	setVM();
+
+}
+
+void 
 Camera::moveLR(GLdouble cs) {
 
-	mViewMat = translate(glm::dmat4(1), glm::dvec3(cs, 0, 0)) * mViewMat;
-	setAxes();
+	mEye += mRight * cs;
+	mLook += mRight * cs;
+	setVM();
 }
 
 void 
 Camera::moveFB(GLdouble cs) {
 
-	mViewMat = translate(glm::dmat4(1), glm::dvec3(0, 0, cs)) * mViewMat;
-	setAxes();
+	mEye += mFront * cs;
+	mLook += mFront * cs;
+	setVM();
 }
 
 void 
 Camera::moveUD(GLdouble cs) {
 
-	mViewMat = translate(glm::dmat4(1), glm::dvec3(0, cs, 0)) * mViewMat;
-	setAxes();
+	mEye += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();
 
 }
 
@@ -164,7 +191,7 @@ Camera::setAxes() {
 
 	mRight = row(mViewMat, 0);
 	mUpward = row(mViewMat, 1);
-	mFront = row(mViewMat, 2);
+	mFront = -row(mViewMat, 2);
 
 }
 
