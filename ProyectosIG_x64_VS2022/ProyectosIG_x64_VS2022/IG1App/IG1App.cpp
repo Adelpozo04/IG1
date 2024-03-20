@@ -220,12 +220,12 @@ IG1App::specialKey(int key, int x, int y)
 			if (mdf == GLUT_ACTIVE_CTRL) {
 
 				//mCamera->pitch(-2); // rotates -1 on the X axis
-				mCamera->truePitch(-2);
+				mCamera->truePitch(-5);
 			}
 			else {
 
 				//mCamera->pitch(2); // rotates 1 on the X axis
-				mCamera->truePitch(2);
+				mCamera->truePitch(5);
 			}
 				
 			break;
@@ -233,20 +233,20 @@ IG1App::specialKey(int key, int x, int y)
 			if (mdf == GLUT_ACTIVE_CTRL) {
 
 				//mCamera->yaw(2); // rotates 1 on the Y axis
-				mCamera->trueYaw(2);
+				mCamera->trueYaw(5);
 			}
 			else {
 				//mCamera->yaw(-2); // rotate -1 on the Y axis
-				mCamera->trueYaw(-2);
+				mCamera->trueYaw(-5);
 			}
 				
 			break;
 		case GLUT_KEY_UP:
-			mCamera->trueRoll(2);
+			mCamera->trueRoll(5);
 			//mCamera->roll(2); // rotates 1 on the Z axis
 			break;
 		case GLUT_KEY_DOWN:
-			mCamera->trueRoll(-2);
+			mCamera->trueRoll(-5);
 			//mCamera->roll(-2); // rotates -1 on the Z axis
 			break;
 

@@ -79,7 +79,7 @@ Camera::roll(GLdouble a)
 void 
 Camera::truePitch(GLdouble a) {
 
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1, 0, 0.0));
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1, 0, 0));
 	mLook += mUpward * a;
 
 	setVM();
@@ -89,7 +89,7 @@ Camera::truePitch(GLdouble a) {
 void
 Camera::trueYaw(GLdouble a) {
 
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1, 0.0));
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1, 0));
 	mLook += mRight * a;
 
 	setVM();
@@ -99,7 +99,7 @@ Camera::trueYaw(GLdouble a) {
 void 
 Camera::trueRoll(GLdouble a) {
 
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1.0));
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1));
 	mLook += mFront * a;
 
 	setVM();
