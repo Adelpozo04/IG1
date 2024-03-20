@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 
+
 #include "Viewport.h"
 
 class Camera
@@ -82,7 +83,6 @@ protected:
 
 	void setAxes();
 
-	glm::dvec3 row(glm::dmat4 View, GLuint index);
 
 };
 

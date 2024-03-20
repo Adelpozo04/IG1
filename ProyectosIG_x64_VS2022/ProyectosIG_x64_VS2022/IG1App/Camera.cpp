@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-// #include <glm/gtc/matrix_access.hpp>
+#include <glm/gtc/matrix_access.hpp>
 
 using namespace glm;
 
@@ -79,7 +79,9 @@ Camera::roll(GLdouble a)
 void 
 Camera::truePitch(GLdouble a) {
 
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1, 0, 0.0));
 	mLook += mUpward * a;
+
 	setVM();
 
 }
@@ -87,7 +89,9 @@ Camera::truePitch(GLdouble a) {
 void
 Camera::trueYaw(GLdouble a) {
 
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1, 0.0));
 	mLook += mRight * a;
+
 	setVM();
 
 }
@@ -95,7 +99,9 @@ Camera::trueYaw(GLdouble a) {
 void 
 Camera::trueRoll(GLdouble a) {
 
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1.0));
 	mLook += mFront * a;
+
 	setVM();
 
 }
@@ -195,9 +201,4 @@ Camera::setAxes() {
 
 }
 
-glm::dvec3
-Camera::row(glm::dmat4 View, GLuint index) {
 
-	return View[index];
-
-}
