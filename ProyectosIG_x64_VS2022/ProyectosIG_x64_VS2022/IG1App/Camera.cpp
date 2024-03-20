@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-// #include <glm/gtc/matrix_access.hpp>
+#include <glm/gtc/matrix_access.hpp>
 
 using namespace glm;
 
@@ -17,7 +17,7 @@ Camera::Camera(Viewport* vp)
 {
 	setPM();
 
-	setAxes();
+	//setAxes();
 }
 
 void
@@ -79,22 +79,57 @@ Camera::roll(GLdouble a)
 
 }
 
+void Camera::truePitch(GLdouble a)
+{
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1.0, 0, 0));
+	mLook += mUpward *a;
+
+	setVM();
+}
+
+void Camera::trueYaw(GLdouble a)
+{
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1.0, 0));
+
+	mLook += mRight * a;
+
+	setVM();
+
+}
+
+void Camera::trueRoll(GLdouble a)
+{
+	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1.0));
+	mLook += mFront * a;
+
+	setVM();
+
+}
+
 void Camera::moveLR(GLdouble cs)
 {
-	mViewMat =  translate(dmat4(1), dvec3(cs, 0, 0)) * mViewMat;
-	setAxes();
+	//mViewMat = translate(dmat4(1), dvec3(cs, 0, 0)) * mViewMat;
+	//setAxes();
+
+	mProjMat = translate(mProjMat, dvec3(cs, 0, 0));
+
+	//mEye += mRight * cs;
+	//mLook += mRight * cs;
+	//setVM();	
 }
 
 void Camera::moveFB(GLdouble cs)
 {
-	mViewMat = translate(dmat4(1), dvec3(0, 0, cs)) * mViewMat;
-	setAxes();
+	mEye += mFront * cs;
+	mLook += mFront * cs;
+	setVM();
 }
 
 void Camera::moveUD(GLdouble cs)
 {
-	mViewMat = translate(dmat4(1), dvec3(0, cs, 0)) * mViewMat;
-	setAxes();
+	mEye += mUpward * cs;
+	mLook += mUpward * cs;
+	setVM();
 }
 
 void
@@ -126,13 +161,9 @@ void Camera::setAxes()
 {
 	mRight = row(mViewMat,0);
 	mUpward = row(mViewMat, 1);
-	mFront = row(mViewMat, 2);
+	mFront = - row(mViewMat, 2);
 }
 
-glm::dvec3 Camera::row(glm::dmat4 mat, GLuint index)
-{
-	return mat[index];
-}
 
 void
 Camera::setPM()

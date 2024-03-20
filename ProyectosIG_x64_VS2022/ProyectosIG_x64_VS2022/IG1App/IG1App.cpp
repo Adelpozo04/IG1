@@ -185,10 +185,10 @@ IG1App::key(unsigned char key, int x, int y)
 			mCamera->moveLR(-5);
 			break;
 		case 'w':
-			mCamera->moveUD(-5);
+			mCamera->moveUD(5);
 			break;
 		case 's':
-			mCamera->moveUD(5);
+			mCamera->moveUD(-5);
 			break;
 		case 'W':
 			mCamera->moveFB(5);
@@ -218,21 +218,21 @@ IG1App::specialKey(int key, int x, int y)
 	switch (key) {
 		case GLUT_KEY_RIGHT:
 			if (mdf == GLUT_ACTIVE_CTRL)
-				mCamera->pitch(-2); // rotates -1 on the X axis
+				mCamera->truePitch(-2); // rotates -1 on the X axis
 			else
-				mCamera->pitch(2); // rotates 1 on the X axis
+				mCamera->truePitch(2); // rotates 1 on the X axis
 			break;
 		case GLUT_KEY_LEFT:
 			if (mdf == GLUT_ACTIVE_CTRL)
-				mCamera->yaw(2); // rotates 1 on the Y axis
+				mCamera->trueYaw(2); // rotates 1 on the Y axis
 			else
-				mCamera->yaw(-2); // rotate -1 on the Y axis
+				mCamera->trueYaw(-2); // rotate -1 on the Y axis
 			break;
 		case GLUT_KEY_UP:
-			mCamera->roll(2); // rotates 1 on the Z axis
+			mCamera->trueRoll(2); // rotates 1 on the Z axis
 			break;
 		case GLUT_KEY_DOWN:
-			mCamera->roll(-2); // rotates -1 on the Z axis
+			mCamera->trueRoll(-2); // rotates -1 on the Z axis
 			break;
 		default:
 			need_redisplay = false;

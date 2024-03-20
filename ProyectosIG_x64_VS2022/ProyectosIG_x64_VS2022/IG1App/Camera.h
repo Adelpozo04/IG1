@@ -25,6 +25,12 @@ public:
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
 
+
+
+	void truePitch(GLdouble a); // rotates a degrees on the X axis
+	void trueYaw(GLdouble a);   // rotates a degrees on the Y axis
+	void trueRoll(GLdouble a);  // rotates a degrees on the Z axis
+
 	void moveLR(GLdouble cs); // A izquierda/A derecha
 	void moveFB(GLdouble cs); // Adelante/Atrás
 	void moveUD(GLdouble cs); // Arriba/Abajo
@@ -78,7 +84,6 @@ protected:
 
 	void setAxes();
 
-	glm::dvec3 row(glm::dmat4 mat, GLuint index);
 
 };
 
