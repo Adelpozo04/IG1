@@ -17,7 +17,7 @@ Camera::Camera(Viewport* vp)
 {
 	setPM();
 
-	//setAxes();
+	setAxes();
 }
 
 void
@@ -81,29 +81,26 @@ Camera::roll(GLdouble a)
 
 void Camera::pitchReal(GLdouble a)
 {
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1.0, 0, 0));
+	//mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(1.0, 0, 0));
 	mLook += mUpward *a;
-
 	setVM();
 }
 
 void Camera::yawReal(GLdouble a)
 {
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1.0, 0));
-
+	//mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 1.0, 0));
 	mLook += mRight * a;
-
 	setVM();
-
 }
 
 void Camera::rollReal(GLdouble a)
 {
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1.0));
-	mLook += mFront * a;
+	//mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1.0));
+	
+	//mLook += mUp * a;
 
+	mProjMat = rotate(mProjMat, glm::radians(a), glm::dvec3(0, 0, 1.0));
 	setVM();
-
 }
 
 void Camera::moveLR(GLdouble cs)
