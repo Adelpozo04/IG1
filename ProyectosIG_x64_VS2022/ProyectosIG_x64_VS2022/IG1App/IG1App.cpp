@@ -64,7 +64,7 @@ IG1App::init()
 
 	mCamera->set2D();
 	mScene->init();
-	mScene->setScene(0);
+	mScene->setScene(38);
 }
 
 void
@@ -170,7 +170,7 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'u':
 			mScene->update();
-			mCamera->update();
+			mCamera->orbit(10.0, 0.0);
 			break;
 		case 'U':
 			changeAutoUpdate();
@@ -198,6 +198,9 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'p':
 			mCamera->changePrj();
+			break;
+		case 'c':
+			mCamera->setCenital();
 			break;
 
 		default:

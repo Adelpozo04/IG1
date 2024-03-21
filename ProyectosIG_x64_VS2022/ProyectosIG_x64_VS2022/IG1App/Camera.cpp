@@ -43,15 +43,19 @@ Camera::set2D()
 	mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
+	mRadio = 1000;
+	mAng = 0;
 	setVM();
 }
 
 void
 Camera::set3D()
 {
-	mEye = dvec3(500, 500, 500);
+	mEye = dvec3(0, 500, 700);
 	mLook = dvec3(0, 10, 0);
 	mUp = dvec3(0, 1, 0);
+	mRadio = 1000;
+	mAng = 0;
 	setVM();
 }
 
@@ -129,6 +133,17 @@ Camera::moveUD(GLdouble cs) {
 
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
+	setVM();
+
+}
+
+void 
+Camera::orbit(GLdouble incAng, GLdouble incY) {
+
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	mEye.y += incY;
 	setVM();
 
 }
@@ -216,6 +231,16 @@ Camera::setAxes() {
 	mUpward = row(mViewMat, 1);
 	mFront = -row(mViewMat, 2);
 
+}
+
+void
+Camera::setCenital() {
+
+	mEye = dvec3(0, 1000, 0.1);
+	mLook = dvec3(0, 0, 0);
+	mUp = dvec3(0, 1, 0);
+
+	setVM();
 }
 
 

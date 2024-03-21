@@ -36,6 +36,8 @@ public:
 
 	void moveUD(GLdouble cs); // Arriba/Abajo
 
+	void orbit(GLdouble incAng, GLdouble incY);
+
 	void changePrj();
 
 	// projection matrix
@@ -45,6 +47,8 @@ public:
 	void setSize(GLdouble xw, GLdouble yh);
 	// updates the scale factor
 	void setScale(GLdouble s);
+
+	void setCenital();
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const

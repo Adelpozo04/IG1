@@ -96,7 +96,7 @@ void Scene::setScene(GLuint id)
 
 	mId = id;
 
-	bool ejes = false;
+	bool ejes = true;
 
 	if (ejes) {
 		gObjects.push_back(new EjesRGB(400.0));
