@@ -7,13 +7,16 @@
 using namespace glm;
 
 Camera::Camera(Viewport* vp)
-  : mViewMat(1.0)
-  , mProjMat(1.0)
-  , xRight(vp->width() / 2.0)
-  , xLeft(-xRight)
-  , yTop(vp->height() / 2.0)
-  , yBot(-yTop)
-  , mViewPort(vp)
+	: mViewMat(1.0)
+	, mProjMat(1.0)
+	, xRight(vp->width() / 2.0)
+	, xLeft(-xRight)
+	, yTop(vp->height() / 2.0)
+	, yBot(-yTop)
+	, mViewPort(vp)
+	, mAng(0)
+	, mRadio(100)
+	, mOrbitSpeed(1)
 {
 	setPM();
 
@@ -99,8 +102,7 @@ Camera::trueYaw(GLdouble a) {
 void 
 Camera::trueRoll(GLdouble a) {
 
-	mViewMat = rotate(dmat4(1), glm::radians(a), glm::dvec3(0, 0, 1));
-	mLook += mFront * a;
+	mProjMat = rotate(mProjMat, glm::radians(a), glm::dvec3(0, 0, 1));
 
 	setVM();
 
@@ -127,6 +129,21 @@ Camera::moveUD(GLdouble cs) {
 
 	mEye += mUpward * cs;
 	mLook += mUpward * cs;
+	setVM();
+
+}
+
+void 
+Camera::update() {
+
+	mAng += mOrbitSpeed;
+	mEye.x = cos(radians(mAng)) * mRadio;
+	mEye.y = sin(radians(mAng)) * mRadio;
+
+	mLook.x = cos(radians(mAng)) * mRadio;
+	mLook.y = sin(radians(mAng)) * mRadio;
+	
+
 	setVM();
 
 }

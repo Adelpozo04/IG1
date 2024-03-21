@@ -54,6 +54,8 @@ public:
 		uploadPM();
 	};
 
+	void update();
+
 	
 
 protected:
@@ -64,6 +66,12 @@ protected:
 	glm::dvec3 mRight;
 	glm::dvec3 mUpward;
 	glm::dvec3 mFront;
+
+	GLdouble mAng;
+
+	GLdouble mOrbitSpeed;
+
+	GLdouble mRadio;
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU

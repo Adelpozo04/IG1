@@ -62,9 +62,9 @@ IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 
-	mCamera->set3D();
+	mCamera->set2D();
 	mScene->init();
-	mScene->setScene(38);
+	mScene->setScene(0);
 }
 
 void
@@ -170,6 +170,7 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'u':
 			mScene->update();
+			mCamera->update();
 			break;
 		case 'U':
 			changeAutoUpdate();
