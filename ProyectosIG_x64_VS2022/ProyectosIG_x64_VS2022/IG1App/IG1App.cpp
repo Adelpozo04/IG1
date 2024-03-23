@@ -122,10 +122,36 @@ IG1App::display() const
 { // double buffering
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
+	if (!m2Vista) {
 
-	mScene->render(*mCamera); // uploads the viewport and camera to the GPU
+		mScene->render(*mCamera);
 
+	}
+	else {
+	
+		// para renderizar las vistas utilizamos una cámara auxiliar :
+		Camera auxCam = *mCamera; // copiando mCamera
+		// el puerto de vista queda compartido (se copia el puntero )
+		Viewport auxVP = *mViewPort; // lo copiamos en una var. aux . para *ç
+
+		mViewPort->setSize(mWinW / 2, mWinH );
+		auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+		auxCam.set3D();
+		mScene->render(auxCam); // uploads the viewport and camera to the GPU
+
+		mViewPort->setPos(mWinW/2, 0);
+
+		auxCam.setCenital();
+		mScene->render(auxCam); // uploads the viewport and camera to the GPU
+
+
+		*mViewPort = auxVP; // * restaurar el puerto de vista ( NOTA )
+
+	}
+	
 	glutSwapBuffers(); // swaps the front and back buffer
+
 }
 
 void
@@ -202,6 +228,9 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'c':
 			mCamera->setCenital();
+			break;
+		case 'k':
+			m2Vista = !m2Vista;
 			break;
 		default:
 			need_redisplay = false;

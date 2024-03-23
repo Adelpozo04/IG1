@@ -71,6 +71,8 @@ protected:
 	int mWinH = 600;    // window's height
 
 	bool autoUpdate = false;
+
+	bool m2Vista = false;
 };
 
 #endif //_H_IG1App_H_
