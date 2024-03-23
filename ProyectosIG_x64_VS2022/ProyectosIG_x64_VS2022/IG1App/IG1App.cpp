@@ -22,7 +22,13 @@ IG1App::close()
 
 void IG1App::update_()
 {
-	mScene->update();
+
+	if (mMouseCoord.x < mWinW/2) {
+		mScene->update();
+	}
+	else {
+		mScene2->update();
+	}
 	mCamera->update();
 	glutPostRedisplay();
 }
@@ -62,10 +68,15 @@ IG1App::init()
 	  new Viewport(mWinW, mWinH); // glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
+	mScene2 = new Scene;
 
 	mCamera->set3D();
+
 	mScene->init();
+	mScene2->init();
+
 	mScene->setScene(38);
+	mScene2->setScene(0);
 
 }
 
@@ -116,6 +127,8 @@ IG1App::free()
 { // release memory and resources
 	delete mScene;
 	mScene = nullptr;
+	delete mScene2;
+	mScene2 = nullptr;
 	delete mCamera;
 	mCamera = nullptr;
 	delete mViewPort;
@@ -147,8 +160,9 @@ IG1App::display() const
 
 		mViewPort->setPos(mWinW/2, 0);
 
-		auxCam.setCenital();
-		mScene->render(auxCam); // uploads the viewport and camera to the GPU
+		//auxCam.setCenital();
+		auxCam.set2D();
+		mScene2->render(auxCam); // uploads the viewport and camera to the GPU
 
 
 		*mViewPort = auxVP; // * restaurar el puerto de vista ( NOTA )
