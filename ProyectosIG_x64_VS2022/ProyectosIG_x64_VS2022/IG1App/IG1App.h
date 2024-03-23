@@ -76,6 +76,8 @@ protected:
 	// Graphics objects of the scene
 	Scene* mScene = nullptr;
 
+	Scene* mScene2 = nullptr;
+
 	bool mStop = false; // main event processing loop
 	int mWinId = 0;     // window's identifier
 	int mWinW = 800;    // window's width

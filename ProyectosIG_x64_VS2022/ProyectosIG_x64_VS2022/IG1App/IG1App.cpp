@@ -61,10 +61,13 @@ IG1App::init()
 	  new Viewport(mWinW, mWinH); // glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT)
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
+	mScene2 = new Scene;
 
 	mCamera->set3D();
 	mScene->init();
+	mScene2->init();
 	mScene->setScene(38);
+	mScene2->setScene(0);
 }
 
 void
@@ -113,6 +116,8 @@ IG1App::free()
 { // release memory and resources
 	delete mScene;
 	mScene = nullptr;
+	delete mScene2;
+	mScene2 = nullptr;
 	delete mCamera;
 	mCamera = nullptr;
 	delete mViewPort;
@@ -157,9 +162,9 @@ IG1App::display() const
 
 		auxCam.setScale(-0.5);
 
-		auxCam.setCenital();
+		auxCam.set2D();
 		// renderizamos con la cámara y el puerto de vista configurados
-		mScene->render(auxCam);
+		mScene2->render(auxCam);
 
 		*mViewPort = auxVP; // * restaurar el puerto de vista ( NOTA )
 
@@ -217,6 +222,7 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'u':
 			mScene->update();
+			mScene2->update();
 			mCamera->orbit(10.0, 0.0);
 			//mCamera->update();
 			break;
