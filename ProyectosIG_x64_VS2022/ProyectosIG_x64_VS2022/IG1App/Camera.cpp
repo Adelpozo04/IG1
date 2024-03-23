@@ -43,6 +43,8 @@ Camera::set2D()
 	mEye = dvec3(0, 0, 500);
 	mLook = dvec3(0, 0, 0);
 	mUp = dvec3(0, 1, 0);
+
+	mRadio = 100;
 	setVM();
 }
 
@@ -52,6 +54,7 @@ Camera::set3D()
 	mEye = dvec3(500, 500, 500);
 	mLook = dvec3(0, 10, 0);
 	mUp = dvec3(0, 1, 0);
+	mRadio = 1000;
 	setVM();
 }
 
@@ -154,6 +157,7 @@ void Camera::changePrj()
 
 void Camera::update()
 {
+	/*EJERCICIO 47
 	mAng += mSpeed;
 
 	rollReal(-mSpeed);
@@ -165,6 +169,9 @@ void Camera::update()
 	mLook.y = sin(radians(mAng)) * mRadio;
 
 	setVM();
+	*/
+
+	orbit(1,0);
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
@@ -174,11 +181,15 @@ void Camera::orbit(GLdouble incAng, GLdouble incY)
 	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
 	mEye.y += incY;
 	setVM();
-
 }
 
 void Camera::setCenital()
 {
+	mEye = dvec3(0, 1000, 0.1);
+	mLook = dvec3(0, 10, 0);
+	mUp = dvec3(0, 1, 0);
+
+	setVM();
 }
 
 void Camera::setAxes()

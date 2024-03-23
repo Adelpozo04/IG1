@@ -200,6 +200,9 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'p':
 			mCamera->changePrj();
 			break;
+		case 'c':
+			mCamera->setCenital();
+			break;
 		default:
 			need_redisplay = false;
 			break;

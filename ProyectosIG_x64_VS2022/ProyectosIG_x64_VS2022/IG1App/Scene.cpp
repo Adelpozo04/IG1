@@ -102,7 +102,7 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new EjesRGB(400.0));
 	}
 
-
+	
 	if (mId == 0) {
 
 		//circunferencia magenta
