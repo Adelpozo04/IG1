@@ -23,6 +23,7 @@ Camera::Camera(Viewport* vp)
 	setAxes();
 }
 
+
 void
 Camera::uploadVM() const
 {
@@ -36,6 +37,7 @@ Camera::setVM()
 	mViewMat = lookAt(mEye, mLook, mUp); // glm::lookAt defines the view matrix
 	setAxes();
 }
+
 
 void
 Camera::set2D()
@@ -209,12 +211,10 @@ Camera::setPM()
 	}
 	else {
 
-		//ya esta
-
-		mProjMat = frustum(-400 * mScaleFact,
-			400 * mScaleFact,
-			-300 * mScaleFact,
-			300 * mScaleFact,
+		mProjMat = frustum(xLeft * mScaleFact,
+			xRight * mScaleFact,
+			yBot * mScaleFact,
+			yTop * mScaleFact,
 			500.,
 			10000.);
 

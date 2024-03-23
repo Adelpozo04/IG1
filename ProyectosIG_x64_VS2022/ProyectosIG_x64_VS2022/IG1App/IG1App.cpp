@@ -143,11 +143,15 @@ IG1App::display() const
 
 		mViewPort->setPos(0, 0);
 
+		auxCam.setScale(-0.5);
+
 		auxCam.set3D();
 
 		mScene->render(auxCam);
 
 		mViewPort->setPos(mWinW / 2, 0);
+
+		auxCam.setScale(-0.5);
 
 		auxCam.setCenital();
 		// renderizamos con la cámara y el puerto de vista configurados

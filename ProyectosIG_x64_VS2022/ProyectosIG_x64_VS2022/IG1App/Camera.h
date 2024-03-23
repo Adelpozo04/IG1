@@ -11,6 +11,7 @@ class Camera
 {
 public:
 	explicit Camera(Viewport* vp);
+
 	~Camera() = default;
 
 	// viewPort
