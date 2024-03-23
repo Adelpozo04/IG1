@@ -99,6 +99,11 @@ IG1App::iniWinOpenGL()
 	glutSpecialFunc(s_specialKey);
 	glutDisplayFunc(s_display);
 
+	glutMouseFunc(s_mouse);
+	glutMotionFunc(s_motion);
+	glutMouseWheelFunc(s_mouseWheel);
+
+
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
 
@@ -284,4 +289,48 @@ void IG1App::savePhoto()
 	tex->loadColorBuffer(800, 600);
 
 	tex->saveData("Bmps/photo.bmp");
+}
+
+void IG1App::mouse(int button, int state, int x, int y)
+{
+
+	mMouseButt = button;
+	mMouseCoord = glm::dvec2(x, y);
+}
+
+
+void IG1App::motion(int x, int y)
+{
+	glm::dvec2 diff = mMouseCoord - glm::dvec2(x,y);
+
+	mMouseCoord = glm::dvec2(x, y);
+
+	if (mMouseButt == 0) {
+		//rotar 
+		mCamera->orbit(diff.x * 0.05, diff.y);
+	}
+	else {
+		//mover
+		mCamera->moveLR(diff.x);
+		mCamera->moveUD(-diff.y);
+	}
+
+
+	glutPostRedisplay();
+}
+
+void IG1App::mouseWheel(int n, int d, int x, int y)
+{
+	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
+
+	if (mdf == 0) {
+		mCamera->moveFB(d*40);
+	}
+	else if (mdf == GLUT_ACTIVE_CTRL) {
+
+		mCamera->setScale(d);
+	}
+
+	glutPostRedisplay();
+
 }
