@@ -62,9 +62,9 @@ IG1App::init()
 	mCamera = new Camera(mViewPort);
 	mScene = new Scene;
 
-	mCamera->set2D();
+	mCamera->set3D();
 	mScene->init();
-	mScene->setScene(0);
+	mScene->setScene(38);
 }
 
 void
@@ -119,45 +119,50 @@ void
 IG1App::display() const
 { // double buffering
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
+	if (!splitScreen) {
 
-	mScene->render(*mCamera); // uploads the viewport and camera to the GPU
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
 
-	glutSwapBuffers(); // swaps the front and back buffer
-}
+		mScene->render(*mCamera); // uploads the viewport and camera to the GPU
 
-void
-IG1App::displayV2() const
-{ // double buffering
+		glutSwapBuffers(); // swaps the front and back buffer
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
+	}
+	else {
 
-	Camera auxCam = *mCamera; // copiando mCamera
-	// el puerto de vista queda compartido (se copia el puntero )
-	Viewport auxVP = *mViewPort; // lo copiamos en una var. aux . para *
-	// el tamaño de los 4 puertos de vista es el mismo , lo configuramos
-	mViewPort->setSize(mWinW / 2, mWinH);
-	// igual que en resize , para que no cambie la escala ,
-	// tenemos que cambiar el tamaño de la ventana de vista de la cámara
-	auxCam.setSize(mViewPort->width(), mViewPort->height());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clears the back buffer
+
+		Camera auxCam = *mCamera; // copiando mCamera
+		// el puerto de vista queda compartido (se copia el puntero )
+		Viewport auxVP = *mViewPort; // lo copiamos en una var. aux . para *
+		// el tamaño de los 4 puertos de vista es el mismo , lo configuramos
+		mViewPort->setSize(mWinW / 2, mWinH);
+		// igual que en resize , para que no cambie la escala ,
+		// tenemos que cambiar el tamaño de la ventana de vista de la cámara
+		auxCam.setSize(mViewPort->width(), mViewPort->height());
+
+		mViewPort->setPos(0, 0);
+
+		auxCam.set3D();
+
+		mScene->render(auxCam);
+
+		mViewPort->setPos(mWinW / 2, 0);
+
+		auxCam.setCenital();
+		// renderizamos con la cámara y el puerto de vista configurados
+		mScene->render(auxCam);
+
+		*mViewPort = auxVP; // * restaurar el puerto de vista ( NOTA )
+
+		//mScene->render(*mCamera); // uploads the viewport and camera to the GPU
+
+		glutSwapBuffers(); // swaps the front and back buffer
+
+	}
 	
-	mViewPort->setPos(0, 0);
 
-	auxCam.set3D();
 
-	mScene->render(auxCam);
-
-	mViewPort->setPos(mWinW / 2, 0);
-
-	auxCam.setCenital();
-	// renderizamos con la cámara y el puerto de vista configurados
-	mScene->render(auxCam);
-
-	*mViewPort = auxVP; // * restaurar el puerto de vista ( NOTA )
-
-	//mScene->render(*mCamera); // uploads the viewport and camera to the GPU
-
-	glutSwapBuffers(); // swaps the front and back buffer
 }
 
 void
@@ -204,8 +209,8 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'u':
 			mScene->update();
-			//mCamera->orbit(10.0, 0.0);
-			mCamera->update();
+			mCamera->orbit(10.0, 0.0);
+			//mCamera->update();
 			break;
 		case 'U':
 			changeAutoUpdate();
@@ -236,6 +241,9 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'c':
 			mCamera->setCenital();
+			break;
+		case 'k':
+			splitScreen = !splitScreen;
 			break;
 
 		default:
