@@ -23,6 +23,7 @@ IG1App::close()
 void IG1App::update_()
 {
 	mScene->update();
+	mCamera->update();
 	glutPostRedisplay();
 }
 

@@ -13,7 +13,10 @@ Camera::Camera(Viewport* vp)
   , xLeft(-xRight)
   , yTop(vp->height() / 2.0)
   , yBot(-yTop)
-  , mViewPort(vp)
+  , mViewPort(vp),
+	mAng(0),
+	mRadio(100),
+	mSpeed(1)
 {
 	setPM();
 
@@ -147,6 +150,35 @@ void Camera::changePrj()
 {
 	bOrto = !bOrto;
 	setPM();
+}
+
+void Camera::update()
+{
+	mAng += mSpeed;
+
+	rollReal(-mSpeed);
+
+	mEye.x = cos(radians(mAng)) * mRadio;
+	mEye.y = sin(radians(mAng)) * mRadio;
+
+	mLook.x = cos(radians(mAng)) * mRadio;
+	mLook.y = sin(radians(mAng)) * mRadio;
+
+	setVM();
+}
+
+void Camera::orbit(GLdouble incAng, GLdouble incY)
+{
+	mAng += incAng;
+	mEye.x = mLook.x + cos(radians(mAng)) * mRadio;
+	mEye.z = mLook.z - sin(radians(mAng)) * mRadio;
+	mEye.y += incY;
+	setVM();
+
+}
+
+void Camera::setCenital()
+{
 }
 
 void Camera::setAxes()

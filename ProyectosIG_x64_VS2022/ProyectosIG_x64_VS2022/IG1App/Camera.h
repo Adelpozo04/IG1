@@ -56,6 +56,14 @@ public:
 
 	void changePrj();
 
+
+	void update();
+
+
+	void orbit(GLdouble incAng, GLdouble incY);
+
+	void setCenital();
+
 protected:
 	glm::dvec3 mEye = {0.0, 0.0, 500.0}; // camera's position
 	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
@@ -75,6 +83,11 @@ protected:
 	GLdouble mNearVal = 1, mFarVal = 10000; // view volume
 	GLdouble mScaleFact = 1;                // scale factor
 	bool bOrto = true;                      // orthogonal or perspective projection
+
+
+	GLdouble mRadio;
+	GLdouble mAng;
+	GLdouble mSpeed;
 
 	Viewport* mViewPort; // the viewport
 

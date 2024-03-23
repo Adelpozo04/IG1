@@ -96,7 +96,7 @@ void Scene::setScene(GLuint id)
 
 	mId = id;
 
-	bool ejes = false;
+	bool ejes = true;
 
 	if (ejes) {
 		gObjects.push_back(new EjesRGB(400.0));
@@ -107,7 +107,7 @@ void Scene::setScene(GLuint id)
 
 		//circunferencia magenta
 		gObjects.push_back(new RegularPolygon(50, 100));
-		gObjects[1]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
+		gObjects[0]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
 
 		//triangulo RGB
 		gObjects.push_back(new TriangleRGB(30, glm::dvec3(100, 0, 0),1.0));
