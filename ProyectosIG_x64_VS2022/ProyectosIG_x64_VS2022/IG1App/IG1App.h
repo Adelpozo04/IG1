@@ -48,6 +48,8 @@ protected:
 	void key(unsigned char key, int x, int y); // keypress event
 	void specialKey(int key, int x, int y);    // keypress event for special characters
 
+	void changem2Vista();
+
 
 	void mouse(int button, int state, int x, int y);
 
@@ -75,6 +77,11 @@ protected:
 	Camera* mCamera = nullptr;
 	// Graphics objects of the scene
 	Scene* mScene = nullptr;
+
+	// Viewport position and size
+	Viewport* mViewPort2 = nullptr;
+	// Camera position, view volume and projection
+	Camera* mCamera2 = nullptr;
 
 	Scene* mScene2 = nullptr;
 
