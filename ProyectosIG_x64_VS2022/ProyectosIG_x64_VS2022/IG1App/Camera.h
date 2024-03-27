@@ -25,6 +25,18 @@ public:
 	void yaw(GLdouble a);   // rotates a degrees on the Y axis
 	void roll(GLdouble a);  // rotates a degrees on the Z axis
 
+
+
+	void pitchReal(GLdouble a); // rotates a degrees on the X axis
+	void yawReal(GLdouble a);   // rotates a degrees on the Y axis
+	void rollReal(GLdouble a);  // rotates a degrees on the Z axis
+
+	void moveLR(GLdouble cs); // A izquierda/A derecha
+	void moveFB(GLdouble cs); // Adelante/Atrás
+	void moveUD(GLdouble cs); // Arriba/Abajo
+
+
+
 	// projection matrix
 	glm::dmat4 const& projMat() const { return mProjMat; };
 
@@ -32,6 +44,7 @@ public:
 	void setSize(GLdouble xw, GLdouble yh);
 	// updates the scale factor
 	void setScale(GLdouble s);
+
 
 	// transfers its viewport, the view matrix and projection matrix to the GPU
 	void upload() const
@@ -41,10 +54,24 @@ public:
 		uploadPM();
 	};
 
+	void changePrj();
+
+
+	void update();
+
+
+	void orbit(GLdouble incAng, GLdouble incY);
+
+	void setCenital();
+
 protected:
 	glm::dvec3 mEye = {0.0, 0.0, 500.0}; // camera's position
 	glm::dvec3 mLook = {0.0, 0.0, 0.0};  // target's position
 	glm::dvec3 mUp = {0.0, 1.0, 0.0};    // the up vector
+
+	glm::dvec3 mRight;
+	glm::dvec3 mUpward;
+	glm::dvec3 mFront;
 
 	glm::dmat4 mViewMat;   // view matrix = inverse of modeling matrix
 	void uploadVM() const; // transfers viewMat to the GPU
@@ -57,10 +84,20 @@ protected:
 	GLdouble mScaleFact = 1;                // scale factor
 	bool bOrto = true;                      // orthogonal or perspective projection
 
+
+	GLdouble mRadio;
+	GLdouble mAng;
+	GLdouble mSpeed;
+
 	Viewport* mViewPort; // the viewport
 
 	void setVM();
 	void setPM();
+
+
+	void setAxes();
+
+
 };
 
 #endif //_H_Camera_H_
