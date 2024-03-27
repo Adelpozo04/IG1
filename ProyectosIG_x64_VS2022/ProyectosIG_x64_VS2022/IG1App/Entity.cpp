@@ -488,7 +488,7 @@ void Box::render(glm::dmat4 const& modelViewMat) const
 
 		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_MODULATE);
+		mTexture->bind(GL_REPLACE);
 
 		renderBottomMesh(modelViewMat);
 		renderMainMesh(modelViewMat);
@@ -497,7 +497,7 @@ void Box::render(glm::dmat4 const& modelViewMat) const
 		//unbind front texture
 		mTexture->unbind();
 		//bind backTexture
-		mBackTexture->bind(GL_MODULATE);
+		mBackTexture->bind(GL_REPLACE);
 		//culling front face
 		glCullFace(GL_FRONT);
 
@@ -569,9 +569,6 @@ Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel,
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
 	mTexture = new Texture();
-
-
-
 	mTexture->load("Bmps/baldosaP.bmp");
 
 	yAngle = 0;
@@ -693,7 +690,6 @@ Grass::Grass(GLdouble w, GLdouble h, glm::dvec3 traslationVec )
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
 
-
 	mTexture = new Texture();
 	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
 }
@@ -724,7 +720,7 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 		//bind front texture
 		//mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_MODULATE);
+		mTexture->bind(GL_REPLACE);//sino,no funciona con las 2 camaras
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
@@ -792,7 +788,7 @@ void Photo::render(glm::dmat4 const& modelViewMat) const
 
 		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_MODULATE);
+		mTexture->bind(GL_REPLACE);
 		
 		dmat4 aMat = modelViewMat * translate(dmat4(1),dvec3(0,0.1,0)) * mModelMat * rotate(dmat4(1), radians(-90.0), dvec3(0, 1, 0)) * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
 		upload(aMat);
@@ -847,7 +843,7 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 
 		//bind front texture
 		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_MODULATE);
+		mTexture->bind(GL_REPLACE);
 
 		dmat4 aMat = modelViewMat*translate(mModelMat,traslationVec) * mModelMat * rotate(dmat4(1), radians(90.0), dvec3(1, 0, 0));
 		upload(aMat);

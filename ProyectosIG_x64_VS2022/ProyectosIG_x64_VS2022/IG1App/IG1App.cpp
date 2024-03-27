@@ -121,12 +121,8 @@ IG1App::iniWinOpenGL()
 	glutMotionFunc(s_motion);
 	glutMouseWheelFunc(s_mouseWheel);
 
-
 	cout << glGetString(GL_VERSION) << '\n';
 	cout << glGetString(GL_VENDOR) << '\n';
-
-
-
 }
 
 void
