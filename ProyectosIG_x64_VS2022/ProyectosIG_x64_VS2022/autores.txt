@@ -4,14 +4,8 @@ Samuel García Bazán
 Partes Opcionales:Todas
 Sistema Operativo : WINDOWS
 
-Con respecto a los comentarios que nos has puesto de la correcion anterior:
--El metodo update static ahora se llama s_update.
--Hemos puesto un bool de control para la creacion de los ejes
--No entendemos muy bien lo del Scene::free, en la anterior entrega ya habia un bucle eliminando todos los objetos de gObjects antes del resize, no sabemos que mas habría que poner.  
--Hemos mejorado los bucles de los colores del cubo
+IMPORTANTE: En el metodo update del camera.cpp, estan tanto el update del ejercicio 47, como el orbit.
+Comentar el que no se vaya a usar y dejar descomentado el que si.
 
--En general tendremos mas cuidado con los nombres de las clases y los métodos, pero debido al poco tiempo con el que hemos podido ver la correción(3 días antes de la entrega)
-y teniendo en cuenta que nos faltaban algunos apartados por terminar. Aplicaremos los cambios en los apartados de futuras entregas(refiriendonos también a cambiar los calculos de matrices
-del render al update).
 
 *No nos dejaba descargar el generador .zip de la entrega*
