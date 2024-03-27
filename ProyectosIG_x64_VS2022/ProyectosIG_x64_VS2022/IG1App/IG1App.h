@@ -69,13 +69,17 @@ protected:
 
 	void mouseWheel(int n, int d, int x, int y);
 
+	void changeM2Vista();
+
+
 	// Viewport position and size
 	Viewport* mViewPort = nullptr;
+	Viewport* mViewPort2 = nullptr;
 	// Camera position, view volume and projection
 	Camera* mCamera = nullptr;
+	Camera* mCamera2 = nullptr;
 	// Graphics objects of the scene
 	Scene* mScene = nullptr;
-
 	Scene* mScene2 = nullptr;
 
 	bool mStop = false; // main event processing loop
