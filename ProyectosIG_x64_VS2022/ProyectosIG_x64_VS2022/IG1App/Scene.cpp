@@ -149,6 +149,48 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
 		gObjects.push_back(new GlassParapet(200));
 	}
+	else if (mId == 57) {
+
+		auto sphere = new Sphere(200);
+
+		sphere->setColor(1.f,0.5,0);
+
+		gObjects.push_back(sphere);
+
+
+		auto copa = new Cylinder(100, 100, 100);
+		
+		dmat4 copaPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0));
+
+		copa->setModelMat(copaPos);
+
+		copa->setColor(1, 0, 0);
+
+		gObjects.push_back(copa);
+
+
+		
+		auto disk = new Disk(60, 140);
+		dmat4 sombreroPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1),radians(-90.0),dvec3(1,0,0));
+		
+		disk->setModelMat(sombreroPos);
+
+		disk->setColor(1, 0, 0);
+
+		gObjects.push_back(disk);
+
+		
+		
+		auto partialDisk = new PartialDisk(80, 100,90,180);
+		dmat4 smilePos = translate(dmat4(1),dvec3(0,0,180));
+		partialDisk->setModelMat(smilePos);
+		partialDisk->setColor(0, 1, 0);
+
+		gObjects.push_back(partialDisk);
+		
+		
+
+	}
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

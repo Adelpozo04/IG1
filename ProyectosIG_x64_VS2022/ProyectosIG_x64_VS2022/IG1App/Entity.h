@@ -226,5 +226,75 @@ public:
 };
 
 
+class QuadricEntity : public Abs_Entity {
+public:
+	QuadricEntity() {
+		q = gluNewQuadric();
+		red = green = blue = 0;
+	};
+	~QuadricEntity() { gluDeleteQuadric(q); };
+
+	void setColor(GLdouble _red, GLdouble _green, GLdouble _blue) {
+		red = _red;
+		green = _green;
+		blue = _blue;
+	}
+
+protected:
+	GLUquadricObj* q;
+
+	
+	GLdouble red;
+	GLdouble green;
+	GLdouble blue;
+};
+
+class Sphere : public QuadricEntity {
+public:
+	Sphere(GLdouble r); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+
+	
+protected:
+	GLdouble r;
+
+	
+};
+
+
+class Cylinder : public QuadricEntity {
+public:
+	Cylinder(GLdouble baseR, GLdouble topR,GLdouble height); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble baseRadio;
+	GLdouble topRadio;
+	GLdouble height;
+};
+
+class Disk : public QuadricEntity {
+public:
+
+	Disk(GLdouble innerRadio, GLdouble outerRadio); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadio;
+	GLdouble outerRadio;
+};
+
+class PartialDisk : public QuadricEntity {
+public:
+
+	PartialDisk(GLdouble innerRadio, GLdouble outerRadio,
+				GLdouble startAngle,GLdouble sweepAngle); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadio;
+	GLdouble outerRadio;
+	GLdouble startAngle;
+	GLdouble sweepAngle;
+
+};
+	
 
 #endif //_H_Entities_H_

@@ -173,7 +173,7 @@ void Camera::update()
 	*/
 	
 
-	orbit(1,0);
+	//orbit(1,0);
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)

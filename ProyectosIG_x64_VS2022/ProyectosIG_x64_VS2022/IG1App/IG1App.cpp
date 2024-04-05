@@ -82,7 +82,7 @@ IG1App::init()
 	mScene->init();
 	mScene2->init();
 
-	mScene->setScene(38);
+	mScene->setScene(57);
 	mScene2->setScene(0);
 
 }
@@ -182,8 +182,9 @@ IG1App::key(unsigned char key, int x, int y)
 	bool need_redisplay = true;
 
 	//seleccion de camara actual
-	auto& currentCam = mMouseCoord.x < mWinW/2 ? mCamera : mCamera2;
-	auto& currentScene = mMouseCoord.x < mWinW / 2 ? mScene : mScene2;
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
+
+	auto& currentScene = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mScene : mScene2;
 
 	switch (key) {
 		case 27:                     // Escape key
@@ -262,7 +263,8 @@ IG1App::specialKey(int key, int x, int y)
 	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
 
 	//seleccion de camara actual
-	auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
+
 
 	switch (key) {
 		case GLUT_KEY_RIGHT:
@@ -316,7 +318,7 @@ void IG1App::motion(int x, int y)
 	mMouseCoord = glm::dvec2(x, y);
 
 	//seleccion de camara actual
-	auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
 
 	if (mMouseButt == 0) {
 		//rotar 
@@ -337,7 +339,10 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 	int mdf = glutGetModifiers(); // returns the modifiers (Shift, Ctrl, Alt)
 
 	//seleccion de camara actual
-	auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
+
+
+
 
 	if (mdf == 0) {
 		currentCam->moveFB(d*40);
