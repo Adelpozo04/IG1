@@ -238,13 +238,17 @@ class QuadricEntity : public Abs_Entity {
 	protected:
 		GLUquadricObj* q;
 
+		glm::dvec3 traslationVec_;
+
+		glm::dvec3 colorVec_;
+
 };
 
 
 class Sphere : public QuadricEntity {
 public:
 
-	Sphere(GLdouble r); // r es el radio de la esfera
+	Sphere(GLdouble r, glm::dvec3 traslationVec, glm::dvec3 colorVec); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
@@ -257,7 +261,7 @@ protected:
 class Cylinder : public QuadricEntity {
 public:
 
-	Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height); // r es el radio de la esfera
+	Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height, glm::dvec3 traslationVec, glm::dvec3 colorVec); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
@@ -267,12 +271,13 @@ protected:
 	GLdouble topRadius_;
 
 	GLdouble height_;
+
 };
 
 class Disk : public QuadricEntity {
 public:
 
-	Disk(GLdouble innerRadius, GLdouble outerRadius); // r es el radio de la esfera
+	Disk(GLdouble innerRadius, GLdouble outerRadius, glm::dvec3 traslationVec, glm::dvec3 colorVec); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
@@ -286,7 +291,7 @@ protected:
 class PartialDisk: public QuadricEntity {
 public:
 
-	PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle); // r es el radio de la esfera
+	PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle, glm::dvec3 traslationVec, glm::dvec3 colorVec); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
@@ -298,6 +303,7 @@ protected:
 	GLdouble startAngle_;
 
 	GLdouble sweepAngle_;
+
 
 };
 

@@ -862,14 +862,25 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-Sphere::Sphere(GLdouble rr) { r = rr; }
+Sphere::Sphere(GLdouble rr, glm::dvec3 traslationVec, glm::dvec3 colorVec) {
+	
+	r = rr; 
+
+	traslationVec_ = traslationVec;
+
+	colorVec_ = colorVec;
+
+}
 void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
+
+	aMat = modelViewMat * translate(mModelMat, traslationVec_) * mModelMat;
+
 	upload(aMat);
 
 	// Aquí se puede fijar el color de la esfera así:
 	glEnable ( GL_COLOR_MATERIAL );
-	glColor3f (1.0, 0.6, 0.0);
+	glColor3f (colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
 	gluQuadricDrawStyle (q, GL_FILL);
@@ -878,18 +889,25 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	glColor3f (1.0 , 1.0 , 1.0);
 }
 
-Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height) :
+Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height, glm::dvec3 traslationVec, glm::dvec3 colorVec) :
 	baseRadius_(baseRadius), topRadius_(topRadius), height_(height)	{ 
+
+	traslationVec_ = traslationVec;
+
+	colorVec_ = colorVec;
 
 }
 
 void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
+
+	aMat = modelViewMat * translate(mModelMat, traslationVec_) * mModelMat;
+
 	upload(aMat);
 
 	// Aquí se puede fijar el color de la esfera así:
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(1.0, 0.6, 0.0);
+	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
 	gluQuadricDrawStyle(q, GL_FILL);
@@ -898,18 +916,25 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	glColor3f(1.0, 1.0, 1.0);
 }
 
-Disk::Disk(GLdouble innerRadius, GLdouble outerRadius) :
+Disk::Disk(GLdouble innerRadius, GLdouble outerRadius, glm::dvec3 traslationVec, glm::dvec3 colorVec) :
 	innerRadius_(innerRadius), outerRadius_(outerRadius) {
+
+	traslationVec_ = traslationVec;
+
+	colorVec_ = colorVec;
 
 }
 
 void Disk::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
+
+	aMat = modelViewMat * translate(mModelMat, traslationVec_) * mModelMat;
+
 	upload(aMat);
 
 	// Aquí se puede fijar el color de la esfera así:
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(1.0, 0.6, 0.0);
+	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
 	gluQuadricDrawStyle(q, GL_FILL);
@@ -920,18 +945,25 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 }
 
 
-PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle) :
+PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle, glm::dvec3 traslationVec, glm::dvec3 colorVec) :
 	innerRadius_(innerRadius), outerRadius_(outerRadius), startAngle_(startAngle), sweepAngle_(sweepAngle) {
+
+	traslationVec_ = traslationVec;
+
+	colorVec_ = colorVec;
 
 }
 
 void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
+
+	aMat = modelViewMat * translate(mModelMat, traslationVec_) * mModelMat;
+
 	upload(aMat);
 
 	// Aquí se puede fijar el color de la esfera así:
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(1.0, 0.6, 0.0);
+	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
 	gluQuadricDrawStyle(q, GL_FILL);

@@ -155,9 +155,9 @@ void Scene::setScene(GLuint id)
 	else if (mId == 58) {
 
 
-		//gObjects.push_back(new Sphere(100));
+		gObjects.push_back(new Sphere(100, dvec3(0, 0, 0), dvec3(1.0, 0.5, 0.0)));
 
-		gObjects.push_back(new Cylinder(100, 40, 30));
+		gObjects.push_back(new Cylinder(100, 40, 30, dvec3(100, 0, 0), dvec3(0.0, 1.0, 0.0)));
 	}
 
 
