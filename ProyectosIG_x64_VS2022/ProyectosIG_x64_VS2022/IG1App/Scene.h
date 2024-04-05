@@ -30,6 +30,8 @@ public:
 
 	void setScene(GLuint id);
 
+	void sceneDirLight(Camera const& cam) const;
+
 protected:
 	void free();
 	void setGL();
