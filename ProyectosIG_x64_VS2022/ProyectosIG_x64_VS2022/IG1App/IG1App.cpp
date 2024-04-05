@@ -69,7 +69,7 @@ IG1App::init()
 	mCamera->set3D();
 	mScene->init();
 	mScene2->init();
-	mScene->setScene(38);
+	mScene->setScene(58);
 	mScene2->setScene(0);
 }
 
@@ -338,11 +338,13 @@ IG1App::mouse(int button, int state, int x, int y) {
 void 
 IG1App::motion(int x, int y) {
 
-	auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
+	//auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
 
 	glm::dvec2 mp = mMouseCoord - glm::dvec2(x, y);
 
 	mMouseCoord = glm::dvec2(x, y);
+
+	auto currentCam = ((mMouseCoord.x < mWinW / 2) || !splitScreen) ? mCamera : mCamera2;
 
 	if (mMouseButt == 0) {
 
@@ -363,9 +365,11 @@ IG1App::motion(int x, int y) {
 void 
 IG1App::mouseWheel(int n, int d, int x, int y) {
 
-	auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
+	//auto& currentCam = mMouseCoord.x < mWinW / 2 ? mCamera : mCamera2;
 
 	int mdf = glutGetModifiers();
+
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !splitScreen) ? mCamera : mCamera2;
 
 	if (mdf == 0) {
 

@@ -152,6 +152,13 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
 		gObjects.push_back(new GlassParapet(200));
 	}
+	else if (mId == 58) {
+
+
+		//gObjects.push_back(new Sphere(100));
+
+		gObjects.push_back(new Cylinder(100, 40, 30));
+	}
 
 
 }
