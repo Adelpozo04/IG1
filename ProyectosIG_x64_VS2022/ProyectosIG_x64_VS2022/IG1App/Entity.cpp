@@ -996,14 +996,14 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 Advanced_TIE_X1::Advanced_TIE_X1()
 {
 	auto sphere = new Sphere(130);
-	sphere->setColor(0,65,106);
+	sphere->setColor(0,65/255.0,106/255.0);
 	addEntity(sphere);
 
 	
-	auto eje = new Cylinder(20, 20, 350);
-	dmat4 ejePos = translate(dmat4(1), dvec3(-175, 0, 0)) *rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	auto eje = new Cylinder(20, 20, 440);
+	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -220)) ;
 	eje->setModelMat(ejePos);
-	eje->setColor(0, 65, 106);
+	eje->setColor(0, 65 / 255.0, 106 / 255.0);
 	addEntity(eje);
 
 	auto morro = new Advanced_TIE_X1_Morro();
@@ -1012,8 +1012,15 @@ Advanced_TIE_X1::Advanced_TIE_X1()
 	addEntity(morro);
 	
 
-	auto wing = new WingAdvancedTIE();
-	addEntity(wing);
+	auto leftWing = new WingAdvancedTIE();
+	dmat4 leftWingPos = translate(dmat4(1), dvec3(0, 0, 85));
+	leftWing->setModelMat(leftWingPos);
+	addEntity(leftWing);
+
+	auto rightWing = new WingAdvancedTIE();
+	dmat4 rightWingPos = translate(dmat4(1), dvec3(0, 0, -85)) * rotate(dmat4(1),radians(180.0),dvec3(0,1,0));
+	rightWing->setModelMat(rightWingPos);
+	addEntity(rightWing);
 	
 }
 
@@ -1028,17 +1035,17 @@ Advanced_TIE_X1::~Advanced_TIE_X1()
 
 Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
 {
-	auto eje = new Cylinder(20, 20, 500);
-	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -250)) ;
+	auto eje = new Cylinder(20, 20, 300);
+	dmat4 ejePos = translate(dmat4(1), dvec3(-150, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
 	eje->setModelMat(ejePos);
-	eje->setColor(0, 65, 106);
+	eje->setColor(0, 65 / 255.0, 106 / 255.0);
 	addEntity(eje);
 
 
 	auto disk = new Disk(0, 20);
-	dmat4 diskPos = translate(dmat4(1), dvec3(0, 0, 250)) ;
+	dmat4 diskPos = translate(dmat4(1), dvec3(150, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
 	disk->setModelMat(diskPos);
-	disk->setColor(0, 65, 106);
+	disk->setColor(0, 65 / 255.0, 106 / 255.0);
 	gObjects.push_back(disk);
 
 }
@@ -1057,8 +1064,6 @@ WingAdvancedTIE::WingAdvancedTIE()
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateWingAdvancedTIE(150, 200);
-	//mMesh = Mesh::generateBoxOutlineTexCorTransparent(200);
-
 
 	mTexture = new Texture();
 	mTexture->load("Bmps/noche.bmp");
