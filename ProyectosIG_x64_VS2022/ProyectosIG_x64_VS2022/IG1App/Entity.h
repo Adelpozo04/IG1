@@ -325,4 +325,12 @@ public:
 	~Advanced_TIE_X1_Morro();
 };
 
+class WingAdvancedTIE : public Abs_Entity {
+public:
+	explicit WingAdvancedTIE();
+	~WingAdvancedTIE();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
 #endif //_H_Entities_H_

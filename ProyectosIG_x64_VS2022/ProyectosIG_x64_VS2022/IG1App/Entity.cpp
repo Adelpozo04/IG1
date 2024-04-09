@@ -863,7 +863,6 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 #pragma endregion
 
 
-
 #pragma region QuadricEntities
 
 Sphere::Sphere(GLdouble r) :
@@ -952,6 +951,9 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+
+#pragma region Compound Entity
+
 CompoundEntity::CompoundEntity()
 {
 }
@@ -987,6 +989,10 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 	gObjects.push_back(ae);
 }
 
+#pragma endregion
+
+
+#pragma region 
 Advanced_TIE_X1::Advanced_TIE_X1()
 {
 	auto sphere = new Sphere(130);
@@ -1005,6 +1011,9 @@ Advanced_TIE_X1::Advanced_TIE_X1()
 	morro->setModelMat(morroPos);
 	addEntity(morro);
 	
+
+	auto wing = new WingAdvancedTIE();
+	addEntity(wing);
 	
 }
 
@@ -1013,6 +1022,9 @@ Advanced_TIE_X1::~Advanced_TIE_X1()
 }
 
 
+#pragma endregion
+
+#pragma region Advanced_TIE_X1_Morro
 
 Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
 {
@@ -1034,3 +1046,60 @@ Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
 Advanced_TIE_X1_Morro::~Advanced_TIE_X1_Morro()
 {
 }
+
+#pragma endregion
+
+
+
+#pragma region WingAdvancedTIE
+
+WingAdvancedTIE::WingAdvancedTIE()
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateWingAdvancedTIE(100, 100);
+	mMesh = Mesh::generateBoxOutlineTexCorTransparent(200);
+
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/noche.bmp");
+}
+
+WingAdvancedTIE::~WingAdvancedTIE()
+{
+}
+
+void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+
+
+	}
+
+}
+#pragma endregion

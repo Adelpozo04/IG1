@@ -193,8 +193,6 @@ void Scene::setScene(GLuint id)
 		partialDisk->setModelMat(smilePos);
 		partialDisk->setColor(0, 1, 0);
 		gObjects.push_back(partialDisk);
-		
-		
 
 	}
 	else if (mId == 60) {//ejercicio del caza 

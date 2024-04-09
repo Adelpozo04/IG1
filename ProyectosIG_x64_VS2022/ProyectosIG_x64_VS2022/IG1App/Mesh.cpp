@@ -416,3 +416,8 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	return mesh;
 }
+
+Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
+{
+	return nullptr;
+}

@@ -26,6 +26,8 @@ public:
 	static Mesh* generateStar3D(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h);
 
+	//practica 4
+	static Mesh* generateWingAdvancedTIE(GLdouble radius, GLdouble width);
 
 
 	Mesh() = default;
