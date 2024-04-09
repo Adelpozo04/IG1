@@ -1035,15 +1035,15 @@ Advanced_TIE_X1::~Advanced_TIE_X1()
 
 Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
 {
-	auto eje = new Cylinder(20, 20, 300);
-	dmat4 ejePos = translate(dmat4(1), dvec3(-150, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	auto eje = new Cylinder(20, 20, 350);
+	dmat4 ejePos = translate(dmat4(1), dvec3(-175, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
 	eje->setModelMat(ejePos);
 	eje->setColor(0, 65 / 255.0, 106 / 255.0);
 	addEntity(eje);
 
 
 	auto disk = new Disk(0, 20);
-	dmat4 diskPos = translate(dmat4(1), dvec3(150, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	dmat4 diskPos = translate(dmat4(1), dvec3(175, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
 	disk->setModelMat(diskPos);
 	disk->setColor(0, 65 / 255.0, 106 / 255.0);
 	gObjects.push_back(disk);

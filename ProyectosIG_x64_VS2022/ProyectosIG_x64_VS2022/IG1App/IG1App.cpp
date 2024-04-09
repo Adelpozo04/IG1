@@ -22,7 +22,7 @@ IG1App::close()
 
 void IG1App::update_()
 {
-	if (mMouseCoord.x < mWinW/2) {
+	if (mMouseCoord.x < mWinW/2 || !m2Vista) {
 		mScene->update();
 		mCamera->update();
 	}
