@@ -313,4 +313,16 @@ public:
 };
 
 
+class Advanced_TIE_X1 : public CompoundEntity {
+public:
+	explicit Advanced_TIE_X1();
+	~Advanced_TIE_X1();
+};
+
+class Advanced_TIE_X1_Morro : public CompoundEntity {
+public:
+	explicit Advanced_TIE_X1_Morro();
+	~Advanced_TIE_X1_Morro();
+};
+
 #endif //_H_Entities_H_

@@ -82,7 +82,7 @@ IG1App::init()
 	mScene->init();
 	mScene2->init();
 
-	mScene->setScene(57);
+	mScene->setScene(60);
 	mScene2->setScene(0);
 
 }
@@ -340,8 +340,6 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 
 	//seleccion de camara actual
 	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
-
-
 
 
 	if (mdf == 0) {

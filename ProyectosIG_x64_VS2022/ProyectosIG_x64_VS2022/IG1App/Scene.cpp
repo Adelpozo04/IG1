@@ -79,9 +79,6 @@ Scene::render(Camera const& cam) const
 	for (Abs_Entity* el : gObjects) {
 		el->render(cam.viewMat());
 	}
-
-
-	
 }
 
 void Scene::update()
@@ -199,6 +196,11 @@ void Scene::setScene(GLuint id)
 		
 		
 
+	}
+	else if (mId == 60) {//ejercicio del caza 
+
+		gObjects.push_back(new Advanced_TIE_X1());
+		
 	}
 }
 

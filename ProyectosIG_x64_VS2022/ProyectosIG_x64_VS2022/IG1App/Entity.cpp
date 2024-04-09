@@ -937,7 +937,7 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// set clor
+	// set color
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(red, green, blue);
 
@@ -965,8 +965,15 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
 	glm::dmat4 aux;
 	for (auto& e : gObjects) {
+		//guardamos la modelMat
 		aux = e->modelMat();
+		//para mover toda la entidad a la vez
 		e->setModelMat(translate(aux, dvec3(0, 0, 0)));
+
+		e->render(modelViewMat);
+
+		//reseteamos la model mat
+		e->setModelMat(aux);
 	}
 }
 
@@ -978,4 +985,52 @@ void CompoundEntity::update()
 void CompoundEntity::addEntity(Abs_Entity* ae)
 {
 	gObjects.push_back(ae);
+}
+
+Advanced_TIE_X1::Advanced_TIE_X1()
+{
+	auto sphere = new Sphere(130);
+	sphere->setColor(0,65,106);
+	addEntity(sphere);
+
+	
+	auto eje = new Cylinder(20, 20, 350);
+	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -175)) ;
+	eje->setModelMat(ejePos);
+	eje->setColor(0, 65, 106);
+	addEntity(eje);
+
+	auto morro = new Advanced_TIE_X1_Morro();
+	dmat4 morroPos = translate(dmat4(1), dvec3(0, 0, 0));
+	morro->setModelMat(morroPos);
+	addEntity(morro);
+	
+	
+}
+
+Advanced_TIE_X1::~Advanced_TIE_X1()
+{
+}
+
+
+
+Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
+{
+	auto eje = new Cylinder(20, 20, 500);
+	dmat4 ejePos = translate(dmat4(1), dvec3(-250, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	eje->setModelMat(ejePos);
+	eje->setColor(0, 65, 106);
+	addEntity(eje);
+
+
+	auto disk = new Disk(0, 20);
+	dmat4 diskPos = translate(dmat4(1), dvec3(250, 0, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 90, 0));
+	disk->setModelMat(diskPos);
+	disk->setColor(0, 65, 106);
+	gObjects.push_back(disk);
+
+}
+
+Advanced_TIE_X1_Morro::~Advanced_TIE_X1_Morro()
+{
 }
