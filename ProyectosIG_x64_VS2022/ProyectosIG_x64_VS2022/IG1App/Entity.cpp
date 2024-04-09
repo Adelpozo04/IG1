@@ -875,13 +875,14 @@ Sphere::Sphere(GLdouble r) :
 void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// Set color
 	glEnable ( GL_COLOR_MATERIAL );
 	glColor3f (red,green,blue);
-	// Aquí se puede fijar el modo de dibujar la esfera :
+	//set draw mode 
 	gluQuadricDrawStyle (q, GLU_FILL);
+	//creacion de la entidad quadrica
 	gluSphere(q, r, 50, 50);
-	// Aquí se debe recuperar el color :
+	// reset color
 	glColor3f (1.0 , 1.0 , 1.0);
 }
 
@@ -894,14 +895,15 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// Set color
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(red, green, blue);
 
-	// Aquí se puede fijar el modo de dibujar la esfera :
+	//set draw mode 
 	gluQuadricDrawStyle(q, GLU_FILL);
+	//creacion de la entidad quadrica
 	gluCylinder(q,baseRadio,topRadio,height, 50, 50);
-	// Aquí se debe recuperar el color :
+	// reset color
 	glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -913,14 +915,15 @@ void Disk::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// set color
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(red, green, blue);
 
-	// Aquí se puede fijar el modo de dibujar la esfera :
+	//set draw mode
 	gluQuadricDrawStyle(q, GLU_FILL);
+	//creacion de la entidad quadrica
 	gluDisk(q, innerRadio, outerRadio, 50, 50);
-	// Aquí se debe recuperar el color :
+	// reset color
 	glColor3f(1.0, 1.0, 1.0);
 }
 
@@ -932,31 +935,47 @@ PartialDisk::PartialDisk(GLdouble innerRadio, GLdouble outerRadio, GLdouble star
 
 void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 {
-
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
-	// Aquí se puede fijar el color de la esfera así:
+	// set clor
 	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(red, green, blue);
 
-	// Aquí se puede fijar el modo de dibujar la esfera :
+	// set draw mode
 	gluQuadricDrawStyle(q, GLU_FILL);
+
+	//creacion de la entidad cuadrica
 	gluPartialDisk(q, innerRadio, outerRadio, 50, 50,startAngle,sweepAngle);
-	// Aquí se debe recuperar el color :
+	// reset color
 	glColor3f(1.0, 1.0, 1.0);
-
 }
-
-
-
-
-
-
-
-
-
-
 
 #pragma endregion
 
+CompoundEntity::CompoundEntity()
+{
+}
 
+CompoundEntity::~CompoundEntity()
+{
+	gObjects.clear();
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	glm::dmat4 aux;
+	for (auto& e : gObjects) {
+		aux = e->modelMat();
+		e->setModelMat(translate(aux, dvec3(0, 0, 0)));
+	}
+}
+
+void CompoundEntity::update()
+{
+	for (auto& e : gObjects) e->update();
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.push_back(ae);
+}

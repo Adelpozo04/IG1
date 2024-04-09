@@ -178,8 +178,6 @@ public:
 
 
 class GlassParapet : public Abs_Entity {
-
-
 public:
 
 	explicit GlassParapet(GLdouble longitud);
@@ -187,7 +185,6 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
-
 
 class Grass : public Abs_Entity {
 
@@ -201,8 +198,6 @@ public:
 };
 
 class Photo : public Abs_Entity {
-
-
 public:
 
 	explicit Photo(GLdouble w, GLdouble h);
@@ -217,7 +212,6 @@ class RectanglePhoto : public Abs_Entity {
 
 	glm::dvec3 traslationVec;
 
-
 public:
 
 	explicit RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
@@ -225,6 +219,8 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+
+#pragma region Entidades cuadricas
 
 class QuadricEntity : public Abs_Entity {
 public:
@@ -261,7 +257,6 @@ protected:
 	
 };
 
-
 class Cylinder : public QuadricEntity {
 public:
 	Cylinder(GLdouble baseR, GLdouble topR,GLdouble height); // r es el radio de la esfera
@@ -296,5 +291,26 @@ protected:
 
 };
 	
+#pragma endregion
+
+
+class CompoundEntity : public Abs_Entity {
+	
+protected:
+	std::vector<Abs_Entity*> gObjects;
+
+public:
+
+	explicit CompoundEntity();
+	~CompoundEntity();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+	void addEntity(Abs_Entity* ae);
+
+
+};
+
 
 #endif //_H_Entities_H_

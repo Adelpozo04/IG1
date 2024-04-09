@@ -149,52 +149,52 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
 		gObjects.push_back(new GlassParapet(200));
 	}
-	else if (mId == 57) {
+	else if (mId == 57) { //ejercicio del granjero
 
+		//cabeza naranja
 		auto sphere = new Sphere(200);
 		sphere->setColor(1.f,0.5,0);
 		gObjects.push_back(sphere);
 
-
+		//copa del sombrero
 		auto copa = new Cylinder(100, 100, 100);	
 		dmat4 copaPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0));
 		copa->setModelMat(copaPos);
 		copa->setColor(1, 0, 0);
 		gObjects.push_back(copa);
 
-
+		//nariz
 		auto nose = new Cylinder(50, 1, 100);
 		dmat4 nosePos = translate(dmat4(1), dvec3(0, 30, 180)) ;
 		nose->setModelMat(nosePos);
 		nose->setColor(0, 0, 1);
 		gObjects.push_back(nose);
 
-
+		//ojo izq
 		auto leftEye = new Cylinder(20, 1, 30);
 		dmat4 leftEyePos = translate(dmat4(1), dvec3(-65, 120, 150));
 		leftEye->setModelMat(leftEyePos);
 		leftEye->setColor(0, 1, 1);
 		gObjects.push_back(leftEye);
-
+		//ojo der
 		auto rightEye = new Cylinder(20, 1, 30);
 		dmat4 rightEyePos = translate(dmat4(1), dvec3(65, 120, 150));
 		rightEye->setModelMat(rightEyePos);
 		rightEye->setColor(0.5, 0.2,0.7);
 		gObjects.push_back(rightEye);
 
-		
+		//disco sombrero
 		auto disk = new Disk(60, 140);
 		dmat4 sombreroPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1),radians(-90.0),dvec3(1,0,0));	
 		disk->setModelMat(sombreroPos);
 		disk->setColor(1, 0, 0);
 		gObjects.push_back(disk);
 
-		
+		//sonrisa
 		auto partialDisk = new PartialDisk(80, 100,90,180);
 		dmat4 smilePos = translate(dmat4(1),dvec3(0,0,180));
 		partialDisk->setModelMat(smilePos);
 		partialDisk->setColor(0, 1, 0);
-
 		gObjects.push_back(partialDisk);
 		
 		
