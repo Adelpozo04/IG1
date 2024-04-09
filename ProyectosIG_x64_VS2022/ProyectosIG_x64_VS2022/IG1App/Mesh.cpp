@@ -419,5 +419,32 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
 {
-	return nullptr;
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 8;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	float angle = -25;
+
+	mesh->vVertices.emplace_back(width / 2, -radius, 0);
+	mesh->vVertices.emplace_back(-width / 2, -radius, 0);
+	mesh->vVertices.emplace_back(width / 2, -(radius + (sin(radians(angle))*radius)), cos(radians(angle)) *radius);
+	mesh->vVertices.emplace_back(-width / 2, -(radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+
+	mesh->vVertices.emplace_back(width / 2, (radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+	mesh->vVertices.emplace_back(-width / 2, (radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+	mesh->vVertices.emplace_back(width / 2, radius, 0);
+	mesh->vVertices.emplace_back(-width / 2, radius, 0);
+
+	//colores?
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+	}
+
+	return mesh;
 }

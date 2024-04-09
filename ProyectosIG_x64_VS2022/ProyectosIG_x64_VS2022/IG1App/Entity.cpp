@@ -1001,7 +1001,7 @@ Advanced_TIE_X1::Advanced_TIE_X1()
 
 	
 	auto eje = new Cylinder(20, 20, 350);
-	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -175)) ;
+	dmat4 ejePos = translate(dmat4(1), dvec3(-175, 0, 0)) *rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
 	eje->setModelMat(ejePos);
 	eje->setColor(0, 65, 106);
 	addEntity(eje);
@@ -1029,14 +1029,14 @@ Advanced_TIE_X1::~Advanced_TIE_X1()
 Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
 {
 	auto eje = new Cylinder(20, 20, 500);
-	dmat4 ejePos = translate(dmat4(1), dvec3(-250, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -250)) ;
 	eje->setModelMat(ejePos);
 	eje->setColor(0, 65, 106);
 	addEntity(eje);
 
 
 	auto disk = new Disk(0, 20);
-	dmat4 diskPos = translate(dmat4(1), dvec3(250, 0, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(0, 90, 0));
+	dmat4 diskPos = translate(dmat4(1), dvec3(0, 0, 250)) ;
 	disk->setModelMat(diskPos);
 	disk->setColor(0, 65, 106);
 	gObjects.push_back(disk);
@@ -1056,8 +1056,8 @@ Advanced_TIE_X1_Morro::~Advanced_TIE_X1_Morro()
 WingAdvancedTIE::WingAdvancedTIE()
 {
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateWingAdvancedTIE(100, 100);
-	mMesh = Mesh::generateBoxOutlineTexCorTransparent(200);
+	mMesh = Mesh::generateWingAdvancedTIE(150, 200);
+	//mMesh = Mesh::generateBoxOutlineTexCorTransparent(200);
 
 
 	mTexture = new Texture();
