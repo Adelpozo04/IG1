@@ -57,4 +57,28 @@ protected:
 	virtual void draw() const;
 };
 
+
+
+
+class IndexMesh : public Mesh {
+
+protected:
+	GLuint* vIndices = nullptr; // tabla de índices
+	GLuint nNumIndices = 0;
+
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	~IndexMesh() { delete[] vIndices; }
+
+	virtual void render() const;
+	virtual void draw() const;
+
+	IndexMesh(const IndexMesh& m) = delete;            // no copy constructor
+	IndexMesh& operator=(const IndexMesh& m) = delete; // no copy assignment
+
+
+	static IndexMesh* generateIndexedBox(GLdouble l);
+
+};
+
 #endif //_H_Scene_H_

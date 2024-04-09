@@ -4,8 +4,11 @@
 using namespace std;
 using namespace glm;
 
-void
-Mesh::draw() const
+#pragma region Mesh
+
+#pragma region Draw && render
+
+void Mesh::draw() const
 {
 	glDrawArrays(
 	  mPrimitive,
@@ -13,8 +16,7 @@ Mesh::draw() const
 	  size()); // primitive graphic, first index and number of elements to be rendered
 }
 
-void
-Mesh::render() const
+void Mesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
 
@@ -53,8 +55,11 @@ Mesh::render() const
 	}
 }
 
-Mesh*
-Mesh::createRGBAxes(GLdouble l)
+#pragma endregion
+
+#pragma region Generate meshs
+
+Mesh* Mesh::createRGBAxes(GLdouble l)
 {
 	Mesh* mesh = new Mesh();
 
@@ -88,9 +93,7 @@ Mesh::createRGBAxes(GLdouble l)
 	return mesh;
 }
 
-
-Mesh*
-Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
+Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 
 	Mesh* mesh = new Mesh();
 
@@ -111,8 +114,7 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 	return mesh;
 }
 
-Mesh*
-Mesh::generateTriangleRGB(GLdouble r) {
+Mesh* Mesh::generateTriangleRGB(GLdouble r) {
 
 	Mesh* mesh = generateRegularPolygon(3, r);
 
@@ -127,8 +129,7 @@ Mesh::generateTriangleRGB(GLdouble r) {
 	return mesh;
 }
 
-Mesh* 
-Mesh::generateRectangle(GLdouble w, GLdouble h) {
+Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
 
 	Mesh* mesh = new Mesh();
 
@@ -154,8 +155,7 @@ Mesh::generateRectangle(GLdouble w, GLdouble h) {
 	return mesh;
 }
 
-Mesh*
-Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
+Mesh* Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 	
 	Mesh* mesh = generateRectangle(w, h);
 
@@ -168,9 +168,7 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 	return mesh;
 }
 
-
-Mesh*
-Mesh::generateCube(GLdouble w) {
+Mesh* Mesh::generateCube(GLdouble w) {
 	//generamos un cubo a partir de 12 triangulos
 	//36 vertices
 
@@ -445,12 +443,41 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
 	mesh->vVertices.emplace_back(width / 2, radius, 0);
 	mesh->vVertices.emplace_back(-width / 2, radius, 0);
 
-	//colores?
+	//colores
 	mesh->vColors.reserve(mesh->mNumVertices);
 
 	for (int i = 0; i < mesh->mNumVertices; i++) {
-		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.8);
 	}
+
 
 	return mesh;
 }
+
+#pragma endregion
+
+#pragma endregion
+
+
+#pragma region IndexMesh
+
+
+
+void IndexMesh::render() const
+{
+}
+
+void IndexMesh::draw() const
+{
+}
+
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
+{
+	IndexMesh* iMesh = new IndexMesh();
+
+
+	return iMesh;
+}
+
+
+#pragma endregion
