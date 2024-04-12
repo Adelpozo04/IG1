@@ -305,6 +305,24 @@ protected:
 
 };
 
+class CompoundEntity : public Abs_Entity {
+
+private:
+
+	std::vector<Abs_Entity*> gObjects;
+
+public:
+
+	CompoundEntity();
+
+	~CompoundEntity();
+
+	void addEntity(Abs_Entity* ae);
+
+	virtual void render(glm::dmat4 const& modelViewMat) const override;
+
+};
+
 
 
 #endif //_H_Entities_H_
