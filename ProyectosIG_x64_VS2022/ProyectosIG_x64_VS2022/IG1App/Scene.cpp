@@ -243,11 +243,12 @@ void Scene::setScene(GLuint id)
 
 		Cylinder* cilindro3 = new Cylinder(30, 30, 40, dvec3(0.0, 0.25, 0.42));
 
+
 		Disk* disco = new Disk(0, 30, dvec3(0.0, 0.25, 0.42));
 
 		mAux = disco->modelMat();
 
-		mAux = translate(mAux, dvec3(0, 0, 40));
+		mAux = translate(mAux, dvec3(0, 0, 0));
 
 		disco->setModelMat(mAux);
 
@@ -267,6 +268,30 @@ void Scene::setScene(GLuint id)
 
 
 		gObjects.push_back(morro);
+		
+
+		WingAdvancedTIE* wing = new WingAdvancedTIE(200, 200, 100);
+
+		mAux = wing->modelMat();
+
+		mAux = translate(mAux, dvec3(-100, 0, 160));
+
+		wing->setModelMat(mAux);
+
+		gObjects.push_back(wing);
+
+
+		WingAdvancedTIE* wing2 = new WingAdvancedTIE(200, 200, 100);
+
+		mAux = wing2->modelMat();
+
+		mAux = rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
+
+		mAux = translate(mAux, dvec3(-100, 0, 160));
+
+		wing2->setModelMat(mAux);
+
+		gObjects.push_back(wing2);
 
 	}
 

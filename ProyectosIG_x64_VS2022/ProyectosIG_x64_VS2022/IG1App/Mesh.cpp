@@ -416,3 +416,59 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	return mesh;
 }
+
+
+Mesh* Mesh::generateWingAdvanceTie(GLdouble w, GLdouble h, GLdouble f) {
+
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 8;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, 3 * h / 4, -f/2);
+	points.emplace_back(0, 3 * h / 4, -f / 2);
+	points.emplace_back(w, h/2, 0);
+	points.emplace_back(0, h/2, 0);
+
+	points.emplace_back(w, -h / 2, 0);
+	points.emplace_back(0, -h / 2, 0);
+	points.emplace_back(w, -3 * h / 4, -f / 2);
+	points.emplace_back(0, -3 * h / 4, -f / 2);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+	}
+
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+
+	
+	return mesh;
+}

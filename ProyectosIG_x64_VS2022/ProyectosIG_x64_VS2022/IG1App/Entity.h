@@ -324,5 +324,21 @@ public:
 };
 
 
+class WingAdvancedTIE : public Abs_Entity {
+
+private:
+
+	
+
+public:
+
+	WingAdvancedTIE(GLdouble w, GLdouble h, GLdouble f);
+
+	~WingAdvancedTIE();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const override;
+
+};
+
 
 #endif //_H_Entities_H_

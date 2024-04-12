@@ -980,11 +980,60 @@ void CompoundEntity::addEntity(Abs_Entity* ae) {
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 
+	dmat4 aMat = modelViewMat * mModelMat;
+
 	for (int i = 0; i < gObjects.size(); ++i) {
 
-		gObjects[i]->setModelMat(mModelMat);
+		gObjects[i]->render(aMat);
 
-		gObjects[i]->render(modelViewMat);
+	}
+
+}
+
+WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLdouble f) {
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateWingAdvanceTie(w, h, f);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/noche.bmp");
+
+}
+
+WingAdvancedTIE::~WingAdvancedTIE() {
+
+}
+
+void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const {
+
+	if (mMesh != nullptr) {
+
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+
 
 	}
 
