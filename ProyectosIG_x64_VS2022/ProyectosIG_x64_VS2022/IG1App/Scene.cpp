@@ -206,6 +206,69 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(disco);
 
 	}
+	else if (mId == 60) {
+
+		
+		Sphere* esfera = new Sphere(100, dvec3(0.0, 0.25, 0.42));
+
+		gObjects.push_back(esfera);
+
+
+		Cylinder* cilindro0 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
+
+		glm::dmat4 mAux = cilindro0->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 0, 80));
+
+		cilindro0->setModelMat(mAux);
+
+		gObjects.push_back(cilindro0);
+
+
+		Cylinder* cilindro1 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
+
+		mAux = cilindro1->modelMat();
+
+		mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
+
+		mAux = translate(mAux, dvec3(0, 0, 80));
+
+		cilindro1->setModelMat(mAux);
+
+		gObjects.push_back(cilindro1);
+		
+		
+
+		CompoundEntity* morro = new CompoundEntity();
+
+		Cylinder* cilindro3 = new Cylinder(30, 30, 40, dvec3(0.0, 0.25, 0.42));
+
+		Disk* disco = new Disk(0, 30, dvec3(0.0, 0.25, 0.42));
+
+		mAux = disco->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 0, 40));
+
+		disco->setModelMat(mAux);
+
+
+		morro->addEntity(cilindro3);
+
+		morro->addEntity(disco);
+
+
+		mAux = morro->modelMat();
+
+		mAux = translate(mAux, dvec3(120, 0, 0));
+
+		mAux = rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
+
+		morro->setModelMat(mAux);
+
+
+		gObjects.push_back(morro);
+
+	}
 
 
 }

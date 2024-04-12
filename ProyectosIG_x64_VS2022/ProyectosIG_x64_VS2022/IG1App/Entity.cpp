@@ -982,6 +982,8 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 
 	for (int i = 0; i < gObjects.size(); ++i) {
 
+		gObjects[i]->setModelMat(mModelMat);
+
 		gObjects[i]->render(modelViewMat);
 
 	}
