@@ -31,6 +31,13 @@ Mesh::render() const
 			                                    // each component, stride, pointer
 		}
 
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+
+		}
+
+
 
 		if (vTexCoords.size() > 0) {
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -44,6 +51,7 @@ Mesh::render() const
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 }
 
