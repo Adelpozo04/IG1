@@ -965,17 +965,11 @@ CompoundEntity::~CompoundEntity()
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
-	glm::dmat4 aux;
+	dmat4 aMat = modelViewMat * mModelMat;
+
 	for (auto& e : gObjects) {
-		//guardamos la modelMat
-		aux = e->modelMat();
-		//para mover toda la entidad a la vez
-		e->setModelMat(translate(aux, dvec3(0, 0, 0)));
 
-		e->render(modelViewMat);
-
-		//reseteamos la model mat
-		e->setModelMat(aux);
+		e->render(aMat);
 	}
 }
 
@@ -992,7 +986,7 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 #pragma endregion
 
 
-#pragma region 
+#pragma region Advanced_TIE_X1
 Advanced_TIE_X1::Advanced_TIE_X1()
 {
 	auto sphere = new Sphere(130);
@@ -1100,9 +1094,6 @@ void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
-
 
 	}
 
