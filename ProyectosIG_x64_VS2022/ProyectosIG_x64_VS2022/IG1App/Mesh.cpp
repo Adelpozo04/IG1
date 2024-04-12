@@ -531,87 +531,67 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 {
 	IndexMesh* mesh = new IndexMesh();
 
-
-
 	mesh->mPrimitive = GL_TRIANGLES;
 
-	mesh->mNumVertices = 36;
+	mesh->mNumVertices = 8;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
 
-	//posiciones de los puntos
-	vector<glm::vec3> points;
-	points.reserve(8);
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
 
-	points.emplace_back(w, w, -w);
-	points.emplace_back(w, -w, -w);
-	points.emplace_back(-w, -w, -w);
-	points.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(w, w, w);
+	mesh->vVertices.emplace_back(w, -w, w);
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(-w, w, w);
 
-	points.emplace_back(w, w, w);
-	points.emplace_back(w, -w, w);
-	points.emplace_back(-w, -w, w);
-	points.emplace_back(-w, w, w);
 
 	//FACE 0
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[0]);
+	mesh->vIndices = new GLuint[36];
 
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[5]);
-
-	//FACE 1
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[1]);
-
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[5]);
-
-	//FACE 2
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[0]);
-
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[1]);
-
-	//FACE 3
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[0]);
-
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[7]);
-
-	//FACE 4
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[7]);
-
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[7]);
-
-	//FACE 5
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[3]);
-
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[2]);
-
+	mesh->vIndices[0] =  5;
+	mesh->vIndices[1] =  1;
+	mesh->vIndices[2] =  0;
+	mesh->vIndices[3] = 0;
+	mesh->vIndices[4] = 4;
+	mesh->vIndices[5] = 5;
+	mesh->vIndices[6] = 6;
+	mesh->vIndices[7] = 2;
+	mesh->vIndices[8] = 1;
+	mesh->vIndices[9] = 6;
+	mesh->vIndices[10] = 1;
+	mesh->vIndices[11] = 5;
+	mesh->vIndices[12] = 1;
+	mesh->vIndices[13] = 3;
+	mesh->vIndices[14] = 0;
+	mesh->vIndices[15] = 2;
+	mesh->vIndices[16] = 3;
+	mesh->vIndices[17] = 1;
+	mesh->vIndices[18] = 7;
+	mesh->vIndices[19] = 4;
+	mesh->vIndices[20] = 0;
+	mesh->vIndices[21] = 0;
+	mesh->vIndices[22] = 3;
+	mesh->vIndices[23] = 7;
+	mesh->vIndices[24] = 5;
+	mesh->vIndices[25] = 4;
+	mesh->vIndices[26] = 7;
+	mesh->vIndices[27] = 6;
+	mesh->vIndices[28] = 5;
+	mesh->vIndices[29] = 7;
+	mesh->vIndices[30] = 2;
+	mesh->vIndices[31] = 7;
+	mesh->vIndices[32] = 3;
+	mesh->vIndices[33] = 6;
+	mesh->vIndices[34] = 7;
+	mesh->vIndices[35] = 2;
 
 	//COLORES PARA LOS VERTICES
 
-	for (int i = 0; i < 36; i++) {	
+	for (int i = 0; i < 8; i++) {	
 		mesh->vColors.emplace_back(0, 1, 0, 1);
 	}
 
