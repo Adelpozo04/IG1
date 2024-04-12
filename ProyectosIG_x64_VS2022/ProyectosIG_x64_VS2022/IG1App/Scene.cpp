@@ -101,6 +101,7 @@ void Scene::setScene(GLuint id)
 	if (ejes) {
 		gObjects.push_back(new EjesRGB(400.0));
 	}
+	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
 
 	
 	if (mId == 0) {
@@ -199,9 +200,12 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 60) {//ejercicio del caza 
 
+		glClearColor(0, 0,0, 1); // background color (alpha=1 -> opaque)
+
 		gObjects.push_back(new Advanced_TIE_X1());
 		
 	}
+
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

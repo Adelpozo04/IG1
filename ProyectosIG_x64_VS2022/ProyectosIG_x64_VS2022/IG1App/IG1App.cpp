@@ -83,7 +83,7 @@ IG1App::init()
 	mScene2->init();
 
 	mScene->setScene(60);
-	mScene2->setScene(0);
+	//mScene2->setScene(0);
 
 }
 
