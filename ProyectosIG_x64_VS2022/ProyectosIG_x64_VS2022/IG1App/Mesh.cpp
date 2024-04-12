@@ -500,3 +500,9 @@ void IndexMesh::draw() const {
 	glDrawElements(mPrimitive, nNumIndices,
 		GL_UNSIGNED_INT, vIndices);
 }
+
+static IndexMesh::Mesh* generateIndexedBox(GLdouble l) {
+
+
+
+}

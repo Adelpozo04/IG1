@@ -57,6 +57,8 @@ protected:
 	virtual void draw() const;
 };
 
+
+
 class IndexMesh : public Mesh {
 protected:
 	GLuint* vIndices = nullptr; // tabla de índices
@@ -68,6 +70,9 @@ public:
 	~IndexMesh() { delete[] vIndices; }
 	virtual void render() const;
 	virtual void draw() const;
+
+	//practica 4
+	static Mesh* generateIndexedBox(GLdouble l);
 
 };
 
