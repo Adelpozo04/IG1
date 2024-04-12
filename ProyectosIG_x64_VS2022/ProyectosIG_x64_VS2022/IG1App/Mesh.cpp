@@ -475,19 +475,49 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
 
 void IndexMesh::render() const
 {
+	if (vVertices.size() > 0 ) { // transfer data
+
 		// Comandos OpenGL para enviar datos de arrays a GPU
 		// Nuevos comandos para la tabla de índices
+
+		// transfer the coordinates of the vertices
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(
+			3, GL_DOUBLE, 0, vVertices.data()); // number of coordinates per vertex, type of
+		// each coordinate, stride, pointer
+		if (vColors.size() > 0) {             // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(
+				4, GL_DOUBLE, 0, vColors.data()); // components number (rgba=4), type of
+			// each component, stride, pointer
+		}
+
+		if (vTexCoords.size() > 0) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+
+		}
+
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
+	
 		if (vIndices != nullptr) {
 			glEnableClientState(GL_INDEX_ARRAY);
 			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
 
-			draw();
+		draw();
 
-			// Comandos OpenGL para deshabilitar datos enviados
-			// Nuevo comando para la tabla de índices :
-			glDisableClientState(GL_INDEX_ARRAY);
-
-		}	
+		// Comandos OpenGL para deshabilitar datos enviados
+		// Nuevo comando para la tabla de índices :
+		glDisableClientState(GL_INDEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+	}
 }
 
 void IndexMesh::draw() const
@@ -497,12 +527,95 @@ void IndexMesh::draw() const
 
 }
 
-IndexMesh* IndexMesh::generateIndexedBox(GLdouble l)
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 {
-	IndexMesh* iMesh = new IndexMesh();
+	IndexMesh* mesh = new IndexMesh();
 
 
-	return iMesh;
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 36;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, w, -w);
+	points.emplace_back(w, -w, -w);
+	points.emplace_back(-w, -w, -w);
+	points.emplace_back(-w, w, -w);
+
+	points.emplace_back(w, w, w);
+	points.emplace_back(w, -w, w);
+	points.emplace_back(-w, -w, w);
+	points.emplace_back(-w, w, w);
+
+	//FACE 0
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[5]);
+
+	//FACE 1
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[5]);
+
+	//FACE 2
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[1]);
+
+	//FACE 3
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[7]);
+
+	//FACE 4
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[7]);
+
+	//FACE 5
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[3]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+
+
+	//COLORES PARA LOS VERTICES
+
+	for (int i = 0; i < 36; i++) {	
+		mesh->vColors.emplace_back(0, 1, 0, 1);
+	}
+
+	return mesh;
 }
 
 
