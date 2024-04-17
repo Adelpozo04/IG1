@@ -501,8 +501,108 @@ void IndexMesh::draw() const {
 		GL_UNSIGNED_INT, vIndices);
 }
 
-static IndexMesh::Mesh* generateIndexedBox(GLdouble l) {
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
+
+	IndexMesh* mesh = new IndexMesh();
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 36;
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
 
 
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(8);
+
+	points.emplace_back(w, w, -w);
+	points.emplace_back(w, -w, -w);
+	points.emplace_back(-w, -w, -w);
+	points.emplace_back(-w, w, -w);
+
+	points.emplace_back(w, w, w);
+	points.emplace_back(w, -w, w);
+	points.emplace_back(-w, -w, w);
+	points.emplace_back(-w, w, w);
+
+	for (int i = 0; i < 8; ++i) {
+
+		mesh->vNormals.push_back({ 0, 0, 0 });
+
+	}
+	
+
+	//FACE 0
+	mesh->vVertices.push_back(points[5]);
+	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(1.0, 0.0, 0.0);
+	mesh->vVertices.push_back(points[0]);
+	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(1.0, 0.0, 0.0);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
+
+	//FACE 1
+	mesh->vVertices.push_back(points[6]);
+	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(0.0, -1.0, 0.0);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, -1.0, 0.0);
+
+	//FACE 2
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[1]);
+
+	//FACE 3
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[7]);
+
+	//FACE 4
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[7]);
+
+	//FACE 5
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[3]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+
+	for (int i = 0; i < 36; i++) {
+		
+		mesh->vColors.push_back({0.0, 1.0, 0.0, 1.0});
+
+	}
 
 }

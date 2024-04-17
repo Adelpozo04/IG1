@@ -72,7 +72,7 @@ public:
 	virtual void draw() const;
 
 	//practica 4
-	static Mesh* generateIndexedBox(GLdouble l);
+	static IndexMesh* generateIndexedBox(GLdouble l);
 
 };
 
