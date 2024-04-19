@@ -537,8 +537,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->nNumIndices = 36;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
-	mesh->vColors.reserve(mesh->mNumVertices);
-
+	mesh->vNormals.reserve(mesh->mNumVertices);
 
 	mesh->vVertices.emplace_back(w, w, -w);
 	mesh->vVertices.emplace_back(w, -w, -w);
@@ -551,50 +550,57 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vVertices.emplace_back(-w, w, w);
 
 
-	//FACE 0
 	mesh->vIndices = new GLuint[36];
 
-	mesh->vIndices[0] =  5;
-	mesh->vIndices[1] =  1;
-	mesh->vIndices[2] =  0;
-	mesh->vIndices[3] = 0;
-	mesh->vIndices[4] = 4;
-	mesh->vIndices[5] = 5;
+	
+	mesh->vIndices[0] = 0;
+	mesh->vIndices[1] = 4;
+	mesh->vIndices[2] = 5;
+
+	mesh->vIndices[3] = 5;
+	mesh->vIndices[4] = 1;
+	mesh->vIndices[5] = 0;
+
+	
 	mesh->vIndices[6] = 6;
 	mesh->vIndices[7] = 2;
 	mesh->vIndices[8] = 1;
+
 	mesh->vIndices[9] = 6;
 	mesh->vIndices[10] = 1;
 	mesh->vIndices[11] = 5;
+
 	mesh->vIndices[12] = 1;
 	mesh->vIndices[13] = 3;
 	mesh->vIndices[14] = 0;
+
 	mesh->vIndices[15] = 2;
 	mesh->vIndices[16] = 3;
 	mesh->vIndices[17] = 1;
+
 	mesh->vIndices[18] = 7;
 	mesh->vIndices[19] = 4;
 	mesh->vIndices[20] = 0;
+
 	mesh->vIndices[21] = 0;
 	mesh->vIndices[22] = 3;
 	mesh->vIndices[23] = 7;
+
 	mesh->vIndices[24] = 5;
 	mesh->vIndices[25] = 4;
 	mesh->vIndices[26] = 7;
+
 	mesh->vIndices[27] = 6;
 	mesh->vIndices[28] = 5;
 	mesh->vIndices[29] = 7;
+
 	mesh->vIndices[30] = 2;
 	mesh->vIndices[31] = 7;
 	mesh->vIndices[32] = 3;
+	
 	mesh->vIndices[33] = 6;
 	mesh->vIndices[34] = 7;
 	mesh->vIndices[35] = 2;
-
-	//COLORES PARA LOS VERTICES	
-	for (int i = 0; i < 8; i++) {	
-		mesh->vColors.emplace_back(0, 0, 1, 1);
-	}
 
 	/*
 	for (int i = 0; i < 8; i++) {
@@ -622,6 +628,55 @@ void IndexMesh::buildNormalVectors()
 		return normaliza(n.x, n.y, n.z);
 	}
 	*/
+
+	/*
+	dvec3 n = dvec3(0, 0, 0);
+	for (int i = 0; i < 6; i++) {
+
+		n = dvec3(0, 0, 0);
+
+		for (int j = 0; j < 6; j++) {
+			auto vertActual = vVertices[vIndices[(i*6)+j  ]];
+			auto vertSiguiente = vVertices[vIndices[((i * 6) + j +1)%36]];
+
+			n.x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+			n.y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+			n.z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		}
+
+		normalize(n);
+
+		for (int j = i * 6; j < (i + 1) * 6; j++) {
+			vNormals.push_back(n);
+		}
+	}
+
+	*/
+	
+	for (int i = 0; i < mNumVertices; i++) {
+		vNormals.push_back(dvec3(0, 0, 0));
+	}
+
+	for (int i = 0; i < nNumIndices; i++) {
+
+		auto vertActual = vVertices[vIndices[i]];
+		auto vertSiguiente = vVertices[vIndices[(i+1)%nNumIndices]];
+
+		vNormals[vIndices[i]].x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+		vNormals[vIndices[i]].y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+		vNormals[vIndices[i]].z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+	}
+
+
+	for (int i = 0; i < mNumVertices; i++) {
+		vNormals[i] = normalize(vNormals[i]);
+	}
+
+	for (int i = 0; i < nNumIndices; i++) {
+		vColors.push_back(dvec4(1, 0, 0, 1));
+	}
+
+
 }
 
 

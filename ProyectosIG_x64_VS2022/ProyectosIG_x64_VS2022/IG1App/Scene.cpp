@@ -59,6 +59,8 @@ Scene::setGL()
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+	
 
 }
 void
@@ -69,6 +71,7 @@ Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
+	glDisable(GL_COLOR_MATERIAL);
 
 }
 
@@ -207,7 +210,9 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 63) {
 
-		gObjects.push_back(new Cubo(100));
+		auto cubo = new Cubo(100);
+		gObjects.push_back(cubo);
+		cubo->setColor(dvec4(0, 1, 0, 1));
 	}
 
 }

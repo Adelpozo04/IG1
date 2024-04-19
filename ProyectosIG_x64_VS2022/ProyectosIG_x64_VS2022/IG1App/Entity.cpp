@@ -1121,12 +1121,14 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 		//set config
 		glLineWidth(2);
 
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
 		mMesh->render();
 
-		aMat = rotate(aMat, radians(180.0), dvec3(0, 1, 0));
-
-		upload(aMat);
-		mMesh->render();
+		glColor4f(0,0,0,0);
 
 		//reset config
 		glLineWidth(1);
