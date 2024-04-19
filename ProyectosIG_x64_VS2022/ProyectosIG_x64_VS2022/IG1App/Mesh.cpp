@@ -539,19 +539,40 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vNormals.reserve(mesh->mNumVertices);
 
-	mesh->vVertices.emplace_back(w, w, -w);
-	mesh->vVertices.emplace_back(w, -w, -w);
-	mesh->vVertices.emplace_back(-w, -w, -w);
-	mesh->vVertices.emplace_back(-w, w, -w);
-
+	mesh->vVertices.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(-w, -w, w);
 	mesh->vVertices.emplace_back(w, w, w);
 	mesh->vVertices.emplace_back(w, -w, w);
-	mesh->vVertices.emplace_back(-w, -w, w);
-	mesh->vVertices.emplace_back(-w, w, w);
+
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
 
 
 	mesh->vIndices = new GLuint[36];
 
+	GLuint arr[36] = { 0, 1, 2, 1, 3, 2, 2, 3, 4,
+
+	3, 5, 4, 4, 5, 6, 5, 7, 6,
+
+		//diagonal como el resto en la cara lateral izquierda
+
+		//6, 7, 0, 7, 1, 0,
+
+		//diagonal al contrario del resto en la cara lateral izquierda
+
+		0, 6, 1, 6, 7, 1,
+
+		0, 2, 4, 4, 6, 0, 1, 5, 3, 1, 7, 5 
+	};
+
+	for (int i = 0; i < mesh->nNumIndices; i++) {
+		mesh->vIndices[i] = arr[i];
+	}
+
+
+	/*
 	
 	mesh->vIndices[0] = 0;
 	mesh->vIndices[1] = 4;
@@ -602,6 +623,8 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vIndices[34] = 7;
 	mesh->vIndices[35] = 2;
 
+	*/
+
 	/*
 	for (int i = 0; i < 8; i++) {
 		mesh->vNormals.emplace_back(1, 1, 1, 1);
@@ -644,13 +667,12 @@ void IndexMesh::buildNormalVectors()
 			n.z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
 		}
 
-		normalize(n);
+		n = normalize(n);
 
 		for (int j = i * 6; j < (i + 1) * 6; j++) {
 			vNormals.push_back(n);
 		}
 	}
-
 	*/
 	
 	for (int i = 0; i < mNumVertices; i++) {
@@ -671,12 +693,6 @@ void IndexMesh::buildNormalVectors()
 	for (int i = 0; i < mNumVertices; i++) {
 		vNormals[i] = normalize(vNormals[i]);
 	}
-
-	for (int i = 0; i < nNumIndices; i++) {
-		vColors.push_back(dvec4(1, 0, 0, 1));
-	}
-
-
 }
 
 
