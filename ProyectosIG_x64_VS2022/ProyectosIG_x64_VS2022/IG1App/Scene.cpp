@@ -205,6 +205,10 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new Advanced_TIE_X1());
 		
 	}
+	else if (mId == 63) {
+
+		gObjects.push_back(new Cubo(100));
+	}
 
 }
 

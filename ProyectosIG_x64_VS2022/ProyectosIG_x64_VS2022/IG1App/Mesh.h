@@ -79,6 +79,8 @@ public:
 
 	static IndexMesh* generateIndexedBox(GLdouble l);
 
+	void buildNormalVectors();
+
 };
 
 #endif //_H_Scene_H_

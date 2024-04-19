@@ -1050,8 +1050,6 @@ Advanced_TIE_X1_Morro::~Advanced_TIE_X1_Morro()
 
 #pragma endregion
 
-
-
 #pragma region WingAdvancedTIE
 
 WingAdvancedTIE::WingAdvancedTIE()
@@ -1099,3 +1097,44 @@ void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const
 
 }
 #pragma endregion
+
+Cubo::Cubo(GLdouble w)
+{
+	mMesh = new IndexMesh();
+	mMesh = IndexMesh::generateIndexedBox(w);
+}
+
+Cubo::~Cubo()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Cubo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat ; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mMesh->render();
+
+		aMat = rotate(aMat, radians(180.0), dvec3(0, 1, 0));
+
+		upload(aMat);
+		mMesh->render();
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Cubo::update()
+{
+}

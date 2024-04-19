@@ -294,6 +294,8 @@ protected:
 #pragma endregion
 
 
+#pragma region Entidades compuestas
+
 class CompoundEntity : public Abs_Entity {
 	
 protected:
@@ -311,7 +313,6 @@ public:
 
 
 };
-
 
 class Advanced_TIE_X1 : public CompoundEntity {
 public:
@@ -332,5 +333,28 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
+
+#pragma endregion
+
+class Cubo 
+	: public Abs_Entity {
+
+public:
+
+	explicit Cubo(GLdouble w);
+	~Cubo();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+private:
+
+
+
+};
+
+
+
+
 
 #endif //_H_Entities_H_

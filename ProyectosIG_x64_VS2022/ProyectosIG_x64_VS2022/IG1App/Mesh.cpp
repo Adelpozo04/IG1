@@ -534,6 +534,8 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->mPrimitive = GL_TRIANGLES;
 
 	mesh->mNumVertices = 8;
+	mesh->nNumIndices = 36;
+
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
@@ -589,13 +591,37 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vIndices[34] = 7;
 	mesh->vIndices[35] = 2;
 
-	//COLORES PARA LOS VERTICES
-
+	//COLORES PARA LOS VERTICES	
 	for (int i = 0; i < 8; i++) {	
-		mesh->vColors.emplace_back(0, 1, 0, 1);
+		mesh->vColors.emplace_back(0, 0, 1, 1);
 	}
 
+	/*
+	for (int i = 0; i < 8; i++) {
+		mesh->vNormals.emplace_back(1, 1, 1, 1);
+	}
+	*/
+
+	mesh->buildNormalVectors();
+
 	return mesh;
+}
+
+void IndexMesh::buildNormalVectors()
+{
+	/*
+	calculoVectorNormalPorNewell(Cara C) {
+		n = (0, 0, 0);
+		for i = 0 to C.numeroVertices{
+		vertActual = vertice[C - > getVerticeIndice(i)];
+		vertSiguiente = vertice[C - > getVerticeIndice((i + 1) % C.numeroVertices)];
+		n.x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+		n.y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+		n.z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		}
+		return normaliza(n.x, n.y, n.z);
+	}
+	*/
 }
 
 
