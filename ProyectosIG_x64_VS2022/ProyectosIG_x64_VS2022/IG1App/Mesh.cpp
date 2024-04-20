@@ -485,11 +485,14 @@ Mesh* Mesh::generateWingAdvanceTie(GLdouble w, GLdouble h, GLdouble f) {
 
 void IndexMesh::render() const {
 	// Comandos OpenGL para enviar datos de arrays a GPU
+	 	Mesh::render();
 	// Nuevos comandos para la tabla de índices
 		if (vIndices != nullptr) {
 			glEnableClientState(GL_INDEX_ARRAY);
 			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
 		}
+
+		
 	// Comandos OpenGL para deshabilitar datos enviados
 	// Nuevo comando para la tabla de índices :
 		glDisableClientState(GL_INDEX_ARRAY);
@@ -507,7 +510,8 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 
 	mesh->mPrimitive = GL_TRIANGLES;
 
-	mesh->mNumVertices = 36;
+	mesh->mNumVertices = 8;
+	mesh->nNumIndices = 24;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
@@ -516,93 +520,195 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	vector<glm::vec3> points;
 	points.reserve(8);
 
-	points.emplace_back(w, w, -w);
-	points.emplace_back(w, -w, -w);
-	points.emplace_back(-w, -w, -w);
-	points.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
 
-	points.emplace_back(w, w, w);
-	points.emplace_back(w, -w, w);
-	points.emplace_back(-w, -w, w);
-	points.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(w, w, w);
+	mesh->vVertices.emplace_back(w, -w, w);
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(-w, w, w);
 
 	for (int i = 0; i < 8; ++i) {
 
 		mesh->vNormals.push_back({ 0, 0, 0 });
 
 	}
+
+
+	mesh->vIndices[0] = 5;
+	mesh->vIndices[1] = 1;
+	mesh->vIndices[2] = 0;
+
+	mesh->vIndices[3] = 0;
+	mesh->vIndices[4] = 4;
+	mesh->vIndices[5] = 5;
+
+
+	mesh->vIndices[6] = 5;
+	mesh->vIndices[7] = 4;
+	mesh->vIndices[8] = 6;
+
+	mesh->vIndices[9] = 6;
+	mesh->vIndices[10] = 4;
+	mesh->vIndices[11] = 7;
+
+
+	mesh->vIndices[12] = 1;
+	mesh->vIndices[13] = 3;
+	mesh->vIndices[14] = 0;
+
+	mesh->vIndices[15] = 2;
+	mesh->vIndices[16] = 3;
+	mesh->vIndices[17] = 1;
+
+
+	mesh->vIndices[18] = 0;
+	mesh->vIndices[19] = 3;
+	mesh->vIndices[20] = 7;
+
+	mesh->vIndices[21] = 7;
+	mesh->vIndices[22] = 4;
+	mesh->vIndices[23] = 0;
+
+
+	mesh->vIndices[24] = 5;
+	mesh->vIndices[25] = 4;
+	mesh->vIndices[26] = 7;
+
+	mesh->vIndices[27] = 6;
+	mesh->vIndices[28] = 5;
+	mesh->vIndices[29] = 7;
+
+
+	mesh->vIndices[30] = 6;
+	mesh->vIndices[31] = 7;
+	mesh->vIndices[32] = 2;
+
+	mesh->vIndices[33] = 2;
+	mesh->vIndices[34] = 7;
+	mesh->vIndices[35] = 3;
+
 	
 
+	
+	/*
 	//FACE 0
-	mesh->vVertices.push_back(points[5]);
+	
 	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
-	mesh->vVertices.push_back(points[1]);
+	
 	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(1.0, 0.0, 0.0);
-	mesh->vVertices.push_back(points[0]);
+	
 	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
 
-	mesh->vVertices.push_back(points[0]);
+	
 	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
-	mesh->vVertices.push_back(points[4]);
+	
 	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(1.0, 0.0, 0.0);
-	mesh->vVertices.push_back(points[5]);
+	
 	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
 
 	//FACE 1
-	mesh->vVertices.push_back(points[6]);
+
+	
 	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
-	mesh->vVertices.push_back(points[2]);
+	
 	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(0.0, -1.0, 0.0);
-	mesh->vVertices.push_back(points[1]);
+	
 	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
 
-	mesh->vVertices.push_back(points[6]);
+	
 	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
-	mesh->vVertices.push_back(points[1]);
+	
 	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
-	mesh->vVertices.push_back(points[5]);
+	
 	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, -1.0, 0.0);
 
 	//FACE 2
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[0]);
+	
+	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, 0.0, -1.0);
+	
+	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 0.0, -1.0);
+	
+	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 0.0, -1.0);
 
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[1]);
+	
+	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(0.0, 0.0, -1.0);
+	
+	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 0.0, -1.0);
+	
+	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, 0.0, -1.0);
 
 	//FACE 3
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[0]);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 1.0, 0.0);
+	
+	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(0.0, 1.0, 0.0);
+	
+	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 1.0, 0.0);
 
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[7]);
+	
+	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 1.0, 0.0);
+	
+	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 1.0, 0.0);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 1.0, 0.0);
 
 	//FACE 4
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[7]);
+	
+	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, 0.0, 1.0);
+	
+	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(0.0, 0.0, 1.0);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 0.0, 1.0);
 
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[7]);
+	
+	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, 0.0, 1.0);
+	
+	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, 0.0, 1.0);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 0.0, 1.0);
 
 	//FACE 5
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[3]);
+	
+	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(-1.0, 0.0, 0.0);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(-1.0, 0.0, 0.0);
+	
+	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(-1.0, 0.0, 0.0);
 
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[2]);
+	
+	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(-1.0, 0.0, 0.0);
+	
+	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(-1.0, 0.0, 0.0);
+	
+	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(-1.0, 0.0, 0.0);
+	*/
+	
 
-	for (int i = 0; i < 36; i++) {
+	
+	for (int i = 0; i < mesh->nNumIndices; ++i) {
+
+		dvec3 vertActual = mesh->vVertices[mesh->vIndices[i]];
+		dvec3 vertSiguiente = mesh->vVertices[mesh->vIndices[(i + 1) % mesh->nNumIndices]];
+		mesh->vNormals[mesh->vIndices[i]].x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+		mesh->vNormals[mesh->vIndices[i]].y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+		mesh->vNormals[mesh->vIndices[i]].z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+
 		
-		mesh->vColors.push_back({0.0, 1.0, 0.0, 1.0});
-
 	}
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+		mesh->vNormals[i] = normalize(mesh->vNormals[i]);
+	}
+	
+	
+
+	for (int i = 0; i < 36; ++i) {
+		mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+	}
+
+	return mesh;
 
 }

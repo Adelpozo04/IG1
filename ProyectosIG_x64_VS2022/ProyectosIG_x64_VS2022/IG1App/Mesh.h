@@ -61,7 +61,7 @@ protected:
 
 class IndexMesh : public Mesh {
 protected:
-	GLuint* vIndices = nullptr; // tabla de índices
+	GLuint vIndices[36]; // tabla de índices
 	GLuint nNumIndices = 0;
 
 public:

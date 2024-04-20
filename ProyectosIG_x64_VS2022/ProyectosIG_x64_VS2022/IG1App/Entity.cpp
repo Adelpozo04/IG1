@@ -862,6 +862,57 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+#pragma endregion
+
+#pragma region IndexedBox
+
+
+IndexedBox::IndexedBox(GLdouble w)
+{
+	mModelMat = dmat4(1);
+	mIndexmesh = IndexMesh::generateIndexedBox(w);
+
+}
+
+IndexedBox::~IndexedBox()
+{
+
+	delete mIndexmesh;
+	mIndexmesh = nullptr;
+}
+
+void IndexedBox::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mIndexmesh != nullptr) {
+
+		dmat4 aMat = modelViewMat;
+		upload(aMat);
+
+		//set config
+		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_BACK, GL_FILL);
+		glLineWidth(2);
+
+		if (mColor.a != 0) {
+
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+
+		}
+
+		mIndexmesh->render();
+		mIndexmesh->draw();
+
+
+
+		//reset config
+		glLineWidth(1);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+#pragma endregion
+
 Sphere::Sphere(GLdouble rr, glm::dvec3 colorVec) {
 	
 	r = rr; 
@@ -981,6 +1032,8 @@ void CompoundEntity::addEntity(Abs_Entity* ae) {
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 
 	dmat4 aMat = modelViewMat * mModelMat;
+
+	upload(aMat);
 
 	for (int i = 0; i < gObjects.size(); ++i) {
 

@@ -34,6 +34,7 @@ public:
 
 protected:
 	Mesh* mMesh = nullptr; // the mesh
+	IndexMesh* mIndexmesh = nullptr;
 	glm::dmat4 mModelMat;  // modeling matrix
 
 	glm::dvec4 mColor; //colors
@@ -225,6 +226,19 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
 
+class IndexedBox : public Abs_Entity {
+public:
+
+	IndexedBox(GLdouble w); // r es el radio de la esfera
+	~IndexedBox();
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+
+
+};
+
 class QuadricEntity : public Abs_Entity {
 
 	public:
@@ -304,6 +318,7 @@ protected:
 
 
 };
+
 
 class CompoundEntity : public Abs_Entity {
 

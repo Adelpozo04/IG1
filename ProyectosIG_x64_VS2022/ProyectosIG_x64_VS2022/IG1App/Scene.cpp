@@ -59,6 +59,7 @@ Scene::setGL()
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+	glEnable(GL_COLOR_MATERIAL);
 
 
 }
@@ -69,6 +70,7 @@ Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
+	glDisable(GL_COLOR_MATERIAL);
 
 }
 
@@ -208,10 +210,12 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 60) {
 
+		CompoundEntity* nave = new CompoundEntity();
+
 		
 		Sphere* esfera = new Sphere(100, dvec3(0.0, 0.25, 0.42));
 
-		gObjects.push_back(esfera);
+		nave->addEntity(esfera);
 
 
 		Cylinder* cilindro0 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
@@ -222,7 +226,7 @@ void Scene::setScene(GLuint id)
 
 		cilindro0->setModelMat(mAux);
 
-		gObjects.push_back(cilindro0);
+		nave->addEntity(cilindro0);
 
 
 		Cylinder* cilindro1 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
@@ -235,7 +239,7 @@ void Scene::setScene(GLuint id)
 
 		cilindro1->setModelMat(mAux);
 
-		gObjects.push_back(cilindro1);
+		nave->addEntity(cilindro1);
 		
 		
 
@@ -267,7 +271,7 @@ void Scene::setScene(GLuint id)
 		morro->setModelMat(mAux);
 
 
-		gObjects.push_back(morro);
+		nave->addEntity(morro);
 		
 
 		WingAdvancedTIE* wing = new WingAdvancedTIE(200, 200, 100);
@@ -278,7 +282,7 @@ void Scene::setScene(GLuint id)
 
 		wing->setModelMat(mAux);
 
-		gObjects.push_back(wing);
+		nave->addEntity(wing);
 
 
 		WingAdvancedTIE* wing2 = new WingAdvancedTIE(200, 200, 100);
@@ -291,8 +295,25 @@ void Scene::setScene(GLuint id)
 
 		wing2->setModelMat(mAux);
 
-		gObjects.push_back(wing2);
+		nave->addEntity(wing2);
 
+		gObjects.push_back(nave);
+
+
+		mAux = nave->modelMat();
+
+		mAux = translate(mAux, dvec3(-100, 0, 0));
+
+		nave->setModelMat(mAux);
+
+
+
+	}
+	else if (mId == 64) {
+
+		IndexedBox* indBox = new IndexedBox(100);
+		gObjects.push_back(indBox);
+		indBox->setColor(dvec4(0.0, 1.0, 0.0, 1.0));
 	}
 
 
