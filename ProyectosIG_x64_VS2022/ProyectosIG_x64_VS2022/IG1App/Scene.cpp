@@ -55,7 +55,10 @@ void
 Scene::setGL()
 {
 	// OpenGL basic setting
+
 	glClearColor(0.6, 0.7, 0.8, 1.0); // background color (alpha=1 -> opaque)
+	
+	
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
@@ -344,6 +347,117 @@ void Scene::setScene(GLuint id)
 
 		gObjects.push_back(inventedNode2);
 
+
+	}
+	else if (mId == 67) {
+
+		glClearColor(0.0, 0.0, 0.0, 1.0);
+
+		CompoundEntity* nave = new CompoundEntity();
+
+
+		Sphere* esfera = new Sphere(100, dvec3(0.0, 0.25, 0.42));
+
+		nave->addEntity(esfera);
+
+
+		Cylinder* cilindro0 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
+
+		glm::dmat4 mAux = cilindro0->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 0, 80));
+
+		cilindro0->setModelMat(mAux);
+
+		nave->addEntity(cilindro0);
+
+
+		Cylinder* cilindro1 = new Cylinder(20, 20, 80, dvec3(0.0, 0.25, 0.42));
+
+		mAux = cilindro1->modelMat();
+
+		mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
+
+		mAux = translate(mAux, dvec3(0, 0, 80));
+
+		cilindro1->setModelMat(mAux);
+
+		nave->addEntity(cilindro1);
+
+
+
+		CompoundEntity* morro = new CompoundEntity();
+
+		Cylinder* cilindro3 = new Cylinder(30, 30, 40, dvec3(0.0, 0.25, 0.42));
+
+
+		Disk* disco = new Disk(0, 30, dvec3(0.0, 0.25, 0.42));
+
+		mAux = disco->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 0, 0));
+
+		disco->setModelMat(mAux);
+
+
+		morro->addEntity(cilindro3);
+
+		morro->addEntity(disco);
+
+
+		mAux = morro->modelMat();
+
+		mAux = translate(mAux, dvec3(120, 0, 0));
+
+		mAux = rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
+
+		morro->setModelMat(mAux);
+
+
+		nave->addEntity(morro);
+
+
+		WingAdvancedTIE* wing = new WingAdvancedTIE(200, 200, 100);
+
+		mAux = wing->modelMat();
+
+		mAux = translate(mAux, dvec3(-100, 0, 160));
+
+		wing->setModelMat(mAux);
+
+		nave->addEntity(wing);
+
+
+		WingAdvancedTIE* wing2 = new WingAdvancedTIE(200, 200, 100);
+
+		mAux = wing2->modelMat();
+
+		mAux = rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
+
+		mAux = translate(mAux, dvec3(-100, 0, 160));
+
+		wing2->setModelMat(mAux);
+
+		nave->addEntity(wing2);
+
+
+		mAux = nave->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 500, 0));
+
+		nave->setModelMat(mAux);
+
+		mAux = nave->modelMat();
+
+		mAux = scale(mAux, dvec3(0.1, 0.1, 0.1));
+
+		nave->setModelMat(mAux);
+
+		Sphere* planeta = new Sphere(300, dvec3(1.0, 0.8, 0.0));
+
+		gObjects.push_back(nave);
+
+		gObjects.push_back(planeta);
 
 	}
 
