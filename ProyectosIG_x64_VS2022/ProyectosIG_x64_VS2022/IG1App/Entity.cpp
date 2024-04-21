@@ -86,6 +86,12 @@ TriangleRGB::TriangleRGB( GLdouble r,dvec3 v,GLdouble rotVelX)
 	mMesh = Mesh::generateTriangleRGB(r);
 }
 
+TriangleRGB::TriangleRGB(GLdouble r)
+	: Abs_Entity()
+{
+	mMesh = Mesh::generateTriangleRGB(r);
+}
+
 TriangleRGB::~TriangleRGB()
 {
 	delete mMesh;
@@ -104,11 +110,14 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glPolygonMode(GL_BACK, GL_LINE);
 		
+		/*
+		dmat4 aMat = modelViewMat *
+			rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) *
+			translate(mModelMat, vectorTranslate) *
+			rotate(dmat4(1), radians(angleX * 3), dvec3(0, 0, 1));; // glm matrix multiplication
+		*/
+		dmat4 aMat = modelViewMat * mModelMat;
 
-		dmat4 aMat = modelViewMat * 
-						rotate(dmat4(1), radians(-angleX), dvec3(0, 0, 1)) * 
-						translate(mModelMat,vectorTranslate) * 
-						rotate(dmat4(1), radians(angleX*3), dvec3(0, 0, 1)); // glm matrix multiplication
 		upload(aMat);
 
 		mMesh->changePrimitive(GL_TRIANGLES);
@@ -145,13 +154,12 @@ TriangleRGB::render(dmat4 const& modelViewMat) const
 
 void TriangleRGB::update()
 {
-	angleX -= rotVelX;
+	//angleX -= rotVelX;
 }
 
 
 
 #pragma endregion
-
 
 #pragma region Rectangle
 
@@ -232,7 +240,6 @@ Rectangle_RGB::render(dmat4 const& modelViewMat) const
 
 #pragma endregion
 
-
 #pragma region Cube
 
 
@@ -294,6 +301,7 @@ void Cube::update() {
 }
 
 #pragma endregion
+
 
 
 #pragma region Ground
@@ -623,7 +631,6 @@ void Star3D::update()
 
 #pragma endregion
 
-
 #pragma region GlassParapet
 
 
@@ -682,7 +689,6 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 }
 
 #pragma endregion
-
 
 #pragma region Grass
 
@@ -813,7 +819,6 @@ void Photo::update() {
 }
 #pragma endregion
 
-
 #pragma region Rectangle Photo
 
 
@@ -864,6 +869,8 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+
+
 #pragma region IndexedBox
 
 
@@ -913,6 +920,7 @@ void IndexedBox::render(glm::dmat4 const& modelViewMat) const
 
 #pragma endregion
 
+#pragma region Sphere
 Sphere::Sphere(GLdouble rr, glm::dvec3 colorVec) {
 	
 	r = rr; 
@@ -935,7 +943,9 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 	// Aquí se debe recuperar el color :
 	glColor3f (1.0 , 1.0 , 1.0);
 }
+#pragma endregion
 
+#pragma region Cylinder
 Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height, glm::dvec3 colorVec) :
 	baseRadius_(baseRadius), topRadius_(topRadius), height_(height)	{ 
 
@@ -958,7 +968,9 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 	// Aquí se debe recuperar el color :
 	glColor3f(1.0, 1.0, 1.0);
 }
+#pragma endregion
 
+#pragma region Disk
 Disk::Disk(GLdouble innerRadius, GLdouble outerRadius, glm::dvec3 colorVec) :
 	innerRadius_(innerRadius), outerRadius_(outerRadius) {
 
@@ -982,8 +994,9 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 	// Aquí se debe recuperar el color :
 	glColor3f(1.0, 1.0, 1.0);
 }
+#pragma endregion
 
-
+#pragma region PartialDisk
 PartialDisk::PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle, glm::dvec3 colorVec) :
 	innerRadius_(innerRadius), outerRadius_(outerRadius), startAngle_(startAngle), sweepAngle_(sweepAngle) {
 
@@ -1008,10 +1021,18 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 	// Aquí se debe recuperar el color :
 	glColor3f(1.0, 1.0, 1.0);
 }
+#pragma endregion
 
 //COMPUND ENTITY	
 
+#pragma region CompoundEntity
 CompoundEntity::CompoundEntity() {
+
+
+
+}
+
+CompoundEntity::CompoundEntity(glm::dvec3 rotVec, GLdouble rotVel) : rotVec_(rotVec), rotVel_(rotVel) {
 
 
 
@@ -1043,6 +1064,21 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 
 }
 
+void CompoundEntity::update() {
+
+	setModelMat(rotate(modelMat(),
+		radians(rotVel_), rotVec_));
+
+	for (int i = 0; i < gObjects.size(); ++i) {
+
+		gObjects[i]->update();
+
+	}
+
+}
+#pragma endregion
+
+#pragma region WingAdvanceTIE
 WingAdvancedTIE::WingAdvancedTIE(GLdouble w, GLdouble h, GLdouble f) {
 
 	mModelMat = dmat4(1);
@@ -1091,7 +1127,7 @@ void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const {
 	}
 
 }
-
+#pragma endregion
 
 
 #pragma endregion

@@ -69,6 +69,7 @@ class TriangleRGB : public Abs_Entity {
 	GLdouble rotVelX;
 public:
 	explicit TriangleRGB(GLdouble r,glm::dvec3 v,GLdouble retVelX);
+	explicit TriangleRGB(GLdouble r);
 	~TriangleRGB();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -326,15 +327,23 @@ private:
 
 	std::vector<Abs_Entity*> gObjects;
 
+	glm::dvec3 rotVec_ = { 0, 0, 1 };
+
+	GLdouble rotVel_ = 3.0;
+
 public:
 
 	CompoundEntity();
+
+	CompoundEntity(glm::dvec3 rotVec, GLdouble rotVel);
 
 	~CompoundEntity();
 
 	void addEntity(Abs_Entity* ae);
 
 	virtual void render(glm::dmat4 const& modelViewMat) const override;
+
+	virtual void update() override;
 
 };
 

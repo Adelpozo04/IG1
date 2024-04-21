@@ -109,6 +109,7 @@ void Scene::setScene(GLuint id)
 
 	if (mId == 0) {
 
+		/*
 		//circunferencia magenta
 		gObjects.push_back(new RegularPolygon(50, 100));
 		//gObjects[1]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
@@ -119,6 +120,8 @@ void Scene::setScene(GLuint id)
 
 		//rectangulo
 		gObjects.push_back(new Rectangle_RGB(200, 100));
+		*/
+		
 	}
 	else if (mId == 1) {
 		gObjects.push_back(new Cube(100,false,1.f));
@@ -314,6 +317,34 @@ void Scene::setScene(GLuint id)
 		IndexedBox* indBox = new IndexedBox(100);
 		gObjects.push_back(indBox);
 		indBox->setColor(dvec4(0.0, 1.0, 0.0, 1.0));
+	}
+	else if (mId == 66) {
+
+		//circunferencia magenta
+		gObjects.push_back(new RegularPolygon(50, 100));
+		//gObjects[1]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
+
+		//rectangulo
+		gObjects.push_back(new Rectangle_RGB(200, 100));
+
+
+		CompoundEntity* inventedNode = new CompoundEntity();
+		CompoundEntity* inventedNode2 = new CompoundEntity({0, 0, 1}, 5);
+		TriangleRGB* tr = new TriangleRGB(30);
+		inventedNode->addEntity(tr);
+		inventedNode2->addEntity(inventedNode);
+
+		glm::dmat4 mAux;
+
+		mAux = inventedNode->modelMat();
+
+		mAux = translate(mAux, dvec3(100, 0, 0));
+
+		inventedNode->setModelMat(mAux);
+
+		gObjects.push_back(inventedNode2);
+
+
 	}
 
 
