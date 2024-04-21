@@ -511,7 +511,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	mesh->mPrimitive = GL_TRIANGLES;
 
 	mesh->mNumVertices = 8;
-	mesh->nNumIndices = 24;
+	mesh->nNumIndices = 36;
 	mesh->vVertices.reserve(mesh->mNumVertices);
 	mesh->vColors.reserve(mesh->mNumVertices);
 
@@ -520,15 +520,15 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	vector<glm::vec3> points;
 	points.reserve(8);
 
-	mesh->vVertices.emplace_back(w, w, -w);
-	mesh->vVertices.emplace_back(w, -w, -w);
-	mesh->vVertices.emplace_back(-w, -w, -w);
-	mesh->vVertices.emplace_back(-w, w, -w);
-
+	mesh->vVertices.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(-w, -w, w);
 	mesh->vVertices.emplace_back(w, w, w);
 	mesh->vVertices.emplace_back(w, -w, w);
-	mesh->vVertices.emplace_back(-w, -w, w);
-	mesh->vVertices.emplace_back(-w, w, w);
+
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
 
 	for (int i = 0; i < 8; ++i) {
 
@@ -537,58 +537,58 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	}
 
 
-	mesh->vIndices[0] = 5;
+	mesh->vIndices[0] = 0;
 	mesh->vIndices[1] = 1;
-	mesh->vIndices[2] = 0;
+	mesh->vIndices[2] = 2;
 
-	mesh->vIndices[3] = 0;
-	mesh->vIndices[4] = 4;
-	mesh->vIndices[5] = 5;
-
-
-	mesh->vIndices[6] = 5;
-	mesh->vIndices[7] = 4;
-	mesh->vIndices[8] = 6;
-
-	mesh->vIndices[9] = 6;
-	mesh->vIndices[10] = 4;
-	mesh->vIndices[11] = 7;
+	mesh->vIndices[3] = 1;
+	mesh->vIndices[4] = 3;
+	mesh->vIndices[5] = 2;
 
 
-	mesh->vIndices[12] = 1;
-	mesh->vIndices[13] = 3;
-	mesh->vIndices[14] = 0;
+	mesh->vIndices[6] = 2;
+	mesh->vIndices[7] = 3;
+	mesh->vIndices[8] = 4;
 
-	mesh->vIndices[15] = 2;
-	mesh->vIndices[16] = 3;
-	mesh->vIndices[17] = 1;
+	mesh->vIndices[9] = 3;
+	mesh->vIndices[10] = 5;
+	mesh->vIndices[11] = 4;
+
+
+	mesh->vIndices[12] = 4;
+	mesh->vIndices[13] = 5;
+	mesh->vIndices[14] = 6;
+
+	mesh->vIndices[15] = 5;
+	mesh->vIndices[16] = 7;
+	mesh->vIndices[17] = 6;
 
 
 	mesh->vIndices[18] = 0;
-	mesh->vIndices[19] = 3;
-	mesh->vIndices[20] = 7;
+	mesh->vIndices[19] = 6;
+	mesh->vIndices[20] = 1;
 
-	mesh->vIndices[21] = 7;
-	mesh->vIndices[22] = 4;
-	mesh->vIndices[23] = 0;
-
-
-	mesh->vIndices[24] = 5;
-	mesh->vIndices[25] = 4;
-	mesh->vIndices[26] = 7;
-
-	mesh->vIndices[27] = 6;
-	mesh->vIndices[28] = 5;
-	mesh->vIndices[29] = 7;
+	mesh->vIndices[21] = 6;
+	mesh->vIndices[22] = 7;
+	mesh->vIndices[23] = 1;
 
 
-	mesh->vIndices[30] = 6;
-	mesh->vIndices[31] = 7;
-	mesh->vIndices[32] = 2;
+	mesh->vIndices[24] = 0;
+	mesh->vIndices[25] = 2;
+	mesh->vIndices[26] = 4;
 
-	mesh->vIndices[33] = 2;
+	mesh->vIndices[27] = 4;
+	mesh->vIndices[28] = 6;
+	mesh->vIndices[29] = 0;
+
+
+	mesh->vIndices[30] = 1;
+	mesh->vIndices[31] = 5;
+	mesh->vIndices[32] = 3;
+
+	mesh->vIndices[33] = 1;
 	mesh->vIndices[34] = 7;
-	mesh->vIndices[35] = 3;
+	mesh->vIndices[35] = 5;
 
 	
 
