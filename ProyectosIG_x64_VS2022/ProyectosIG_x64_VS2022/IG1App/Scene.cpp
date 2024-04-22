@@ -91,6 +91,16 @@ void Scene::update()
 	for (auto& o : gObjects) {
 		o->update();
 	}
+
+	if (inventedNodeCircunference != nullptr && inventedNodeTriangle != nullptr)
+	{
+		inventedNodeCircunference->setModelMat(rotate(inventedNodeCircunference->modelMat(),
+			radians(3.0), dvec3(0, 0, 1)));
+
+		inventedNodeTriangle->setModelMat(rotate(inventedNodeTriangle->modelMat(),
+			radians(3.0), dvec3(0, 0, 1)));
+	}
+
 }
 
 void Scene::setScene(GLuint id)
@@ -214,6 +224,25 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(cubo);
 		cubo->setColor(dvec4(0, 1, 0, 1));
 	}
+	else if(mId == 66)
+	{
+		//auto triangle = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
+		//gObjects.push_back(triangle);
+
+		inventedNodeTriangle = new CompoundEntity();
+		TriangleRGB* tr = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
+		inventedNodeTriangle->addEntity(tr);
+
+		inventedNodeCircunference = new CompoundEntity();
+
+		inventedNodeCircunference->addEntity(inventedNodeTriangle);
+		inventedNodeTriangle->setModelMat(translate(inventedNodeCircunference->modelMat(),
+			dvec3(300, 0, 0)));
+
+		gObjects.push_back(inventedNodeCircunference);
+
+	}
+
 
 }
 
