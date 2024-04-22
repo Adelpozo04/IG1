@@ -82,7 +82,7 @@ IG1App::init()
 	mScene->init();
 	mScene2->init();
 
-	mScene->setScene(67);
+	mScene->setScene(68);
 	//mCamera->set2D();//activar para el 66
 	//mScene2->setScene(0);
 
@@ -246,6 +246,12 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'k':
 			changeM2Vista();
+			break;
+		case 'f':
+			mScene->SwitchRotate();
+			break;
+		case 'g':
+			mScene->SwitchOrbit();
 			break;
 		default:
 			need_redisplay = false;

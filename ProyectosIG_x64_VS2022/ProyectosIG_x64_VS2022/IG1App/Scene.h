@@ -32,6 +32,10 @@ public:
 
 	void sceneDirLight(Camera const& cam) const;
 
+	void SwitchRotate();
+
+	void SwitchOrbit();
+
 protected:
 	void free();
 	void setGL();
@@ -41,8 +45,16 @@ protected:
 
 	GLuint mId;
 
-	CompoundEntity* inventedNodeTriangle = nullptr;
-	CompoundEntity* inventedNodeCircunference = nullptr;
+	CompoundEntity* inventedNode1 = nullptr;
+	CompoundEntity* inventedNode2 = nullptr;
+
+	bool rotateActive = false;
+	bool orbitActive = false;
+
+	void rotate();
+
+	void orbit();
+
 };
 
 #endif //_H_Scene_H_

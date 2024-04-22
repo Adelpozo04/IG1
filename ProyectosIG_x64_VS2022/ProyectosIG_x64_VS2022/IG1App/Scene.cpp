@@ -40,6 +40,7 @@ Scene::init()
 
 	
 }
+
 void
 Scene::free()
 { // release memory and resources
@@ -75,6 +76,18 @@ Scene::resetGL()
 
 }
 
+void Scene::rotate()
+{
+	inventedNode1->setModelMat(glm::rotate(inventedNode1->modelMat(),
+		radians(2.0), dvec3(0, 0, 1)));
+}
+
+void Scene::orbit()
+{
+	inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
+		radians(1.0), dvec3(0, 0, 1)));
+}
+
 void
 Scene::render(Camera const& cam) const
 {
@@ -92,13 +105,18 @@ void Scene::update()
 		o->update();
 	}
 
-	if (inventedNodeCircunference != nullptr && inventedNodeTriangle != nullptr)
+	if (mId == 66 && inventedNode2 != nullptr && inventedNode1 != nullptr)
 	{
-		inventedNodeCircunference->setModelMat(rotate(inventedNodeCircunference->modelMat(),
+		inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
 			radians(3.0), dvec3(0, 0, 1)));
 
-		inventedNodeTriangle->setModelMat(rotate(inventedNodeTriangle->modelMat(),
+		inventedNode1->setModelMat(glm::rotate(inventedNode1->modelMat(),
 			radians(3.0), dvec3(0, 0, 1)));
+	}
+
+	if (mId == 68){
+		if (rotateActive) rotate();
+		if (orbitActive) orbit();
 	}
 
 }
@@ -171,7 +189,7 @@ void Scene::setScene(GLuint id)
 
 		//copa del sombrero
 		auto copa = new Cylinder(100, 100, 100);	
-		dmat4 copaPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0));
+		dmat4 copaPos = translate(dmat4(1), dvec3(0, 180, 0)) * glm::rotate(dmat4(1), radians(-90.0), dvec3(1, 0, 0));
 		copa->setModelMat(copaPos);
 		copa->setColor(1, 0, 0);
 		gObjects.push_back(copa);
@@ -198,7 +216,7 @@ void Scene::setScene(GLuint id)
 
 		//disco sombrero
 		auto disk = new Disk(60, 140);
-		dmat4 sombreroPos = translate(dmat4(1), dvec3(0, 180, 0)) * rotate(dmat4(1),radians(-90.0),dvec3(1,0,0));	
+		dmat4 sombreroPos = translate(dmat4(1), dvec3(0, 180, 0)) * glm::rotate(dmat4(1),radians(-90.0),dvec3(1,0,0));
 		disk->setModelMat(sombreroPos);
 		disk->setColor(1, 0, 0);
 		gObjects.push_back(disk);
@@ -226,17 +244,17 @@ void Scene::setScene(GLuint id)
 	}
 	else if(mId == 66)
 	{
-		inventedNodeTriangle = new CompoundEntity();
+		inventedNode1 = new CompoundEntity();
 		TriangleRGB* tr = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
-		inventedNodeTriangle->addEntity(tr);
+		inventedNode1->addEntity(tr);
 
-		inventedNodeCircunference = new CompoundEntity();
+		inventedNode2 = new CompoundEntity();
 
-		inventedNodeCircunference->addEntity(inventedNodeTriangle);
-		inventedNodeTriangle->setModelMat(translate(inventedNodeCircunference->modelMat(),
+		inventedNode2->addEntity(inventedNode1);
+		inventedNode1->setModelMat(translate(inventedNode2->modelMat(),
 			dvec3(300, 0, 0)));
 
-		gObjects.push_back(inventedNodeCircunference);
+		gObjects.push_back(inventedNode2);
 	}
 	else if (mId == 67) {
 
@@ -253,7 +271,33 @@ void Scene::setScene(GLuint id)
 		caza->setModelMat(translate(dmat4(1), dvec3(0, 2150, 0)));
 		gObjects.push_back(caza);
 
+	}
+	else if (mId == 68) {
 
+		glClearColor(0, 0, 0, 1); // background color (alpha=1 -> opaque)
+
+		//planeta
+		auto sphere = new Sphere(2000);
+		sphere->setColor(1.f, 233 / 255.0, 0);
+
+
+		inventedNode1 = new CompoundEntity();
+		auto caza = new Advanced_TIE_X1();
+		caza->setModelMat(translate(inventedNode1->modelMat(), dvec3(0, 0, 0)));
+		inventedNode1->addEntity(caza);
+
+		inventedNode2 = new CompoundEntity();
+
+		inventedNode2->addEntity(sphere);
+
+
+		inventedNode2->addEntity(inventedNode1);
+		inventedNode1->setModelMat(translate(inventedNode2->modelMat(),
+			dvec3(0, 2150, 0)));
+
+		inventedNode2->setModelMat(translate(inventedNode2->modelMat(), dvec3(0, -3000, 0)));
+
+		gObjects.push_back(inventedNode2);	
 	}
 
 
@@ -272,4 +316,14 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+}
+
+void Scene::SwitchRotate()
+{
+	rotateActive = !rotateActive;
+}
+
+void Scene::SwitchOrbit()
+{
+	orbitActive = !orbitActive;
 }

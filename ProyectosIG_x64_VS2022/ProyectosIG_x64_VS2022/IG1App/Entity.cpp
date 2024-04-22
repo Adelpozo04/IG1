@@ -968,7 +968,7 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 	dmat4 aMat = modelViewMat * mModelMat;
 
 	for (auto& e : gObjects) {
-
+		//upload(aMat);
 		e->render(aMat);
 	}
 }
