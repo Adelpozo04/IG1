@@ -226,9 +226,6 @@ void Scene::setScene(GLuint id)
 	}
 	else if(mId == 66)
 	{
-		//auto triangle = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
-		//gObjects.push_back(triangle);
-
 		inventedNodeTriangle = new CompoundEntity();
 		TriangleRGB* tr = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
 		inventedNodeTriangle->addEntity(tr);
@@ -240,6 +237,22 @@ void Scene::setScene(GLuint id)
 			dvec3(300, 0, 0)));
 
 		gObjects.push_back(inventedNodeCircunference);
+	}
+	else if (mId == 67) {
+
+		glClearColor(0, 0, 0, 1); // background color (alpha=1 -> opaque)
+
+
+		//planeta
+		auto sphere = new Sphere(2000);
+		sphere->setColor(1.f, 233/255.0, 0);
+		gObjects.push_back(sphere);
+
+		auto caza = new Advanced_TIE_X1();
+
+		caza->setModelMat(translate(dmat4(1), dvec3(0, 2150, 0)));
+		gObjects.push_back(caza);
+
 
 	}
 
