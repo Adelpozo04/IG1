@@ -237,6 +237,12 @@ IG1App::key(unsigned char key, int x, int y)
 		case 's':
 			currentCam->moveUD(-5);
 			break;
+		case 'f':
+			currentScene->rotated();
+			break;
+		case 'g':
+			currentScene->orbited();
+			break;
 		case 'W':
 			currentCam->moveFB(5);
 			break;

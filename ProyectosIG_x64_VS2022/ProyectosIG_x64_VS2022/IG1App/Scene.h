@@ -32,6 +32,10 @@ public:
 
 	void sceneDirLight(Camera const& cam) const;
 
+	void rotated();
+
+	void orbited();
+
 protected:
 	void free();
 	void setGL();

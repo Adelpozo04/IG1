@@ -97,6 +97,33 @@ void Scene::update()
 	}
 }
 
+void Scene::rotated() {
+
+
+	if (mId = 67) {
+
+		glm::dmat4 aux = gObjects[1]->modelMat();
+
+		gObjects[1]->setModelMat(rotate(aux,
+			radians(3.0), { 0.0, 1.0, 0.0 }));
+		
+	}
+
+}
+
+void Scene::orbited() {
+
+	if (mId = 67) {
+
+		glm::dmat4 aux = gObjects[1]->modelMat();
+
+		gObjects[1]->setModelMat(rotate(aux,
+			radians(3.0), { 0.0, 0.0, -1.0 }));
+
+	}
+
+}
+
 void Scene::setScene(GLuint id)
 {
 	free();
@@ -207,7 +234,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = translate(mAux, dvec3(0, 80, 0));
 
-		mAux = rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
+		mAux = glm::rotate(mAux, radians(90.0), dvec3(1.0, 0.0, 0.0));
 
 		disco->setModelMat(mAux);
 
@@ -239,7 +266,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = cilindro1->modelMat();
 
-		mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
+		mAux = glm::rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
 
 		mAux = translate(mAux, dvec3(0, 0, 80));
 
@@ -272,7 +299,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = translate(mAux, dvec3(120, 0, 0));
 
-		mAux = rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
+		mAux = glm::rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
 
 		morro->setModelMat(mAux);
 
@@ -295,7 +322,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = wing2->modelMat();
 
-		mAux = rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
+		mAux = glm::rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
 
 		mAux = translate(mAux, dvec3(-100, 0, 160));
 
@@ -376,7 +403,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = cilindro1->modelMat();
 
-		mAux = rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
+		mAux = glm::rotate(mAux, radians(180.0), dvec3(1.0, 0.0, 0.0));
 
 		mAux = translate(mAux, dvec3(0, 0, 80));
 
@@ -409,7 +436,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = translate(mAux, dvec3(120, 0, 0));
 
-		mAux = rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
+		mAux = glm::rotate(mAux, radians(270.0), dvec3(0.0, 1.0, 0.0));
 
 		morro->setModelMat(mAux);
 
@@ -432,7 +459,7 @@ void Scene::setScene(GLuint id)
 
 		mAux = wing2->modelMat();
 
-		mAux = rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
+		mAux = glm::rotate(mAux, radians(180.0), dvec3(0.0, 1.0, 0.0));
 
 		mAux = translate(mAux, dvec3(-100, 0, 160));
 
@@ -440,6 +467,9 @@ void Scene::setScene(GLuint id)
 
 		nave->addEntity(wing2);
 
+		CompoundEntity* naveOrbit = new CompoundEntity({1.0, 1.0, 0.0}, 3.0);
+
+		naveOrbit->addEntity(nave);
 
 		mAux = nave->modelMat();
 
@@ -455,7 +485,7 @@ void Scene::setScene(GLuint id)
 
 		Sphere* planeta = new Sphere(300, dvec3(1.0, 0.8, 0.0));
 
-		gObjects.push_back(nave);
+		gObjects.push_back(naveOrbit);
 
 		gObjects.push_back(planeta);
 

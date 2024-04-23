@@ -1066,9 +1066,6 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const {
 
 void CompoundEntity::update() {
 
-	setModelMat(rotate(modelMat(),
-		radians(rotVel_), rotVec_));
-
 	for (int i = 0; i < gObjects.size(); ++i) {
 
 		gObjects[i]->update();
@@ -1076,6 +1073,9 @@ void CompoundEntity::update() {
 	}
 
 }
+
+
+
 #pragma endregion
 
 #pragma region WingAdvanceTIE
