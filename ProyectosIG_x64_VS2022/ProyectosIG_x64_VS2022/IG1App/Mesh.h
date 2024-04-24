@@ -74,6 +74,10 @@ public:
 	//practica 4
 	static IndexMesh* generateIndexedBox(GLdouble l);
 
+private:
+
+	static glm::dvec3 calculateNormals(IndexMesh* mesh);
+
 };
 
 

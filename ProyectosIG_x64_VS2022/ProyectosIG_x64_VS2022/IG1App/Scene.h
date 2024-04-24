@@ -44,6 +44,13 @@ protected:
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 
 	GLuint mId;
+
+	CompoundEntity* inventedNode1_;
+
+	CompoundEntity* inventedNode2_;
+
+	CompoundEntity* inventedNode3_;
+
 };
 
 #endif //_H_Scene_H_

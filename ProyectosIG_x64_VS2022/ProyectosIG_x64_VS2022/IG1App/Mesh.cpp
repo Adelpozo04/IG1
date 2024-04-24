@@ -536,6 +536,11 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 
 	}
 
+	GLuint vIndices[] = { 0, 1, 2, 1, 3, 2, 2, 3, 4, 
+		3, 5, 4, 4, 5, 6, 5, 7, 6,
+		0, 6, 1, 6, 7, 1,
+		0, 2, 4, 4, 6, 0, 1, 5, 3, 1, 7, 5
+	};
 
 	mesh->vIndices[0] = 0;
 	mesh->vIndices[1] = 1;
@@ -545,15 +550,15 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	mesh->vIndices[4] = 3;
 	mesh->vIndices[5] = 2;
 
-
 	mesh->vIndices[6] = 2;
 	mesh->vIndices[7] = 3;
 	mesh->vIndices[8] = 4;
 
+
+
 	mesh->vIndices[9] = 3;
 	mesh->vIndices[10] = 5;
 	mesh->vIndices[11] = 4;
-
 
 	mesh->vIndices[12] = 4;
 	mesh->vIndices[13] = 5;
@@ -564,13 +569,15 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	mesh->vIndices[17] = 6;
 
 
-	mesh->vIndices[18] = 0;
-	mesh->vIndices[19] = 6;
-	mesh->vIndices[20] = 1;
 
-	mesh->vIndices[21] = 6;
-	mesh->vIndices[22] = 7;
-	mesh->vIndices[23] = 1;
+	mesh->vIndices[18] = 6;
+	mesh->vIndices[19] = 7;
+	mesh->vIndices[20] = 0;
+
+	mesh->vIndices[21] = 7;
+	mesh->vIndices[22] = 1;
+	mesh->vIndices[23] = 0;
+
 
 
 	mesh->vIndices[24] = 0;
@@ -686,23 +693,24 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(-1.0, 0.0, 0.0);
 	*/
 	
+	for (int i = 0; i < mesh->nNumIndices / 3; i++) {
 
-	
-	for (int i = 0; i < mesh->nNumIndices; ++i) {
+		dvec3 n;
 
-		dvec3 vertActual = mesh->vVertices[mesh->vIndices[i]];
-		dvec3 vertSiguiente = mesh->vVertices[mesh->vIndices[(i + 1) % mesh->nNumIndices]];
-		mesh->vNormals[mesh->vIndices[i]].x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
-		mesh->vNormals[mesh->vIndices[i]].y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
-		mesh->vNormals[mesh->vIndices[i]].z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		dvec3 v0 = mesh->vVertices[mesh->vIndices[(i * 3)]];
+		dvec3 v1 = mesh->vVertices[mesh->vIndices[(i * 3) + 1]];
+		dvec3 v2 = mesh->vVertices[mesh->vIndices[(i * 3) + 2]];
 
-		
+		n = glm::normalize(glm::cross((v2 - v1), (v0 - v1)));
+
+		mesh->vNormals[vIndices[(i * 3)]] += n;
+		mesh->vNormals[vIndices[(i * 3) + 1]] += n;
+		mesh->vNormals[vIndices[(i * 3) + 2]] += n;
 	}
 
-	for (int i = 0; i < mesh->mNumVertices; ++i) {
-		mesh->vNormals[i] = normalize(mesh->vNormals[i]);
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
 	}
-	
 	
 
 	for (int i = 0; i < 36; ++i) {

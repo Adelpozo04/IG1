@@ -94,6 +94,20 @@ void Scene::update()
 {
 	for (auto& o : gObjects) {
 		o->update();
+
+		if (mId = 66) {
+
+			glm::dmat4 aux = inventedNode1_->modelMat();
+
+			inventedNode1_->setModelMat(rotate(aux,
+				radians(3.0), { 0.0, 0.0, 1.0 }));
+
+			aux = inventedNode2_->modelMat();
+
+			inventedNode2_->setModelMat(rotate(aux,
+				radians(3.0), { 0.0, 0.0, 1.0 }));
+
+		}
 	}
 }
 
@@ -357,7 +371,6 @@ void Scene::setScene(GLuint id)
 		//rectangulo
 		gObjects.push_back(new Rectangle_RGB(200, 100));
 
-
 		CompoundEntity* inventedNode = new CompoundEntity();
 		CompoundEntity* inventedNode2 = new CompoundEntity({0, 0, 1}, 5);
 		TriangleRGB* tr = new TriangleRGB(30);
@@ -373,6 +386,10 @@ void Scene::setScene(GLuint id)
 		inventedNode->setModelMat(mAux);
 
 		gObjects.push_back(inventedNode2);
+
+		inventedNode1_ = inventedNode;
+
+		inventedNode2_ = inventedNode2;
 
 
 	}
@@ -469,6 +486,8 @@ void Scene::setScene(GLuint id)
 
 		CompoundEntity* naveOrbit = new CompoundEntity({1.0, 1.0, 0.0}, 3.0);
 
+		inventedNode1_ = naveOrbit;
+
 		naveOrbit->addEntity(nave);
 
 		mAux = nave->modelMat();
@@ -485,9 +504,15 @@ void Scene::setScene(GLuint id)
 
 		Sphere* planeta = new Sphere(300, dvec3(1.0, 0.8, 0.0));
 
-		gObjects.push_back(naveOrbit);
+		CompoundEntity* TotalScene = new CompoundEntity({ 1.0, 1.0, 0.0 }, 3.0);
 
-		gObjects.push_back(planeta);
+		TotalScene->addEntity(planeta);
+
+		TotalScene->addEntity(naveOrbit);
+
+		inventedNode2_ = TotalScene;
+
+		gObjects.push_back(TotalScene);
 
 	}
 
