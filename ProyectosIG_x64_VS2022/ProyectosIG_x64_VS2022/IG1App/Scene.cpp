@@ -79,13 +79,15 @@ Scene::resetGL()
 void Scene::rotate()
 {
 	inventedNode1->setModelMat(glm::rotate(inventedNode1->modelMat(),
-		radians(2.0), dvec3(0, 0, 1)));
+		radians(2.0), dvec3(0, 1, 0)));
+
+	_angle = (int)(_angle + 2) % 360;
 }
 
 void Scene::orbit()
 {
 	inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
-		radians(1.0), dvec3(0, 0, 1)));
+		radians(1.0), dvec3(sin(radians(_angle)), 0, cos(radians(_angle)))));
 }
 
 void
@@ -244,6 +246,13 @@ void Scene::setScene(GLuint id)
 	}
 	else if(mId == 66)
 	{
+		//circunferencia magenta
+		gObjects.push_back(new RegularPolygon(50, 300));
+		gObjects[0]->setColor(glm::dvec4(0.71, 0.58, 0.75, 1.0));
+		//rectangulo
+		gObjects.push_back(new Rectangle_RGB(400, 200));
+
+
 		inventedNode1 = new CompoundEntity();
 		TriangleRGB* tr = new TriangleRGB(100.f, dvec3(0, 0, 0), 0.0);
 		inventedNode1->addEntity(tr);
@@ -280,24 +289,30 @@ void Scene::setScene(GLuint id)
 		auto sphere = new Sphere(2000);
 		sphere->setColor(1.f, 233 / 255.0, 0);
 
-
 		inventedNode1 = new CompoundEntity();
 		auto caza = new Advanced_TIE_X1();
 		caza->setModelMat(translate(inventedNode1->modelMat(), dvec3(0, 0, 0)));
+
 		inventedNode1->addEntity(caza);
 
 		inventedNode2 = new CompoundEntity();
-
-		inventedNode2->addEntity(sphere);
-
 
 		inventedNode2->addEntity(inventedNode1);
 		inventedNode1->setModelMat(translate(inventedNode2->modelMat(),
 			dvec3(0, 2150, 0)));
 
-		inventedNode2->setModelMat(translate(inventedNode2->modelMat(), dvec3(0, -3000, 0)));
+		inventedNode3 = new CompoundEntity();
 
-		gObjects.push_back(inventedNode2);	
+		inventedNode3->addEntity(inventedNode2);
+		
+		inventedNode3->addEntity(sphere);
+
+		sphere->setModelMat(translate(sphere->modelMat(), dvec3(0, 0, 0)));
+		inventedNode2->setModelMat(translate(inventedNode2->modelMat(), dvec3(0, 0, 0)));
+
+		inventedNode3->setModelMat(translate(inventedNode3->modelMat(), dvec3(0, -500, 0)));
+
+		gObjects.push_back(inventedNode3);	
 	}
 
 

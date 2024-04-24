@@ -47,9 +47,12 @@ protected:
 
 	CompoundEntity* inventedNode1 = nullptr;
 	CompoundEntity* inventedNode2 = nullptr;
+	CompoundEntity* inventedNode3 = nullptr;
 
 	bool rotateActive = false;
 	bool orbitActive = false;
+
+	float _angle = 0.f;
 
 	void rotate();
 
