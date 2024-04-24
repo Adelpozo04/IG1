@@ -861,3 +861,282 @@ void RectanglePhoto::render(glm::dmat4 const& modelViewMat) const
 
 
 #pragma endregion
+
+
+#pragma region QuadricEntities
+
+Sphere::Sphere(GLdouble r) :
+	r(r) {};
+
+
+
+
+void Sphere::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Set color
+	glEnable ( GL_COLOR_MATERIAL );
+	glColor3f (red,green,blue);
+	//set draw mode 
+	gluQuadricDrawStyle (q, GLU_FILL);
+	//creacion de la entidad quadrica
+	gluSphere(q, r, 50, 50);
+	// reset color
+	glColor3f (1.0 , 1.0 , 1.0);
+}
+
+
+Cylinder::Cylinder(GLdouble baseR, GLdouble topR, GLdouble height)
+	:baseRadio(baseR), topRadio(topR), height(height)
+{}
+
+void Cylinder::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// Set color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(red, green, blue);
+
+	//set draw mode 
+	gluQuadricDrawStyle(q, GLU_FILL);
+	//creacion de la entidad quadrica
+	gluCylinder(q,baseRadio,topRadio,height, 50, 50);
+	// reset color
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+Disk::Disk(GLdouble innerRadio, GLdouble outerRadio)
+	:innerRadio(innerRadio),outerRadio(outerRadio)
+{}
+
+void Disk::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// set color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(red, green, blue);
+
+	//set draw mode
+	gluQuadricDrawStyle(q, GLU_FILL);
+	//creacion de la entidad quadrica
+	gluDisk(q, innerRadio, outerRadio, 50, 50);
+	// reset color
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+
+PartialDisk::PartialDisk(GLdouble innerRadio, GLdouble outerRadio, GLdouble startAngle, GLdouble sweepAngle)
+	:innerRadio(innerRadio), outerRadio(outerRadio), startAngle(startAngle), sweepAngle(sweepAngle)
+{
+}
+
+void PartialDisk::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	// set color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(red, green, blue);
+
+	// set draw mode
+	gluQuadricDrawStyle(q, GLU_FILL);
+
+	//creacion de la entidad cuadrica
+	gluPartialDisk(q, innerRadio, outerRadio, 50, 50,startAngle,sweepAngle);
+	// reset color
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+#pragma endregion
+
+
+#pragma region Compound Entity
+
+CompoundEntity::CompoundEntity()
+{
+}
+
+CompoundEntity::~CompoundEntity()
+{
+	gObjects.clear();
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+
+	for (auto& e : gObjects) {
+		//upload(aMat);
+		e->render(aMat);
+	}
+}
+
+void CompoundEntity::update()
+{
+	for (auto& e : gObjects) e->update();
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.push_back(ae);
+}
+
+#pragma endregion
+
+
+#pragma region Advanced_TIE_X1
+Advanced_TIE_X1::Advanced_TIE_X1()
+{
+	auto sphere = new Sphere(130);
+	sphere->setColor(0,65/255.0,106/255.0);
+	addEntity(sphere);
+
+	
+	auto eje = new Cylinder(20, 20, 440);
+	dmat4 ejePos = translate(dmat4(1), dvec3(0, 0, -220)) ;
+	eje->setModelMat(ejePos);
+	eje->setColor(0, 65 / 255.0, 106 / 255.0);
+	addEntity(eje);
+
+	auto morro = new Advanced_TIE_X1_Morro();
+	dmat4 morroPos = translate(dmat4(1), dvec3(0, 0, 0));
+	morro->setModelMat(morroPos);
+	addEntity(morro);
+	
+
+	auto leftWing = new WingAdvancedTIE();
+	dmat4 leftWingPos = translate(dmat4(1), dvec3(0, 0, 85));
+	leftWing->setModelMat(leftWingPos);
+	addEntity(leftWing);
+
+	auto rightWing = new WingAdvancedTIE();
+	dmat4 rightWingPos = translate(dmat4(1), dvec3(0, 0, -85)) * rotate(dmat4(1),radians(180.0),dvec3(0,1,0));
+	rightWing->setModelMat(rightWingPos);
+	addEntity(rightWing);
+	
+}
+
+Advanced_TIE_X1::~Advanced_TIE_X1()
+{
+}
+
+
+#pragma endregion
+
+#pragma region Advanced_TIE_X1_Morro
+
+Advanced_TIE_X1_Morro::Advanced_TIE_X1_Morro()
+{
+	auto eje = new Cylinder(80, 80, 280);
+	dmat4 ejePos = translate(dmat4(1), dvec3(-140, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	eje->setModelMat(ejePos);
+	eje->setColor(0, 65 / 255.0, 106 / 255.0);
+	addEntity(eje);
+
+
+	auto disk = new Disk(0, 80);
+	dmat4 diskPos = translate(dmat4(1), dvec3(140, 0, 0)) * rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+	disk->setModelMat(diskPos);
+	disk->setColor(0, 65 / 255.0, 106 / 255.0);
+	gObjects.push_back(disk);
+
+}
+
+Advanced_TIE_X1_Morro::~Advanced_TIE_X1_Morro()
+{
+}
+
+#pragma endregion
+
+#pragma region WingAdvancedTIE
+
+WingAdvancedTIE::WingAdvancedTIE()
+{
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateWingAdvancedTIE(150, 200);
+
+	mTexture = new Texture();
+	mTexture->load("Bmps/noche.bmp");
+}
+
+WingAdvancedTIE::~WingAdvancedTIE()
+{
+}
+
+void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+
+		upload(aMat);
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	}
+
+}
+#pragma endregion
+
+Cubo::Cubo(GLdouble w)
+{
+	mMesh = new IndexMesh();
+	mMesh = IndexMesh::generateIndexedBox(w);
+}
+
+Cubo::~Cubo()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void Cubo::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat ; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		glColor4f(0,0,0,0);
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void Cubo::update()
+{
+}

@@ -26,6 +26,8 @@ public:
 	static Mesh* generateStar3D(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h);
 
+	//practica 4
+	static Mesh* generateWingAdvancedTIE(GLdouble radius, GLdouble width);
 
 
 	Mesh() = default;
@@ -39,6 +41,7 @@ public:
 	GLuint size() const { return mNumVertices; }; // number of elements
 	std::vector<glm::dvec3> const& vertices() const { return vVertices; };
 	std::vector<glm::dvec4> const& colors() const { return vColors; };
+	std::vector<glm::dvec3> const& normals() const { return vNormals; };
 
 	void changePrimitive(GLuint primitive) {
 		mPrimitive = primitive;
@@ -49,8 +52,35 @@ protected:
 	GLuint mNumVertices = 0; // number of elements ( = vVertices.size())
 	std::vector<glm::dvec3> vVertices; // vertex array
 	std::vector<glm::dvec4> vColors;   // color array
+	std::vector<glm::dvec3> vNormals;   // normals array
 	std::vector<glm::dvec2> vTexCoords;
 	virtual void draw() const;
+};
+
+
+
+
+class IndexMesh : public Mesh {
+
+protected:
+	GLuint* vIndices = nullptr; // tabla de índices
+	GLuint nNumIndices = 0;
+
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	~IndexMesh() { delete[] vIndices; }
+
+	virtual void render() const;
+	virtual void draw() const;
+
+	IndexMesh(const IndexMesh& m) = delete;            // no copy constructor
+	IndexMesh& operator=(const IndexMesh& m) = delete; // no copy assignment
+
+
+	static IndexMesh* generateIndexedBox(GLdouble l);
+
+	void buildNormalVectors();
+
 };
 
 #endif //_H_Scene_H_

@@ -4,8 +4,11 @@
 using namespace std;
 using namespace glm;
 
-void
-Mesh::draw() const
+#pragma region Mesh
+
+#pragma region Draw && render
+
+void Mesh::draw() const
 {
 	glDrawArrays(
 	  mPrimitive,
@@ -13,8 +16,7 @@ Mesh::draw() const
 	  size()); // primitive graphic, first index and number of elements to be rendered
 }
 
-void
-Mesh::render() const
+void Mesh::render() const
 {
 	if (vVertices.size() > 0) { // transfer data
 
@@ -38,17 +40,26 @@ Mesh::render() const
 
 		}
 
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
+
 
 		draw();
 
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
 	}
 }
 
-Mesh*
-Mesh::createRGBAxes(GLdouble l)
+#pragma endregion
+
+#pragma region Generate meshs
+
+Mesh* Mesh::createRGBAxes(GLdouble l)
 {
 	Mesh* mesh = new Mesh();
 
@@ -82,9 +93,7 @@ Mesh::createRGBAxes(GLdouble l)
 	return mesh;
 }
 
-
-Mesh*
-Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
+Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 
 	Mesh* mesh = new Mesh();
 
@@ -105,8 +114,7 @@ Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 	return mesh;
 }
 
-Mesh*
-Mesh::generateTriangleRGB(GLdouble r) {
+Mesh* Mesh::generateTriangleRGB(GLdouble r) {
 
 	Mesh* mesh = generateRegularPolygon(3, r);
 
@@ -121,8 +129,7 @@ Mesh::generateTriangleRGB(GLdouble r) {
 	return mesh;
 }
 
-Mesh* 
-Mesh::generateRectangle(GLdouble w, GLdouble h) {
+Mesh* Mesh::generateRectangle(GLdouble w, GLdouble h) {
 
 	Mesh* mesh = new Mesh();
 
@@ -148,8 +155,7 @@ Mesh::generateRectangle(GLdouble w, GLdouble h) {
 	return mesh;
 }
 
-Mesh*
-Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
+Mesh* Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 	
 	Mesh* mesh = generateRectangle(w, h);
 
@@ -162,9 +168,7 @@ Mesh::generateRGBRectangle(GLdouble w, GLdouble h) {
 	return mesh;
 }
 
-
-Mesh*
-Mesh::generateCube(GLdouble w) {
+Mesh* Mesh::generateCube(GLdouble w) {
 	//generamos un cubo a partir de 12 triangulos
 	//36 vertices
 
@@ -416,3 +420,295 @@ Mesh* Mesh::generateStar3DTexCor(GLdouble re, GLuint np, GLdouble h)
 
 	return mesh;
 }
+
+Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 8;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	float angle = -25;
+
+	mesh->vVertices.emplace_back(width / 2, -radius, 0);
+	mesh->vVertices.emplace_back(-width / 2, -radius, 0);
+	mesh->vVertices.emplace_back(width / 2, -(radius + (sin(radians(angle))*radius)), cos(radians(angle)) *radius);
+	mesh->vVertices.emplace_back(-width / 2, -(radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+
+	mesh->vVertices.emplace_back(width / 2, (radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+	mesh->vVertices.emplace_back(-width / 2, (radius + (sin(radians(angle)) * radius)), cos(radians(angle)) * radius);
+	mesh->vVertices.emplace_back(width / 2, radius, 0);
+	mesh->vVertices.emplace_back(-width / 2, radius, 0);
+
+	//colores
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vColors.emplace_back(1.0, 1.0, 1.0, 0.8);
+	}
+
+
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+
+	return mesh;
+}
+
+#pragma endregion
+
+#pragma endregion
+
+
+#pragma region IndexMesh
+
+
+
+void IndexMesh::render() const
+{
+	if (vVertices.size() > 0 ) { // transfer data
+
+		// Comandos OpenGL para enviar datos de arrays a GPU
+		// Nuevos comandos para la tabla de índices
+
+		// transfer the coordinates of the vertices
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(
+			3, GL_DOUBLE, 0, vVertices.data()); // number of coordinates per vertex, type of
+		// each coordinate, stride, pointer
+		if (vColors.size() > 0) {             // transfer colors
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(
+				4, GL_DOUBLE, 0, vColors.data()); // components number (rgba=4), type of
+			// each component, stride, pointer
+		}
+
+		if (vTexCoords.size() > 0) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());
+
+		}
+
+		if (vNormals.size() > 0) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+		}
+	
+		if (vIndices != nullptr) {
+			glEnableClientState(GL_INDEX_ARRAY);
+			glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+		}
+
+		draw();
+
+		// Comandos OpenGL para deshabilitar datos enviados
+		// Nuevo comando para la tabla de índices :
+		glDisableClientState(GL_INDEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+	}
+}
+
+void IndexMesh::draw() const
+{
+	glDrawElements(mPrimitive, nNumIndices,
+		GL_UNSIGNED_INT, vIndices);
+
+}
+
+IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
+{
+	IndexMesh* mesh = new IndexMesh();
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 8;
+	mesh->nNumIndices = 36;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vNormals.reserve(mesh->mNumVertices);
+
+	mesh->vVertices.emplace_back(-w, w, w);
+	mesh->vVertices.emplace_back(-w, -w, w);
+	mesh->vVertices.emplace_back(w, w, w);
+	mesh->vVertices.emplace_back(w, -w, w);
+
+	mesh->vVertices.emplace_back(w, w, -w);
+	mesh->vVertices.emplace_back(w, -w, -w);
+	mesh->vVertices.emplace_back(-w, w, -w);
+	mesh->vVertices.emplace_back(-w, -w, -w);
+
+
+	mesh->vIndices = new GLuint[36];
+
+
+	
+	GLuint arr[36] = { 0, 1, 2, 1, 3, 2, 2, 3, 4,
+
+	3, 5, 4, 4, 5, 6, 5, 7, 6,
+
+		//diagonal como el resto en la cara lateral izquierda
+
+		//6, 7, 0, 7, 1, 0,
+
+		//diagonal al contrario del resto en la cara lateral izquierda
+
+		0, 6, 1, 6, 7, 1,
+
+		0, 2, 4, 4, 6, 0, 1, 5, 3, 1, 7, 5
+	};
+	
+
+	for (int i = 0; i < mesh->nNumIndices; i++) {
+		mesh->vIndices[i] = arr[i];
+	}
+
+	/*
+	
+	mesh->vIndices[0] = 0;
+	mesh->vIndices[1] = 4;
+	mesh->vIndices[2] = 5;
+
+	mesh->vIndices[3] = 5;
+	mesh->vIndices[4] = 1;
+	mesh->vIndices[5] = 0;
+
+	
+	mesh->vIndices[6] = 6;
+	mesh->vIndices[7] = 2;
+	mesh->vIndices[8] = 1;
+
+	mesh->vIndices[9] = 6;
+	mesh->vIndices[10] = 1;
+	mesh->vIndices[11] = 5;
+
+	mesh->vIndices[12] = 1;
+	mesh->vIndices[13] = 3;
+	mesh->vIndices[14] = 0;
+
+	mesh->vIndices[15] = 2;
+	mesh->vIndices[16] = 3;
+	mesh->vIndices[17] = 1;
+
+	mesh->vIndices[18] = 7;
+	mesh->vIndices[19] = 4;
+	mesh->vIndices[20] = 0;
+
+	mesh->vIndices[21] = 0;
+	mesh->vIndices[22] = 3;
+	mesh->vIndices[23] = 7;
+
+	mesh->vIndices[24] = 5;
+	mesh->vIndices[25] = 4;
+	mesh->vIndices[26] = 7;
+
+	mesh->vIndices[27] = 6;
+	mesh->vIndices[28] = 5;
+	mesh->vIndices[29] = 7;
+
+	mesh->vIndices[30] = 2;
+	mesh->vIndices[31] = 7;
+	mesh->vIndices[32] = 3;
+	
+	mesh->vIndices[33] = 6;
+	mesh->vIndices[34] = 7;
+	mesh->vIndices[35] = 2;
+
+	*/
+
+	/*
+	for (int i = 0; i < 8; i++) {
+		mesh->vNormals.emplace_back(1, 1, 1, 1);
+	}
+	*/
+
+	mesh->buildNormalVectors();
+
+	return mesh;
+}
+
+void IndexMesh::buildNormalVectors()
+{
+	/*
+	calculoVectorNormalPorNewell(Cara C) {
+		n = (0, 0, 0);
+		for i = 0 to C.numeroVertices{
+		vertActual = vertice[C - > getVerticeIndice(i)];
+		vertSiguiente = vertice[C - > getVerticeIndice((i + 1) % C.numeroVertices)];
+		n.x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+		n.y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+		n.z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		}
+		return normaliza(n.x, n.y, n.z);
+	}
+	*/
+
+	/*
+	dvec3 n = dvec3(0, 0, 0);
+	for (int i = 0; i < 6; i++) {
+
+		n = dvec3(0, 0, 0);
+
+		for (int j = 0; j < 6; j++) {
+			auto vertActual = vVertices[vIndices[(i*6)+j  ]];
+			auto vertSiguiente = vVertices[vIndices[((i * 6) + j +1)%36]];
+
+			n.x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+			n.y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+			n.z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		}
+
+		n = normalize(n);
+
+		for (int j = i * 6; j < (i + 1) * 6; j++) {
+			vNormals.push_back(n);
+		}
+	}
+	*/
+	
+	for (int i = 0; i < mNumVertices; i++) {
+		vNormals.push_back(dvec3(0, 0, 0));
+	}
+
+	for (int i = 0; i < nNumIndices/3; i++) {
+
+		/*
+		auto vertActual = vVertices[vIndices[i]];
+		auto vertSiguiente = vVertices[vIndices[(i+1)%nNumIndices]];
+
+		vNormals[vIndices[i]].x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
+		vNormals[vIndices[i]].y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
+		vNormals[vIndices[i]].z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		*/
+		dvec3 n;
+		dvec3 v0 = vVertices[vIndices[(i*3)]];
+		dvec3 v1 = vVertices[vIndices[((i * 3)+1)]];
+		dvec3 v2 = vVertices[vIndices[((i * 3)+2)]];
+		
+
+		n = normalize(cross((v2 - v1), (v0 - v1)));
+
+		vNormals[vIndices[(i * 3)]] += n;
+		vNormals[vIndices[(i * 3) +1]] += n;
+		vNormals[vIndices[(i * 3) +2]] += n;
+	}
+
+
+	for (int i = 0; i < mNumVertices; i++) {
+		vNormals[i] = normalize(vNormals[i]);
+	}
+}
+
+
+#pragma endregion

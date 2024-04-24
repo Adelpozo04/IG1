@@ -30,6 +30,12 @@ public:
 
 	void setScene(GLuint id);
 
+	void sceneDirLight(Camera const& cam) const;
+
+	void SwitchRotate();
+
+	void SwitchOrbit();
+
 protected:
 	void free();
 	void setGL();
@@ -38,6 +44,20 @@ protected:
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 
 	GLuint mId;
+
+	CompoundEntity* inventedNode1 = nullptr;
+	CompoundEntity* inventedNode2 = nullptr;
+	CompoundEntity* inventedNode3 = nullptr;
+
+	bool rotateActive = false;
+	bool orbitActive = false;
+
+	float _angle = 0.f;
+
+	void rotate();
+
+	void orbit();
+
 };
 
 #endif //_H_Scene_H_

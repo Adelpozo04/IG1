@@ -178,8 +178,6 @@ public:
 
 
 class GlassParapet : public Abs_Entity {
-
-
 public:
 
 	explicit GlassParapet(GLdouble longitud);
@@ -187,7 +185,6 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
-
 
 class Grass : public Abs_Entity {
 
@@ -201,8 +198,6 @@ public:
 };
 
 class Photo : public Abs_Entity {
-
-
 public:
 
 	explicit Photo(GLdouble w, GLdouble h);
@@ -217,13 +212,148 @@ class RectanglePhoto : public Abs_Entity {
 
 	glm::dvec3 traslationVec;
 
-
 public:
 
 	explicit RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
 	~RectanglePhoto();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };
+
+
+#pragma region Entidades cuadricas
+
+class QuadricEntity : public Abs_Entity {
+public:
+	QuadricEntity() {
+		q = gluNewQuadric();
+		red = green = blue = 0;
+	};
+	~QuadricEntity() { gluDeleteQuadric(q); };
+
+	void setColor(GLdouble _red, GLdouble _green, GLdouble _blue) {
+		red = _red;
+		green = _green;
+		blue = _blue;
+	}
+
+protected:
+	GLUquadricObj* q;
+
+	
+	GLdouble red;
+	GLdouble green;
+	GLdouble blue;
+};
+
+class Sphere : public QuadricEntity {
+public:
+	Sphere(GLdouble r); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+
+	
+protected:
+	GLdouble r;
+
+	
+};
+
+class Cylinder : public QuadricEntity {
+public:
+	Cylinder(GLdouble baseR, GLdouble topR,GLdouble height); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble baseRadio;
+	GLdouble topRadio;
+	GLdouble height;
+};
+
+class Disk : public QuadricEntity {
+public:
+
+	Disk(GLdouble innerRadio, GLdouble outerRadio); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadio;
+	GLdouble outerRadio;
+};
+
+class PartialDisk : public QuadricEntity {
+public:
+
+	PartialDisk(GLdouble innerRadio, GLdouble outerRadio,
+				GLdouble startAngle,GLdouble sweepAngle); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+protected:
+	GLdouble innerRadio;
+	GLdouble outerRadio;
+	GLdouble startAngle;
+	GLdouble sweepAngle;
+
+};
+	
+#pragma endregion
+
+
+#pragma region Entidades compuestas
+
+class CompoundEntity : public Abs_Entity {
+	
+protected:
+	std::vector<Abs_Entity*> gObjects;
+
+public:
+
+	explicit CompoundEntity();
+	~CompoundEntity();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+	void addEntity(Abs_Entity* ae);
+
+
+};
+
+class Advanced_TIE_X1 : public CompoundEntity {
+public:
+	explicit Advanced_TIE_X1();
+	~Advanced_TIE_X1();
+};
+
+class Advanced_TIE_X1_Morro : public CompoundEntity {
+public:
+	explicit Advanced_TIE_X1_Morro();
+	~Advanced_TIE_X1_Morro();
+};
+
+class WingAdvancedTIE : public Abs_Entity {
+public:
+	explicit WingAdvancedTIE();
+	~WingAdvancedTIE();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+#pragma endregion
+
+class Cubo 
+	: public Abs_Entity {
+
+public:
+
+	explicit Cubo(GLdouble w);
+	~Cubo();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+private:
+
+
+
+};
+
+
 
 
 

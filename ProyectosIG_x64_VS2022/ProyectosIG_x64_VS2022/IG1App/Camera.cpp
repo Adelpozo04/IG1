@@ -157,7 +157,8 @@ void Camera::changePrj()
 
 void Camera::update()
 {
-	/*EJERCICIO 47
+	//EJERCICIO 47
+	/*
 	mAng += mSpeed;
 
 	rollReal(-mSpeed);
@@ -170,8 +171,9 @@ void Camera::update()
 
 	setVM();
 	*/
+	
 
-	orbit(1,0);
+	//orbit(1,0);
 }
 
 void Camera::orbit(GLdouble incAng, GLdouble incY)
