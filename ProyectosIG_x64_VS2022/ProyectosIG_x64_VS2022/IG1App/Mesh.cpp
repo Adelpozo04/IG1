@@ -552,6 +552,8 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 
 	mesh->vIndices = new GLuint[36];
 
+
+	
 	GLuint arr[36] = { 0, 1, 2, 1, 3, 2, 2, 3, 4,
 
 	3, 5, 4, 4, 5, 6, 5, 7, 6,
@@ -564,13 +566,13 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 
 		0, 6, 1, 6, 7, 1,
 
-		0, 2, 4, 4, 6, 0, 1, 5, 3, 1, 7, 5 
+		0, 2, 4, 4, 6, 0, 1, 5, 3, 1, 7, 5
 	};
+	
 
 	for (int i = 0; i < mesh->nNumIndices; i++) {
 		mesh->vIndices[i] = arr[i];
 	}
-
 
 	/*
 	
@@ -679,14 +681,27 @@ void IndexMesh::buildNormalVectors()
 		vNormals.push_back(dvec3(0, 0, 0));
 	}
 
-	for (int i = 0; i < nNumIndices; i++) {
+	for (int i = 0; i < nNumIndices/3; i++) {
 
+		/*
 		auto vertActual = vVertices[vIndices[i]];
 		auto vertSiguiente = vVertices[vIndices[(i+1)%nNumIndices]];
 
 		vNormals[vIndices[i]].x += (vertActual.y - vertSiguiente.y) * (vertActual.z + vertSiguiente.z);
 		vNormals[vIndices[i]].y += (vertActual.z - vertSiguiente.z) * (vertActual.x + vertSiguiente.x);
 		vNormals[vIndices[i]].z += (vertActual.x - vertSiguiente.x) * (vertActual.y + vertSiguiente.y);
+		*/
+		dvec3 n;
+		dvec3 v0 = vVertices[vIndices[(i*3)]];
+		dvec3 v1 = vVertices[vIndices[((i * 3)+1)]];
+		dvec3 v2 = vVertices[vIndices[((i * 3)+2)]];
+		
+
+		n = normalize(cross((v2 - v1), (v0 - v1)));
+
+		vNormals[vIndices[(i * 3)]] += n;
+		vNormals[vIndices[(i * 3) +1]] += n;
+		vNormals[vIndices[(i * 3) +2]] += n;
 	}
 
 
