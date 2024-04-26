@@ -712,3 +712,12 @@ void IndexMesh::buildNormalVectors()
 
 
 #pragma endregion
+
+
+
+Mbr::Mbr(int m, int n, glm::dvec3* perfil)
+	:m(m),n(n), perfil(perfil)
+{
+
+
+}

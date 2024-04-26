@@ -83,4 +83,20 @@ public:
 
 };
 
+
+class Mbr : public IndexMesh {
+
+protected:
+
+	int n;//, para el número de muestras que se toman al girar el perfil alrededor del eje Y
+	glm::dvec3* perfil;//para el array de vértices que define el perfil que va a hacerse girar alrededor del eje Y
+	int m;//para el número de puntos del perfil
+		
+public:
+
+	Mbr(int m,int n , glm::dvec3* perfil);
+
+
+};
+
 #endif //_H_Scene_H_
