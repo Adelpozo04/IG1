@@ -1145,14 +1145,14 @@ Sphere_mbr::Sphere_mbr(GLdouble radius, GLint pPunto, GLint meridianos)
 {
 	dvec3* aux = new dvec3[pPunto];
 
-	float angle = 180.0 / pPunto;
+	float angle = 180.0 / (pPunto-1);
 
 	for (int i = 0; i < pPunto; i++) {
-		aux[i] = dvec3(cos(radians(angle*i)) * radius ,0, sin(radians(angle * i)) * radius);
+		aux[i] = dvec3(cos(radians(angle*i -90)) * radius , sin(radians(angle * i -90)) * radius,0) ;
 	}
 	
 
-	mMesh = MbR::generaIndexMbR(pPunto,meridianos,aux);
+	mMesh =  MbR::generaIndexMbR(pPunto,meridianos,aux);
 }
 
 void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
@@ -1163,7 +1163,7 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		//set config
 		glLineWidth(2);
 

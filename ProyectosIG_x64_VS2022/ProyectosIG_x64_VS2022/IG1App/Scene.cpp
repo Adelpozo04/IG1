@@ -316,10 +316,9 @@ void Scene::setScene(GLuint id)
 	}
 	else if(mId == 71){
 
-		auto sphere = new Sphere_mbr(100.0, 10, 10);
-
+		auto sphere = new Sphere_mbr(100.0, 30, 30);
+		sphere->setColor(dvec4(0, 1, 0, 1));
 		gObjects.push_back(sphere);
-	
 	}
 
 }
