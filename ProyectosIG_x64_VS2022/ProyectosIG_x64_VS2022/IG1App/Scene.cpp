@@ -116,10 +116,12 @@ void Scene::rotated() {
 
 	if (mId = 67) {
 
-		glm::dmat4 aux = gObjects[1]->modelMat();
+		glm::dmat4 aux = inventedNode1_->modelMat();
 
-		gObjects[1]->setModelMat(rotate(aux,
+		inventedNode1_->setModelMat(rotate(aux,
 			radians(3.0), { 0.0, 1.0, 0.0 }));
+
+		angle = (angle + 3) % 360;
 		
 	}
 
@@ -129,10 +131,10 @@ void Scene::orbited() {
 
 	if (mId = 67) {
 
-		glm::dmat4 aux = gObjects[1]->modelMat();
+		glm::dmat4 aux = inventedNode2_->modelMat();
 
-		gObjects[1]->setModelMat(rotate(aux,
-			radians(3.0), { 0.0, 0.0, -1.0 }));
+		inventedNode2_->setModelMat(rotate(aux,
+			radians(3.0), { glm::sin(angle), 0.0, glm::cos(angle)}));
 
 	}
 
@@ -486,15 +488,21 @@ void Scene::setScene(GLuint id)
 
 		CompoundEntity* naveOrbit = new CompoundEntity({1.0, 1.0, 0.0}, 3.0);
 
-		inventedNode1_ = naveOrbit;
-
 		naveOrbit->addEntity(nave);
 
-		mAux = nave->modelMat();
+		inventedNode1_ = naveOrbit;
+
+		CompoundEntity* naveOrbitPlanet = new CompoundEntity({ 1.0, 1.0, 0.0 }, 3.0);
+
+		naveOrbitPlanet->addEntity(inventedNode1_);
+
+		inventedNode2_ = naveOrbitPlanet;
+
+		mAux = inventedNode1_->modelMat();
 
 		mAux = translate(mAux, dvec3(0, 500, 0));
 
-		nave->setModelMat(mAux);
+		inventedNode1_->setModelMat(mAux);
 
 		mAux = nave->modelMat();
 
@@ -508,9 +516,9 @@ void Scene::setScene(GLuint id)
 
 		TotalScene->addEntity(planeta);
 
-		TotalScene->addEntity(naveOrbit);
+		TotalScene->addEntity(inventedNode2_);
 
-		inventedNode2_ = TotalScene;
+		inventedNode3_ = TotalScene;
 
 		gObjects.push_back(TotalScene);
 

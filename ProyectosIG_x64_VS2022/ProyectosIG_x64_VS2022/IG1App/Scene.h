@@ -51,6 +51,8 @@ protected:
 
 	CompoundEntity* inventedNode3_;
 
+	GLuint angle = 0;
+
 };
 
 #endif //_H_Scene_H_
