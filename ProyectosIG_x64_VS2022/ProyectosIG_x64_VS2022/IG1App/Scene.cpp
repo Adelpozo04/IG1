@@ -320,7 +320,12 @@ void Scene::setScene(GLuint id)
 		sphere->setColor(dvec4(0, 1, 0, 1));
 		gObjects.push_back(sphere);
 	}
+	else if (mId == 72) {
 
+		auto toroid = new Toroid(50, 50, 50, 50);
+		toroid->setColor(dvec4(0, 1, 0, 1));
+		gObjects.push_back(toroid);
+	}
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

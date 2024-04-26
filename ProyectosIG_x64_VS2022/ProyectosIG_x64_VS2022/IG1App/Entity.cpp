@@ -1182,3 +1182,44 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+//grosor es el radio del grosor
+Toroid::Toroid(GLdouble grosor, GLdouble radius, GLint m, GLint p)
+{
+	dvec3* aux = new dvec3[p];
+
+	float angle = 360.0 / (p - 1);
+
+	for (int i = 0; i < p; i++) {         
+		aux[i] = dvec3((radius +(grosor))+ (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);
+	}
+
+	mMesh = MbR::generaIndexMbR(p, m, aux);
+}
+
+void Toroid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		glColor4f(0, 0, 0, 0);
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

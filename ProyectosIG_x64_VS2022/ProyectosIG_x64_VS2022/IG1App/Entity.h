@@ -370,7 +370,16 @@ public:
 
 };
 
+class Toroid : public Abs_Entity {
 
+public:
+	Toroid(GLdouble grosor,GLdouble radius, GLint m, GLint p); // r es el radio de la esfera
+	//~Toroid();
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+
+};
 
 
 #endif //_H_Entities_H_
