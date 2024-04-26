@@ -322,7 +322,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 72) {
 
-		auto toroid = new Toroid(50, 50, 50, 50);
+		auto toroid = new Toroid(50, 50, 50, 24);
 		toroid->setColor(dvec4(0, 1, 0, 1));
 		gObjects.push_back(toroid);
 	}
