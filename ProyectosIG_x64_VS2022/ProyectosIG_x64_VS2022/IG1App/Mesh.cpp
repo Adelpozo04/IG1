@@ -715,9 +715,79 @@ void IndexMesh::buildNormalVectors()
 
 
 
-Mbr::Mbr(int m, int n, glm::dvec3* perfil)
+MbR::MbR(int m, int n, glm::dvec3* perfil)
 	:m(m),n(n), perfil(perfil)
 {
 
 
 }
+
+MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
+{
+	MbR* mesh = new MbR(mm, nn, perfil);
+
+	// Definir la primitiva como GL_TRIANGLES
+	mesh->mPrimitive = GL_TRIANGLES;
+	// Definir el número de vértices como nn*mm
+	mesh->mNumVertices = nn * mm;
+	
+	// Usar un vector auxiliar de vértices	
+	dvec3 * vs = new dvec3 [mesh->mNumVertices ];
+
+	for (int i = 0; i < nn; i++) {
+		// Generar la muestra i- ésima de vértices
+		GLdouble theta = i * 360 / nn;
+		GLdouble c = cos(radians(theta));
+		GLdouble s = sin(radians(theta));
+		for (int j = 0; j < mm; j++) {
+			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
+			vs[i*(mm) + j] = dvec3(x, perfil[j].y, z);
+		}
+
+	}
+
+	//volcar vertices
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices;i++) {
+		mesh->vVertices[i] = vs[i];
+	}
+
+	int indiceMayor = 0;
+
+	// El contador i recorre las muestras alrededor del eje Y
+	for (int i = 0; i < nn; i++) {
+		// El contador j recorre los vértices del perfil ,
+		// de abajo arriba . Las caras cuadrangulares resultan
+		// al unir la muestra i- ésima con la (i +1)% nn - ésima
+		for (int j = 0; j < mm - 1; j++) {
+			// El contador indice sirve para llevar cuenta
+			// de los índices generados hasta ahora . Se recorre
+			// la cara desde la esquina inferior izquierda
+			int indice = i * mm + j;
+			// Los cuatro índices son entonces :
+			//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1
+
+			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+
+			
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice + 1;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
+		}
+	}
+
+	mesh->buildNormalVectors();
+
+	return mesh;
+}
+
