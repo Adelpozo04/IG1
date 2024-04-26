@@ -720,3 +720,88 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	return mesh;
 
 }
+
+MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
+	 
+	MbR* mesh = new MbR(mm, nn, perfil);
+	mesh->mPrimitive = GL_TRIANGLES;
+	mesh->mNumVertices = nn * mm;
+	//vector<glm::dvec3> vs;
+	// Usar un vector auxiliar de vértices
+	dvec3* vs = new dvec3 [mesh->mNumVertices ];
+	for (int i = 0; i < nn; i++) {
+		// Generar la muestra i- ésima de vértices
+		GLdouble theta = i * 360 / nn;
+		GLdouble c = cos(radians(theta));
+		GLdouble s = sin(radians(theta));
+		for (int j = 0; j < mm; j++) {
+			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
+			vs[i * mm + j] = dvec3(x, perfil[j].y, z);
+		}
+	}
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; ++i) {
+
+		mesh->vVertices[i] = vs[i];
+
+	}
+
+	int indiceMayor = 0;
+
+	// El contador i recorre las muestras alrededor del eje Y
+	for (int i = 0; i < nn; i++) {
+		// El contador j recorre los vértices del perfil ,
+		// de abajo arriba . Las caras cuadrangulares resultan
+		// al unir la muestra i- ésima con la (i +1)% nn - ésima
+		for (int j = 0; j < mm - 1; j++) {
+			// El contador indice sirve para llevar cuenta
+						// de los índices generados hasta ahora . Se recorre
+						// la cara desde la esquina inferior izquierda
+
+			int indice = i * mm + j;
+
+			mesh-> vIndices[indiceMayor] = indice;
+			indiceMayor++;
+			mesh-> vIndices[indiceMayor] = (indice + mm) % (nn * mm);
+			indiceMayor++;
+			mesh-> vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice + 1;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice;
+		}
+			
+	}
+		
+	// Los cuatro índices son entonces :
+	//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1;
+
+	for (int i = 0; i < mesh->nNumIndices / 3; i++) {
+
+		dvec3 n;
+
+		dvec3 v0 = mesh->vVertices[mesh->vIndices[(i * 3)]];
+		dvec3 v1 = mesh->vVertices[mesh->vIndices[(i * 3) + 1]];
+		dvec3 v2 = mesh->vVertices[mesh->vIndices[(i * 3) + 2]];
+
+		n = glm::normalize(glm::cross((v2 - v1), (v0 - v1)));
+
+		mesh->vNormals[mesh->vIndices[(i * 3)]] += n;
+		mesh->vNormals[mesh->vIndices[(i * 3) + 1]] += n;
+		mesh->vNormals[mesh->vIndices[(i * 3) + 2]] += n;
+	}
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
+	}
+	
+
+
+	return mesh;
+
+}
