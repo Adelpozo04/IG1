@@ -1140,3 +1140,45 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 void Cubo::update()
 {
 }
+
+Sphere_mbr::Sphere_mbr(GLdouble radius, GLint pPunto, GLint meridianos)
+{
+	dvec3* aux = new dvec3[pPunto];
+
+	float angle = 180.0 / pPunto;
+
+	for (int i = 0; i < pPunto; i++) {
+		aux[i] = dvec3(cos(radians(angle*i)) * radius ,0, sin(radians(angle * i)) * radius);
+	}
+	
+
+	mMesh = MbR::generaIndexMbR(pPunto,meridianos,aux);
+}
+
+void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		glColor4f(0, 0, 0, 0);
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}

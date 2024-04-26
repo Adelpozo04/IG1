@@ -314,7 +314,13 @@ void Scene::setScene(GLuint id)
 
 		gObjects.push_back(inventedNode3);	
 	}
+	else if(mId == 71){
 
+		auto sphere = new Sphere_mbr(100.0, 10, 10);
+
+		gObjects.push_back(sphere);
+	
+	}
 
 }
 

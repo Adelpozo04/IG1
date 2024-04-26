@@ -336,6 +336,9 @@ public:
 
 #pragma endregion
 
+
+#pragma region Cubo con normales
+
 class Cubo 
 	: public Abs_Entity {
 
@@ -353,6 +356,19 @@ private:
 
 };
 
+#pragma endregion
+
+
+class Sphere_mbr : public Abs_Entity {
+
+public:
+	Sphere_mbr(GLdouble radius,GLint pPunto, GLint meridianos); // r es el radio de la esfera
+	//~Sphere_mbr();
+	
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+
+};
 
 
 

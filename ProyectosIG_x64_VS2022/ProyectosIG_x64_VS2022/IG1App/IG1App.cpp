@@ -82,7 +82,7 @@ IG1App::init()
 	mScene->init();
 	mScene2->init();
 
-	mScene->setScene(66);
+	mScene->setScene(71);
 	mCamera->set2D();//activar para el 66
 	//mScene2->setScene(0);
 
