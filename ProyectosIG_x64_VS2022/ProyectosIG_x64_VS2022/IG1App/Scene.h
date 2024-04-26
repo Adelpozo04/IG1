@@ -51,7 +51,7 @@ protected:
 
 	CompoundEntity* inventedNode3_;
 
-	GLuint angle = 0;
+	float angle = 0;
 
 };
 

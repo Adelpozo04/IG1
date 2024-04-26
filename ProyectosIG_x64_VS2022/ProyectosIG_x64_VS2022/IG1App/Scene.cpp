@@ -116,12 +116,10 @@ void Scene::rotated() {
 
 	if (mId = 67) {
 
-		glm::dmat4 aux = inventedNode1_->modelMat();
+		inventedNode1_->setModelMat(glm::rotate(inventedNode1_->modelMat(),
+			radians(2.0), dvec3(0, 1, 0)));
 
-		inventedNode1_->setModelMat(rotate(aux,
-			radians(3.0), { 0.0, 1.0, 0.0 }));
-
-		angle = (angle + 3) % 360;
+		angle = (int)(angle + 2) % 360;
 		
 	}
 
@@ -131,10 +129,8 @@ void Scene::orbited() {
 
 	if (mId = 67) {
 
-		glm::dmat4 aux = inventedNode2_->modelMat();
-
-		inventedNode2_->setModelMat(rotate(aux,
-			radians(3.0), { glm::sin(angle), 0.0, glm::cos(angle)}));
+		inventedNode2_->setModelMat(glm::rotate(inventedNode2_->modelMat(),
+			radians(2.0), { -glm::sin(radians(angle)), 0.0, -glm::cos(radians(angle)) }));
 
 	}
 
