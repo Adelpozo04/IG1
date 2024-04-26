@@ -945,6 +945,40 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 }
 #pragma endregion
 
+#pragma region SphereMbR
+SphereMbR::SphereMbR(GLdouble r, int p, int m) {
+
+	dvec3* perfil = new dvec3[p];
+	
+	double angle = 180.0f / p;
+
+	double angleAcumulate = 0;
+
+	for (int i = 0; i < p; i++) {
+		perfil[i] = dvec3(glm::cos(radians(angleAcumulate)), 0, glm::sin(radians(angleAcumulate)));
+		angleAcumulate += angle;
+	}
+
+	mMesh = new MbR(m, p, perfil);
+
+}
+void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat * mModelMat;
+
+	upload(aMat);
+
+	// Aquí se puede fijar el color de la esfera así:
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
+
+	// Aquí se puede fijar el modo de dibujar la esfera :
+	gluQuadricDrawStyle(q, GL_FILL);
+	gluSphere(q, r, 50, 50);
+	// Aquí se debe recuperar el color :
+	glColor3f(1.0, 1.0, 1.0);
+}
+#pragma endregion
+
 #pragma region Cylinder
 Cylinder::Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble height, glm::dvec3 colorVec) :
 	baseRadius_(baseRadius), topRadius_(topRadius), height_(height)	{ 

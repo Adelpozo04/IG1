@@ -519,6 +519,9 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(TotalScene);
 
 	}
+	else if (mId == 71) {
+
+	}
 
 
 }

@@ -270,6 +270,17 @@ protected:
 
 };
 
+class SphereMbR : public QuadricEntity {
+public:
+
+	SphereMbR(GLdouble r, int p, int m); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+	GLdouble r;
+
+};
 
 class Cylinder : public QuadricEntity {
 public:
