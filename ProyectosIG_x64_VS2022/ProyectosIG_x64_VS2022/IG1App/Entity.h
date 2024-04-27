@@ -7,6 +7,8 @@
 #include "Mesh.h"
 #include "Texture.h"
 
+#include "Ilumination.h"
+
 class Abs_Entity // abstract class
 {
 public:
@@ -359,6 +361,8 @@ private:
 #pragma endregion
 
 
+#pragma region Objetos con mallas de revolucion
+
 class Sphere_mbr : public Abs_Entity {
 
 public:
@@ -380,6 +384,21 @@ public:
 
 
 };
+
+#pragma endregion
+
+
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() { };
+	virtual ~EntityWithMaterial() { };
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
+};
+
+
+
 
 
 #endif //_H_Entities_H_
