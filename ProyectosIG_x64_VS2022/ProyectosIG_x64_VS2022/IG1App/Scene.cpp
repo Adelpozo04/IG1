@@ -109,6 +109,12 @@ Scene::render(Camera const& cam) const
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
 	spotLight->upload(cam.viewMat());
+
+	if (mId == 79) {
+		spotLight->setPosDir(glm::fvec3{ 0,  100, 0 });
+		spotLight->upload(cam.viewMat() * inventedNode3->modelMat() * inventedNode2->modelMat() * inventedNode1->modelMat());
+	}
+
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) {
@@ -131,7 +137,7 @@ void Scene::update()
 			radians(3.0), dvec3(0, 0, 1)));
 	}
 
-	if (mId == 68){
+	if (mId == 68 ||mId == 79){
 		if (rotateActive) rotate();
 		if (orbitActive) orbit();
 	}
@@ -367,6 +373,38 @@ void Scene::setScene(GLuint id)
 		
 		
 		
+	}
+	else if (mId == 79) {
+		glClearColor(0, 0, 0, 1); // background color (alpha=1 -> opaque)
+
+		//planeta
+		auto sphere = new Sphere(2000);
+		sphere->setColor(1.f, 233 / 255.0, 0);
+
+		inventedNode1 = new CompoundEntity();
+		auto caza = new Advanced_TIE_X1();
+		caza->setModelMat(translate(inventedNode1->modelMat(), dvec3(0, 0, 0)));
+
+		inventedNode1->addEntity(caza);
+
+		inventedNode2 = new CompoundEntity();
+
+		inventedNode2->addEntity(inventedNode1);
+		inventedNode1->setModelMat(translate(inventedNode2->modelMat(),
+			dvec3(0, 2150, 0)));
+
+		inventedNode3 = new CompoundEntity();
+
+		inventedNode3->addEntity(inventedNode2);
+
+		inventedNode3->addEntity(sphere);
+
+		sphere->setModelMat(translate(sphere->modelMat(), dvec3(0, 0, 0)));
+		inventedNode2->setModelMat(translate(inventedNode2->modelMat(), dvec3(0, 0, 0)));
+
+		inventedNode3->setModelMat(translate(inventedNode3->modelMat(), dvec3(0, -500, 0)));
+
+		gObjects.push_back(inventedNode3);
 	}
 }
 
