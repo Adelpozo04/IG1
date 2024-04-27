@@ -45,6 +45,9 @@ public:
 	void EnablePosLight();
 	void DisablePosLight();
 
+	void EnableSpotLight();
+	void DisableSpotLight();
+
 protected:
 	void free();
 	void setGL();
@@ -69,6 +72,8 @@ protected:
 
 	DirLight* dirLight = nullptr;
 	PosLight* posLight = nullptr;
+	SpotLight* spotLight = nullptr;
+
 
 
 };

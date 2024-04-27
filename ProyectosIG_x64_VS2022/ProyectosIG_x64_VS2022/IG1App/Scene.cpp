@@ -15,29 +15,39 @@ Scene::init()
 
 	// Graphics objects (entities) of the scene
 
-	dirLight = new DirLight();
 
 	glm::fvec4 posDir = { 1, 1, 1, 0 };
 	glm::fvec4 ambient = { 0, 0, 0, 1 };
 	glm::fvec4 diffuse = { 1, 1, 1, 1 };
 	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 
+	dirLight = new DirLight();
+
 	dirLight->setAmb(ambient);
 	dirLight->setDiff(diffuse);
 	dirLight->setSpec(specular);
 	dirLight->setPosDir(posDir);
 
-	dirLight->disable();
-
 	posLight = new PosLight();
 	
-
 	posLight->setAmb(ambient);
 	posLight->setDiff(glm::fvec4{1.0,1.0,0.0,1.0});
 	posLight->setSpec(specular);
-	posLight->setPosDir(glm::fvec4{ 5000, 5000, 0, 1 });
+	posLight->setPosDir(glm::fvec3{ 5000, 5000, 0 });
 	
+	
+	spotLight = new SpotLight();
+
+	spotLight->setAmb(ambient);
+	spotLight->setDiff(diffuse);
+	spotLight->setSpec(specular);
+	spotLight->setPosDir(glm::fvec3{ 0,  200, 2100 });
+	spotLight->setAtte(1, 0, 0);
+
+	dirLight->disable();
 	posLight->disable();
+	spotLight->disable();
+
 }
 
 void
@@ -98,6 +108,7 @@ Scene::render(Camera const& cam) const
 	//dirLight->disable();
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) {
@@ -421,5 +432,19 @@ void Scene::DisablePosLight()
 {
 	if (posLight != nullptr) {
 		posLight->disable();
+	}
+}
+
+void Scene::EnableSpotLight()
+{
+	if (spotLight != nullptr) {
+		spotLight->enable();
+	}
+}
+
+void Scene::DisableSpotLight()
+{
+	if (spotLight != nullptr) {
+		spotLight->disable();
 	}
 }
