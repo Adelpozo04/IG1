@@ -44,9 +44,18 @@ Scene::init()
 	spotLight->setPosDir(glm::fvec3{ 0,  200, 2100 });
 	spotLight->setAtte(1, 0, 0);
 
+	spotLight2 = new SpotLight();
+			 
+	spotLight2->setAmb(ambient);
+	spotLight2->setDiff(diffuse);
+	spotLight2->setSpec(specular);
+	spotLight2->setPosDir(glm::fvec3{ 0,  100, 0 });
+	spotLight2->setAtte(1, 0, 0);
+
 	dirLight->disable();
 	posLight->disable();
 	spotLight->disable();
+	spotLight2->disable();
 
 }
 
@@ -111,8 +120,8 @@ Scene::render(Camera const& cam) const
 	spotLight->upload(cam.viewMat());
 
 	if (mId == 79) {
-		spotLight->setPosDir(glm::fvec3{ 0,  100, 0 });
-		spotLight->upload(cam.viewMat() * inventedNode3->modelMat() * inventedNode2->modelMat() * inventedNode1->modelMat());
+
+		spotLight2->upload(cam.viewMat() * inventedNode3->modelMat() * inventedNode2->modelMat() * inventedNode1->modelMat());
 	}
 
 	cam.upload();
@@ -484,5 +493,20 @@ void Scene::DisableSpotLight()
 {
 	if (spotLight != nullptr) {
 		spotLight->disable();
+	}
+}
+
+void Scene::EnableSpotLight2()
+{
+	if (spotLight2 != nullptr) {
+		spotLight2->enable();
+	}
+}
+
+void Scene::DisableSpotLight2()
+{
+
+	if (spotLight2 != nullptr) {
+		spotLight2->disable();
 	}
 }

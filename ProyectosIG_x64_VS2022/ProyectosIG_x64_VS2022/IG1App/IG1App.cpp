@@ -271,6 +271,12 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'x':
 			mScene->DisableSpotLight();
 			break;
+		case 'v':
+			mScene->EnableSpotLight2();
+			break;
+		case 'b':
+			mScene->DisableSpotLight2();
+			break;
 		default:
 			need_redisplay = false;
 			break;

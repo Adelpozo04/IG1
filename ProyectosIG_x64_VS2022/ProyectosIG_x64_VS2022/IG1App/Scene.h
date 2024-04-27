@@ -47,6 +47,9 @@ public:
 
 	void EnableSpotLight();
 	void DisableSpotLight();
+	
+	void EnableSpotLight2();
+	void DisableSpotLight2();
 
 protected:
 	void free();
@@ -73,6 +76,7 @@ protected:
 	DirLight* dirLight = nullptr;
 	PosLight* posLight = nullptr;
 	SpotLight* spotLight = nullptr;
+	SpotLight* spotLight2 = nullptr;
 
 
 
