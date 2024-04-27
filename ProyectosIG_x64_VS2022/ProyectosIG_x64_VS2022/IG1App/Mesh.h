@@ -61,12 +61,16 @@ protected:
 
 class IndexMesh : public Mesh {
 protected:
-	GLuint vIndices[36]; // tabla de índices
+	GLuint* vIndices = nullptr; // tabla de índices
 	GLuint nNumIndices = 0;
 
 public:
 
-	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	IndexMesh() { mPrimitive = GL_TRIANGLES;
+	
+		vIndices = new GLuint[36];
+
+	}
 	~IndexMesh() { delete[] vIndices; }
 	virtual void render() const;
 	virtual void draw() const;
@@ -83,7 +87,11 @@ private:
 class MbR : public IndexMesh {
 
 public:
-	MbR(int m_, int n_, glm::dvec3* perfil_) : n(n_), perfil(perfil_), m(m_) { };
+	MbR(int m_, int n_, glm::dvec3* perfil_) : n(n_), perfil(perfil_), m(m_) {
+	
+
+	
+	};
 	//~MbR();
 	//virtual void render() const;
 	//virtual void draw() const;

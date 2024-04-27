@@ -522,7 +522,7 @@ void Scene::setScene(GLuint id)
 	else if (mId == 71) {
 
 
-		SphereMbR* bola = new SphereMbR(100, 16, 8);
+		SphereMbR* bola = new SphereMbR(100, 8, 8);
 
 		gObjects.push_back(bola);
 

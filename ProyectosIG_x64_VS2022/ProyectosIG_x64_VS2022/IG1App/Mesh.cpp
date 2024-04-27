@@ -631,7 +631,8 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 	MbR* mesh = new MbR(mm, nn, perfil);
 	mesh->mPrimitive = GL_TRIANGLES;
 	mesh->mNumVertices = nn * mm;
-	mesh->nNumIndices = nn * mm * 6;
+	mesh->nNumIndices = nn * (mm - 1) * 6;
+	mesh->vIndices = new GLuint[mesh->nNumIndices];
 
 	dvec3* vs = new dvec3 [mesh->mNumVertices ];
 
@@ -655,8 +656,9 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 
 	}
 
-	for (int i = 0; i < nn * mm * 6; ++i) {
+	for (int i = 0; i < mesh->nNumIndices; ++i) {
 
+		mesh->vNormals.push_back({ 0, 0, 0 });
 
 	}
 	
@@ -709,7 +711,7 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 		mesh->vNormals[mesh->vIndices[(i * 3) + 2]] += n;
 	}
 
-	for (int i = 0; i < mesh->mNumVertices; i++) {
+	for (int i = 0; i < mesh->nNumIndices; i++) {
 		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
 	}
 
