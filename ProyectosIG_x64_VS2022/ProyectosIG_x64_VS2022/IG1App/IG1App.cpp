@@ -80,7 +80,7 @@ IG1App::init()
 	mCamera->set3D();
 
 	mScene->init();
-	mScene2->init();
+	//mScene2->init();
 
 	mScene->setScene(74);
 	//mCamera->set2D();//activar para el 66
@@ -226,9 +226,9 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'd':
 			currentCam->moveLR(5);
 			break;
-		case 'w':
-			currentCam->moveUD(5);
-			break;
+		//case 'w':
+			//currentCam->moveUD(5);
+			//break;
 		case 's':
 			currentCam->moveUD(-5);
 			break;
@@ -252,6 +252,12 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'g':
 			mScene->SwitchOrbit();
+			break;
+		case 'q':
+			mScene->EnableDirLight();
+			break;
+		case 'w':
+			mScene->DisableDirLight();
 			break;
 		default:
 			need_redisplay = false;

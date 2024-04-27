@@ -9,6 +9,9 @@
 
 #include <vector>
 
+#include "Ilumination.h"
+
+
 class Scene
 {
 public:
@@ -36,6 +39,9 @@ public:
 
 	void SwitchOrbit();
 
+	void EnableDirLight();
+	void DisableDirLight();
+
 protected:
 	void free();
 	void setGL();
@@ -57,6 +63,8 @@ protected:
 	void rotate();
 
 	void orbit();
+
+	DirLight* dirLight;
 
 };
 

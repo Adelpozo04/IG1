@@ -46,7 +46,13 @@ public:
 	
 
 	void disable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id); };
-	void enable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glEnable(id); };
+	void enable() { 
+		if (id < GL_LIGHT0 + GL_MAX_LIGHTS) {
+		
+		glEnable(id);
+	
+	
+	} };
 
 	// setters para cambiar el valor de los atributos lumínicos
 	void setAmb(glm::fvec4 amb) {

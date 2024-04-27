@@ -9,36 +9,26 @@ void
 Scene::init()
 {
 	setGL(); // OpenGL settings
-
 	// allocate memory and load resources
 	// Lights
 	// Textures
 
 	// Graphics objects (entities) of the scene
 
-	//ejes
-	//gObjects.push_back(new EjesRGB(400.0));
+	dirLight = new DirLight();
+
+	glm::fvec4 posDir = { 1, 1, 1, 0 };
+	glm::fvec4 ambient = { 0, 0, 0, 1 };
+	glm::fvec4 diffuse = { 1, 1, 1, 1 };
+	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+
+	dirLight->setAmb(ambient);
+	dirLight->setDiff(diffuse);
+	dirLight->setSpec(specular);
+	dirLight->setPosDir(posDir);
 	
-	//triangulo cian
-	//gObjects.push_back(new RegularPolygon(3,100));
-	//gObjects[1]->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
+	//dirLight->enable();
 
-	//circunferencia magenta
-	//gObjects.push_back(new RegularPolygon(50,100));
-	//gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
-
-	//triangulo RGB
-	//gObjects.push_back(new TriangleRGB(150));
-
-	//rectangulo
-	//gObjects.push_back(new Rectangle_RGB(100, 200));
-
-	//cubo
-	//gObjects.push_back(new Cube(100));
-
-	//setScene(1);
-
-	
 }
 
 void
@@ -61,7 +51,7 @@ Scene::setGL()
 	glEnable(GL_BLEND);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	
 
 }
@@ -95,7 +85,9 @@ void Scene::orbit()
 void
 Scene::render(Camera const& cam) const
 {
-	sceneDirLight(cam);
+	//sceneDirLight(cam);
+	//dirLight->disable();
+	dirLight->upload(cam.viewMat());
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) {
@@ -358,6 +350,7 @@ void Scene::setScene(GLuint id)
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {
+
 	//enable del sistema de luces
 	glEnable(GL_LIGHTING);
 
@@ -380,23 +373,7 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
 
-	/*
-	//Para hacer un foco?
-	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0);
-	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 4.0);
-	glm::fvec3 dir = { 2.0 , 1.0 , -4.0 };
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, value_ptr(dir));
-	*/
-
 	
-	/*
-	//setear constantes de atenuacion?
-	glLightf ( GL_LIGHT0 , GL_CONSTANT_ATTENUATION , ...);
-	glLightf ( GL_LIGHT0 , GL_LINEAR_ATTENUATION , ...);
-	glLightf ( GL_LIGHT0 , GL_QUADRATIC_ATTENUATION , ...);
-	
-	
-	*/
 }
 
 void Scene::SwitchRotate()
@@ -407,4 +384,18 @@ void Scene::SwitchRotate()
 void Scene::SwitchOrbit()
 {
 	orbitActive = !orbitActive;
+}
+
+void Scene::EnableDirLight()
+{
+	if (dirLight != nullptr) {
+		dirLight->enable();
+	}
+}
+
+void Scene::DisableDirLight()
+{
+	if (dirLight != nullptr) {
+		dirLight->disable();
+	}
 }
