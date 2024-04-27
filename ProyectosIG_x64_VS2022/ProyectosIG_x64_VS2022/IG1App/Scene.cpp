@@ -61,6 +61,7 @@ Scene::setGL()
 	glEnable(GL_BLEND);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
+	//glEnable(GL_LIGHTING);
 	
 
 }
@@ -73,6 +74,7 @@ Scene::resetGL()
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glDisable(GL_COLOR_MATERIAL);
+	//glDisable(GL_LIGHTING);
 
 }
 
@@ -325,6 +327,33 @@ void Scene::setScene(GLuint id)
 		auto toroid = new Toroid(50, 50, 24, 24);
 		toroid->setColor(dvec4(0, 1, 1, 1));
 		gObjects.push_back(toroid);
+	}
+	else if (mId == 74) {
+
+		auto sphereCol = new Sphere_mbr(100.0, 30, 30);
+
+		sphereCol->setColor(dvec4(1, 1, 0, 1));
+
+
+
+		sphereCol->setModelMat(translate(sphereCol->modelMat(), dvec3(-100, 0, 100)));
+
+		gObjects.push_back(sphereCol);
+
+		auto sphereMat = new Sphere_mbr(100.0, 30, 30);
+
+		sphereMat->setColor(dvec4(1, 1, 0, 1));
+		
+		Material* m = new Material();
+		m->setGold();
+		sphereMat->setMaterial(m);
+
+		sphereMat->setModelMat(translate(sphereMat->modelMat(), dvec3(100, 0, -100)));
+
+		gObjects.push_back(sphereMat);
+		
+		
+		
 	}
 }
 

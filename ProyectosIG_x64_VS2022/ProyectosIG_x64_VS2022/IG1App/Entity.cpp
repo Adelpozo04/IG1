@@ -1163,7 +1163,7 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
 		upload(aMat);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
 
@@ -1172,7 +1172,17 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
 		}
 
+		if (material != nullptr) {
+
+			glColor3f(mColor.r, mColor.g, mColor.b);
+
+			material->upload();
+
+		}
+
 		mMesh->render();
+
+		glColor3f(1.0, 1.0, 1.0);
 
 		glColor4f(0, 0, 0, 0);
 
@@ -1180,6 +1190,8 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
 	}
 }
 

@@ -361,16 +361,25 @@ private:
 #pragma endregion
 
 
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() { };
+	virtual ~EntityWithMaterial() { };
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
+};
+
+
 #pragma region Objetos con mallas de revolucion
 
-class Sphere_mbr : public Abs_Entity {
+class Sphere_mbr : public EntityWithMaterial {
 
 public:
 	Sphere_mbr(GLdouble radius,GLint pPunto, GLint meridianos); // r es el radio de la esfera
 	//~Sphere_mbr();
 	
 	virtual void render(glm::dmat4 const& modelViewMat) const;
-
 
 };
 
@@ -388,14 +397,6 @@ public:
 #pragma endregion
 
 
-class EntityWithMaterial : public Abs_Entity {
-public:
-	EntityWithMaterial() : Abs_Entity() { };
-	virtual ~EntityWithMaterial() { };
-	void setMaterial(Material* matl) { material = matl; };
-protected:
-	Material* material = nullptr;
-};
 
 
 
