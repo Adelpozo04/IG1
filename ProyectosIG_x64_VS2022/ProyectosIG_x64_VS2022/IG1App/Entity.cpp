@@ -1173,14 +1173,14 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 		}
 
 		if (material != nullptr) {
-
 			glColor3f(mColor.r, mColor.g, mColor.b);
 
 			material->upload();
-
 		}
 
 		mMesh->render();
+
+	
 
 		glColor3f(1.0, 1.0, 1.0);
 
@@ -1191,6 +1191,9 @@ void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+		//reset del color material
+		glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT);
+		glColorMaterial(GL_FRONT_AND_BACK,GL_DIFFUSE);
 
 	}
 }
