@@ -40,6 +40,10 @@ void Material::setGold()
 
 #pragma endregion
 
+#pragma region Lights
+
+#pragma region Light Abstract
+
 GLuint Light::cont = 0;
 
 Light::Light()
@@ -52,9 +56,31 @@ Light::Light()
 
 }
 
-void Light::uploadL() {
+void Light::uploadL() const {
 	// Transfiere las características de la luz a la GPU
 	glLightfv(id, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(id, GL_DIFFUSE, value_ptr(diffuse));
 	glLightfv(id, GL_SPECULAR, value_ptr(specular));
 }
+
+#pragma endregion
+
+#pragma region DirLights
+
+
+void DirLight::upload(glm::dmat4 const& modelViewMat) const {
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(value_ptr(modelViewMat));
+	glLightfv(id, GL_POSITION, value_ptr(posDir));
+	uploadL();
+}
+
+// Ojo al 0.0 que determina que la luz sea remota
+void DirLight::setPosDir(glm::fvec3 dir) {
+	posDir = glm::fvec4(dir, 0.0);
+}
+
+#pragma endregion
+
+
+#pragma endregion

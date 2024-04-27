@@ -38,7 +38,7 @@ protected:
 public:
 	Light();
 	virtual ~Light() { disable(); }
-	void uploadL();
+	void uploadL()const ;
 
 
 	// Método abstracto
@@ -67,3 +67,8 @@ public:
 	};
 };
 
+class DirLight : public Light {
+public:
+	virtual void upload(glm::dmat4 const& modelViewMat) const;
+	void setPosDir(glm::fvec3 dir);
+};
