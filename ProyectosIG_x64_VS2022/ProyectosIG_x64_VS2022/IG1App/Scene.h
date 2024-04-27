@@ -42,6 +42,9 @@ public:
 	void EnableDirLight();
 	void DisableDirLight();
 
+	void EnablePosLight();
+	void DisablePosLight();
+
 protected:
 	void free();
 	void setGL();
@@ -64,7 +67,9 @@ protected:
 
 	void orbit();
 
-	DirLight* dirLight;
+	DirLight* dirLight = nullptr;
+	PosLight* posLight = nullptr;
+
 
 };
 

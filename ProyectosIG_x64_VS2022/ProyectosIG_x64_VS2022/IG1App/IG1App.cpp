@@ -82,7 +82,7 @@ IG1App::init()
 	mScene->init();
 	//mScene2->init();
 
-	mScene->setScene(74);
+	mScene->setScene(68);
 	//mCamera->set2D();//activar para el 66
 	//mScene2->setScene(0);
 
@@ -220,18 +220,18 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'F':
 			savePhoto();
 			break;
-		case 'a':
-			currentCam->moveLR(-5);
-			break;
+		//case 'a':
+			//currentCam->moveLR(-5);
+			//break;
 		case 'd':
 			currentCam->moveLR(5);
 			break;
 		//case 'w':
 			//currentCam->moveUD(5);
 			//break;
-		case 's':
-			currentCam->moveUD(-5);
-			break;
+		//case 's':
+			//currentCam->moveUD(-5);
+			//break;
 		case 'W':
 			currentCam->moveFB(5);
 			break;
@@ -258,6 +258,12 @@ IG1App::key(unsigned char key, int x, int y)
 			break;
 		case 'w':
 			mScene->DisableDirLight();
+			break;
+		case 'a':
+			mScene->EnablePosLight();
+			break;
+		case 's':
+			mScene->DisablePosLight();
 			break;
 		default:
 			need_redisplay = false;

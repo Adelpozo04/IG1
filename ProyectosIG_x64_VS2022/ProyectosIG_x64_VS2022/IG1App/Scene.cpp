@@ -26,9 +26,18 @@ Scene::init()
 	dirLight->setDiff(diffuse);
 	dirLight->setSpec(specular);
 	dirLight->setPosDir(posDir);
-	
-	//dirLight->enable();
 
+	dirLight->disable();
+
+	posLight = new PosLight();
+	
+
+	posLight->setAmb(ambient);
+	posLight->setDiff(glm::fvec4{1.0,1.0,0.0,1.0});
+	posLight->setSpec(specular);
+	posLight->setPosDir(glm::fvec4{ 5000, 5000, 0, 1 });
+	
+	posLight->disable();
 }
 
 void
@@ -88,6 +97,7 @@ Scene::render(Camera const& cam) const
 	//sceneDirLight(cam);
 	//dirLight->disable();
 	dirLight->upload(cam.viewMat());
+	posLight->upload(cam.viewMat());
 	cam.upload();
 
 	for (Abs_Entity* el : gObjects) {
@@ -397,5 +407,19 @@ void Scene::DisableDirLight()
 {
 	if (dirLight != nullptr) {
 		dirLight->disable();
+	}
+}
+
+void Scene::EnablePosLight()
+{
+	if (posLight != nullptr) {
+		posLight->enable();
+	}
+}
+
+void Scene::DisablePosLight()
+{
+	if (posLight != nullptr) {
+		posLight->disable();
 	}
 }
