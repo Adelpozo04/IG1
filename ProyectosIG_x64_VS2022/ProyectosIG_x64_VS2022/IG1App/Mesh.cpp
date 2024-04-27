@@ -598,101 +598,6 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w) {
 	mesh->vIndices[35] = 5;
 
 	
-
-	
-	/*
-	//FACE 0
-	
-	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
-	
-	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(1.0, 0.0, 0.0);
-	
-	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
-
-	
-	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(1.0, 0.0, 0.0);
-	
-	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(1.0, 0.0, 0.0);
-	
-	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(1.0, 0.0, 0.0);
-
-	//FACE 1
-
-	
-	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
-	
-	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(0.0, -1.0, 0.0);
-	
-	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
-
-	
-	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, -1.0, 0.0);
-	
-	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, -1.0, 0.0);
-	
-	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, -1.0, 0.0);
-
-	//FACE 2
-	
-	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, 0.0, -1.0);
-	
-	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 0.0, -1.0);
-	
-	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 0.0, -1.0);
-
-	
-	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(0.0, 0.0, -1.0);
-	
-	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 0.0, -1.0);
-	
-	mesh->vNormals[1] = mesh->vNormals[1] + dvec3(0.0, 0.0, -1.0);
-
-	//FACE 3
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 1.0, 0.0);
-	
-	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(0.0, 1.0, 0.0);
-	
-	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 1.0, 0.0);
-
-	
-	mesh->vNormals[0] = mesh->vNormals[0] + dvec3(0.0, 1.0, 0.0);
-	
-	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(0.0, 1.0, 0.0);
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 1.0, 0.0);
-
-	//FACE 4
-	
-	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, 0.0, 1.0);
-	
-	mesh->vNormals[4] = mesh->vNormals[4] + dvec3(0.0, 0.0, 1.0);
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 0.0, 1.0);
-
-	
-	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(0.0, 0.0, 1.0);
-	
-	mesh->vNormals[5] = mesh->vNormals[5] + dvec3(0.0, 0.0, 1.0);
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(0.0, 0.0, 1.0);
-
-	//FACE 5
-	
-	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(-1.0, 0.0, 0.0);
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(-1.0, 0.0, 0.0);
-	
-	mesh->vNormals[3] = mesh->vNormals[3] + dvec3(-1.0, 0.0, 0.0);
-
-	
-	mesh->vNormals[6] = mesh->vNormals[6] + dvec3(-1.0, 0.0, 0.0);
-	
-	mesh->vNormals[7] = mesh->vNormals[7] + dvec3(-1.0, 0.0, 0.0);
-	
-	mesh->vNormals[2] = mesh->vNormals[2] + dvec3(-1.0, 0.0, 0.0);
-	*/
-	
 	for (int i = 0; i < mesh->nNumIndices / 3; i++) {
 
 		dvec3 n;
@@ -726,9 +631,10 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 	MbR* mesh = new MbR(mm, nn, perfil);
 	mesh->mPrimitive = GL_TRIANGLES;
 	mesh->mNumVertices = nn * mm;
-	//vector<glm::dvec3> vs;
-	// Usar un vector auxiliar de vértices
+	mesh->nNumIndices = nn * mm * 6;
+
 	dvec3* vs = new dvec3 [mesh->mNumVertices ];
+
 	for (int i = 0; i < nn; i++) {
 		// Generar la muestra i- ésima de vértices
 		GLdouble theta = i * 360 / nn;
@@ -741,21 +647,27 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 		}
 	}
 
-	mesh->vVertices.reserve(mesh->mNumVertices);
-
 	for (int i = 0; i < mesh->mNumVertices; ++i) {
 
-		mesh->vVertices[i] = vs[i];
+		mesh->vVertices.push_back(vs[i]);
+
+		mesh->vColors.push_back({ 1.0, 0.0, 0.0, 1.0 });
 
 	}
 
-	int indiceMayor = 0;
+	for (int i = 0; i < nn * mm * 6; ++i) {
 
+
+	}
+	
+	int indiceMayor = 0;
+	
 	// El contador i recorre las muestras alrededor del eje Y
 	for (int i = 0; i < nn; i++) {
 		// El contador j recorre los vértices del perfil ,
 		// de abajo arriba . Las caras cuadrangulares resultan
 		// al unir la muestra i- ésima con la (i +1)% nn - ésima
+		
 		for (int j = 0; j < mm - 1; j++) {
 			// El contador indice sirve para llevar cuenta
 						// de los índices generados hasta ahora . Se recorre
@@ -774,10 +686,11 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 			mesh->vIndices[indiceMayor] = indice + 1;
 			indiceMayor++;
 			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
 		}
-			
+
 	}
-		
+
 	// Los cuatro índices son entonces :
 	//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1;
 
@@ -799,7 +712,6 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
 	}
-	
 
 
 	return mesh;

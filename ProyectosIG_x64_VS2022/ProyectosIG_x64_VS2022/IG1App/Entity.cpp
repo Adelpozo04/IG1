@@ -933,8 +933,6 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 
 	upload(aMat);
 
-	// Aquí se puede fijar el color de la esfera así:
-	glEnable ( GL_COLOR_MATERIAL );
 	glColor3f (colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
@@ -948,34 +946,35 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 #pragma region SphereMbR
 SphereMbR::SphereMbR(GLdouble r, int p, int m) {
 
-	dvec3* perfil = new dvec3[p];
+	glm::dvec3* perfil = new glm::dvec3[m];
 	
-	double angle = 180.0f / p;
+	double angle = 180.0f / m;
 
 	double angleAcumulate = 0;
 
-	for (int i = 0; i < p; i++) {
+	for (int i = 0; i < m; i++) {
 		perfil[i] = dvec3(glm::cos(radians(angleAcumulate)), 0, glm::sin(radians(angleAcumulate)));
 		angleAcumulate += angle;
 	}
 
-	mMesh = new MbR(m, p, perfil);
+	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
 
 }
 void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
-	dmat4 aMat = modelViewMat * mModelMat;
+	dmat4 aMat = modelViewMat; // glm matrix multiplication			
 
 	upload(aMat);
 
-	// Aquí se puede fijar el color de la esfera así:
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
+	//set config
+	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_BACK, GL_POINT);
+	glLineWidth(2);
 
-	// Aquí se puede fijar el modo de dibujar la esfera :
-	gluQuadricDrawStyle(q, GL_FILL);
-	gluSphere(q, r, 50, 50);
-	// Aquí se debe recuperar el color :
-	glColor3f(1.0, 1.0, 1.0);
+	mRevolucionMesh->render();
+
+	//reset config
+	glLineWidth(1);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 #pragma endregion
 

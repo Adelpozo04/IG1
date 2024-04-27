@@ -35,6 +35,7 @@ public:
 protected:
 	Mesh* mMesh = nullptr; // the mesh
 	IndexMesh* mIndexmesh = nullptr;
+	MbR* mRevolucionMesh = nullptr;
 	glm::dmat4 mModelMat;  // modeling matrix
 
 	glm::dvec4 mColor; //colors
@@ -270,7 +271,7 @@ protected:
 
 };
 
-class SphereMbR : public QuadricEntity {
+class SphereMbR : public Abs_Entity {
 public:
 
 	SphereMbR(GLdouble r, int p, int m); // r es el radio de la esfera
