@@ -61,14 +61,25 @@ public:
 		specular = spec; uploadL();
 	};
 
-	//set dir
-	void setPosDir(glm::fvec4 pDir) {
-		posDir = pDir; uploadL();
-	};
+	
 };
 
 class DirLight : public Light {
 public:
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 	void setPosDir(glm::fvec3 dir);
+};
+
+class PosLight : public Light {
+protected:
+	// Factores de atenuación
+	GLfloat kc = 1, kl = 0, kq = 0;
+public:
+	virtual void upload(glm::dmat4 const& modelViewMat) const;
+	void setPosDir(glm::fvec3 dir);
+	void setAtte(GLfloat _kc, GLfloat _kl, GLfloat _kq) {
+		kc = _kc;
+		kl = _kl;
+		kq = _kq;
+	};
 };
