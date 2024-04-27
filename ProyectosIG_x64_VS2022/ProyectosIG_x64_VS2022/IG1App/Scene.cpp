@@ -315,32 +315,59 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(inventedNode3);	
 	}
 	else if(mId == 71){
-
+		
 		auto sphere = new Sphere_mbr(100.0, 30, 30);
 		sphere->setColor(dvec4(0, 1, 0, 1));
 		gObjects.push_back(sphere);
 	}
 	else if (mId == 72) {
-
-		auto toroid = new Toroid(50, 50, 50, 24);
-		toroid->setColor(dvec4(0, 1, 0, 1));
+		
+		auto toroid = new Toroid(50, 50, 24, 24);
+		toroid->setColor(dvec4(0, 1, 1, 1));
 		gObjects.push_back(toroid);
 	}
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {
+	//enable del sistema de luces
 	glEnable(GL_LIGHTING);
+
+	//enable de la luz 0
 	glEnable(GL_LIGHT0);
-	glm::fvec4 posDir = { 1, 1, 1, 0 };
+	
+	//subir la matriz de la camara, por si la camara se mueve
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(cam.viewMat()));
-	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
+
+	//posicion,y componentes (amibient,diffuse,specular) de la luz 0
+	glm::fvec4 posDir = { 1, 1, 1, 0 };
 	glm::fvec4 ambient = { 0, 0, 0, 1 };
 	glm::fvec4 diffuse = { 1, 1, 1, 1 };
 	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
+
+	//setear la poscion y las componentes a la luz 0
+	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
 	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+
+	/*
+	//Para hacer un foco?
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 45.0);
+	glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 4.0);
+	glm::fvec3 dir = { 2.0 , 1.0 , -4.0 };
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, value_ptr(dir));
+	*/
+
+	
+	/*
+	//setear constantes de atenuacion?
+	glLightf ( GL_LIGHT0 , GL_CONSTANT_ATTENUATION , ...);
+	glLightf ( GL_LIGHT0 , GL_LINEAR_ATTENUATION , ...);
+	glLightf ( GL_LIGHT0 , GL_QUADRATIC_ATTENUATION , ...);
+	
+	
+	*/
 }
 
 void Scene::SwitchRotate()
