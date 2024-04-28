@@ -944,7 +944,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 #pragma endregion
 
 #pragma region SphereMbR
-SphereMbR::SphereMbR(GLdouble r, GLint p, GLint m) {
+SphereMbR::SphereMbR(GLdouble r, GLint p, GLint m, dvec3 translateVec) : translateVec_(translateVec){
 
 	glm::dvec3* perfil = new glm::dvec3[m];
 	
@@ -956,22 +956,37 @@ SphereMbR::SphereMbR(GLdouble r, GLint p, GLint m) {
 
 	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
 
+
 }
 void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
-	dmat4 aMat = modelViewMat; // glm matrix multiplication			
+	dmat4 aMat = modelViewMat * translate(mModelMat, translateVec_); // glm matrix multiplication			
 
 	upload(aMat);
 
 	//set config
-	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_FRONT, GL_FILL);
 	glPolygonMode(GL_BACK, GL_LINE);
 	glLineWidth(2);
+
+	if(mMaterial != nullptr){
+
+		glEnable(GL_COLOR_MATERIAL);
+
+	}
+
+	glColor3f(1.0, 0.8, 0.0);
 
 	mRevolucionMesh->render();
 
 	//reset config
+
+
+
+	glDisable(GL_COLOR_MATERIAL);
 	glLineWidth(1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glColor3f(1.0, 1.0, 1.0);
+
 }
 #pragma endregion
 
@@ -988,8 +1003,6 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const {
 
 	upload(aMat);
 
-	// Aquí se puede fijar el color de la esfera así:
-	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
@@ -1013,8 +1026,6 @@ void Disk::render(glm::dmat4 const& modelViewMat) const {
 
 	upload(aMat);
 
-	// Aquí se puede fijar el color de la esfera así:
-	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
@@ -1039,8 +1050,6 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const {
 
 	upload(aMat);
 
-	// Aquí se puede fijar el color de la esfera así:
-	glEnable(GL_COLOR_MATERIAL);
 	glColor3f(colorVec_.r, colorVec_.g, colorVec_.b);
 
 	// Aquí se puede fijar el modo de dibujar la esfera :
@@ -1183,12 +1192,50 @@ void ToroideMbR::render(glm::dmat4 const& modelViewMat) const {
 	glPolygonMode(GL_BACK, GL_LINE);
 	glLineWidth(2);
 
+	glColor3f(0.0, 1.0, 0.0);
+
 	mRevolucionMesh->render();
 
 	//reset config
 	glLineWidth(1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glColor3f(1.0, 1.0, 1.0);
 }
+#pragma endregion
+
+#pragma region EntityWithMaterial
+EntityWithMaterial::EntityWithMaterial() : mMaterial(nullptr) {
+
+
+
+}
+
+EntityWithMaterial::~EntityWithMaterial(){
+
+	if (mMaterial != nullptr) {
+		delete mMaterial;
+		mMaterial = nullptr;
+	}
+
+}
+
+void EntityWithMaterial::setMaterial(glm::fvec4 ambient, glm::fvec4 specular, glm::fvec4 diffuse, float exp) {
+
+	mMaterial = new Material();
+
+	mMaterial->setExponent(exp);
+
+	mMaterial->setAmbient(ambient);
+
+	mMaterial->setDiffuse(diffuse);
+
+	mMaterial->setSpecular(specular);
+
+	mMaterial->upload();
+
+}
+
 #pragma endregion
 
 

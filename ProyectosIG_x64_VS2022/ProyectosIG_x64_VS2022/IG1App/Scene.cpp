@@ -62,8 +62,6 @@ Scene::setGL()
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
-	glEnable(GL_COLOR_MATERIAL);
-
 
 }
 void
@@ -73,7 +71,6 @@ Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
-	glDisable(GL_COLOR_MATERIAL);
 
 }
 
@@ -522,7 +519,7 @@ void Scene::setScene(GLuint id)
 	else if (mId == 71) {
 
 
-		SphereMbR* bola = new SphereMbR(100, 20, 20);
+		SphereMbR* bola = new SphereMbR(100, 20, 20, {0, 0, 0});
 
 		gObjects.push_back(bola);
 
@@ -532,6 +529,19 @@ void Scene::setScene(GLuint id)
 		ToroideMbR* donut = new ToroideMbR(100, 300, 12, 12);
 
 		gObjects.push_back(donut);
+
+	}
+	else if (mId == 74) {
+
+		SphereMbR* planetColor = new SphereMbR(100, 50, 50, {0, 0, 0});
+
+		SphereMbR* planetGold = new SphereMbR(100, 50, 50, {300, 0, 0});
+
+		planetGold->setMaterial({0.24725, 0.1995, 0.0745, 1}, {0.628281, 0.555802, 0.366065, 1}, { 0.75164, 0.60648, 0.22648, 1 }, 51.2 );
+
+		gObjects.push_back(planetColor);
+
+		gObjects.push_back(planetGold);
 
 	}
 

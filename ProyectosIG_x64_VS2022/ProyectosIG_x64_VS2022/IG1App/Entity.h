@@ -6,6 +6,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
+#include "Material.h"
 
 class Abs_Entity // abstract class
 {
@@ -365,16 +366,31 @@ public:
 
 };
 
-
-class SphereMbR : public Abs_Entity {
+class EntityWithMaterial : public Abs_Entity {
 public:
 
-	SphereMbR(GLdouble r, GLint p, GLint m); // r es el radio de la esfera
+	EntityWithMaterial();
+	~EntityWithMaterial();
+
+	void setMaterial(glm::fvec4 ambient, glm::fvec4 specular, glm::fvec4 diffuse, float exp);
+
+protected:
+
+	Material* mMaterial;
+
+};
+
+
+class SphereMbR : public EntityWithMaterial {
+public:
+
+	SphereMbR(GLdouble r, GLint p, GLint m, glm::dvec3 translateVec); // r es el radio de la esfera
 	void render(glm::dmat4 const& modelViewMat) const;
 
 protected:
 
 	GLdouble r;
+	glm::dvec3 translateVec_;
 
 };
 
@@ -387,6 +403,8 @@ public:
 protected:
 
 };
+
+
 
 
 #endif //_H_Entities_H_

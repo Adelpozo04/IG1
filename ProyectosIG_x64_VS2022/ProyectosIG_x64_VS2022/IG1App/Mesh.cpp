@@ -652,8 +652,6 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 
 		mesh->vVertices.push_back(vs[i]);
 
-		mesh->vColors.push_back({ 1.0, 0.0, 0.0, 1.0 });
-
 	}
 
 	for (int i = 0; i < mesh->nNumIndices; ++i) {
