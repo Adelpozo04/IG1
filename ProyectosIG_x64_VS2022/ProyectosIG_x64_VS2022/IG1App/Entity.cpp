@@ -944,17 +944,14 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 #pragma endregion
 
 #pragma region SphereMbR
-SphereMbR::SphereMbR(GLdouble r, int p, int m) {
+SphereMbR::SphereMbR(GLdouble r, GLint p, GLint m) {
 
 	glm::dvec3* perfil = new glm::dvec3[m];
 	
-	double angle = 180.0f / m;
-
-	double angleAcumulate = 0;
+	double angle = 180.0f / (m - 1);
 
 	for (int i = 0; i < m; i++) {
-		perfil[i] = dvec3(glm::cos(radians(angleAcumulate)), 0, glm::sin(radians(angleAcumulate)));
-		angleAcumulate += angle;
+		perfil[i] = dvec3(glm::cos(radians(angle * i - 90)) * r, glm::sin(radians(angle * i - 90)) * r, 0);
 	}
 
 	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
@@ -966,8 +963,8 @@ void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
 	upload(aMat);
 
 	//set config
-	glPolygonMode(GL_FRONT, GL_FILL);
-	glPolygonMode(GL_BACK, GL_POINT);
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_LINE);
 	glLineWidth(2);
 
 	mRevolucionMesh->render();

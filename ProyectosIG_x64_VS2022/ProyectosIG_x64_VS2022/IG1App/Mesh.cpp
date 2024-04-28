@@ -638,7 +638,7 @@ MbR* MbR::generaMallaIndexadaPorRevolucion(int mm, int nn, glm::dvec3* perfil) {
 
 	for (int i = 0; i < nn; i++) {
 		// Generar la muestra i- ésima de vértices
-		GLdouble theta = i * 360 / nn;
+		GLdouble theta = i * (360 / nn);
 		GLdouble c = cos(radians(theta));
 		GLdouble s = sin(radians(theta));
 		for (int j = 0; j < mm; j++) {
