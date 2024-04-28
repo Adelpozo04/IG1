@@ -271,17 +271,6 @@ protected:
 
 };
 
-class SphereMbR : public Abs_Entity {
-public:
-
-	SphereMbR(GLdouble r, int p, int m); // r es el radio de la esfera
-	void render(glm::dmat4 const& modelViewMat) const;
-
-protected:
-
-	GLdouble r;
-
-};
 
 class Cylinder : public QuadricEntity {
 public:
@@ -373,6 +362,29 @@ public:
 	~WingAdvancedTIE();
 
 	virtual void render(glm::dmat4 const& modelViewMat) const override;
+
+};
+
+
+class SphereMbR : public Abs_Entity {
+public:
+
+	SphereMbR(GLdouble r, GLint p, GLint m); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
+
+	GLdouble r;
+
+};
+
+class ToroideMbR : public Abs_Entity {
+public:
+
+	ToroideMbR(GLdouble g, GLdouble r, GLint p, GLint m); // r es el radio de la esfera
+	void render(glm::dmat4 const& modelViewMat) const;
+
+protected:
 
 };
 

@@ -527,6 +527,13 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(bola);
 
 	}
+	else if (mId == 72) {
+
+		ToroideMbR* donut = new ToroideMbR(100, 300, 12, 12);
+
+		gObjects.push_back(donut);
+
+	}
 
 
 }

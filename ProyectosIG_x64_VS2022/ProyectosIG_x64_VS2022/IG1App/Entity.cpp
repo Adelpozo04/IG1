@@ -1159,5 +1159,37 @@ void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const {
 }
 #pragma endregion
 
+#pragma region ToroideMbR
+ToroideMbR::ToroideMbR(GLdouble g, GLdouble r, GLint p, GLint m) {
+
+	glm::dvec3* perfil = new glm::dvec3[m];
+
+	double angle = 360.0f / (m - 1);
+
+	for (int i = 0; i < m; i++) {
+		perfil[i] = dvec3(glm::cos(radians(angle * i)) * g + r, glm::sin(radians(angle * i)) * g, 0);
+	}
+
+	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
+
+}
+void ToroideMbR::render(glm::dmat4 const& modelViewMat) const {
+	dmat4 aMat = modelViewMat; // glm matrix multiplication			
+
+	upload(aMat);
+
+	//set config
+	glPolygonMode(GL_FRONT, GL_LINE);
+	glPolygonMode(GL_BACK, GL_LINE);
+	glLineWidth(2);
+
+	mRevolucionMesh->render();
+
+	//reset config
+	glLineWidth(1);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+#pragma endregion
+
 
 #pragma endregion
