@@ -968,16 +968,25 @@ void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
 	glPolygonMode(GL_BACK, GL_LINE);
 	glLineWidth(2);
 
+	if (mMaterial != nullptr) {
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(1.0, 1.0, 0.0);
+	}
 
-	glColor3f(1.0, 0.8, 0.0);
 
 	mRevolucionMesh->render();
 
 	//reset config
 
+	if (mMaterial != nullptr) {
+		glDisable(GL_COLOR_MATERIAL);
+	}
+
+
 	glLineWidth(1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor3f(1.0, 1.0, 1.0);
+
 
 }
 #pragma endregion
