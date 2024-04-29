@@ -4,6 +4,11 @@
 void Material::upload()
 {
 
+	glColorMaterial(face, GL_AMBIENT);
+	glColorMaterial(face, GL_DIFFUSE);
+	glColorMaterial(face, GL_SPECULAR);
+	glColorMaterial(face, GL_SHININESS);
+
 	glMaterialfv(face, GL_AMBIENT, value_ptr(ambient));
 	glMaterialfv(face, GL_DIFFUSE, value_ptr(diffuse));
 	glMaterialfv(face, GL_SPECULAR, value_ptr(specular));
