@@ -982,6 +982,8 @@ void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
 		glDisable(GL_COLOR_MATERIAL);
 	}
 
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 	glLineWidth(1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
