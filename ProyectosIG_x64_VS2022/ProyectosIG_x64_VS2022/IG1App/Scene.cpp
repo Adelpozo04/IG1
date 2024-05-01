@@ -12,6 +12,14 @@ Scene::init()
 
 	// allocate memory and load resources
 	// Lights
+
+	dirLight = new DirLight();
+
+	glm::fvec4 posDir = { 1, 1, 1, 0 };
+
+	dirLight->setPosDir(posDir);
+
+	// 
 	// Textures
 
 	// Graphics objects (entities) of the scene
@@ -62,6 +70,8 @@ Scene::setGL()
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 	
 
 }
@@ -72,13 +82,16 @@ Scene::resetGL()
 	glDisable(GL_DEPTH_TEST);     // disable Depth test
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	
 
 }
 
 void
 Scene::render(Camera const& cam) const
 {
-	sceneDirLight(cam);
+	dirLight->upload(cam.viewMat());
 
 	cam.upload();
 
@@ -550,9 +563,12 @@ void Scene::setScene(GLuint id)
 }
 
 void Scene::sceneDirLight(Camera const& cam) const{
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glm::fvec4 posDir = { 1, 1, 1, 0 };
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+
+	//
+
+	/*glm::fvec4 posDir = { 1, 1, 1, 0 };
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixd(value_ptr(cam.viewMat()));
 	glLightfv(GL_LIGHT0, GL_POSITION, value_ptr(posDir));
@@ -561,5 +577,5 @@ void Scene::sceneDirLight(Camera const& cam) const{
 	glm::fvec4 specular = { 0.5, 0.5, 0.5, 1 };
 	glLightfv(GL_LIGHT0, GL_AMBIENT, value_ptr(ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse));
-	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));
+	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular));*/
 }

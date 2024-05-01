@@ -255,6 +255,12 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'c':
 			currentCam->setCenital();
 			break;
+		case 'q':
+			currentScene->changeLights(true);
+			break;
+		case 'e':
+			currentScene->changeLights(false);
+			break;
 		case 'k':
 			changem2Vista();
 			break;

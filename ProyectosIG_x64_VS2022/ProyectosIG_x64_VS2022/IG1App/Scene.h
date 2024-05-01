@@ -6,6 +6,7 @@
 
 #include "Camera.h"
 #include "Entity.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -36,6 +37,17 @@ public:
 
 	void orbited();
 
+	void changeLights(bool on) { 
+		
+		if (on) {
+			dirLight->enable();
+		}
+		else {
+			dirLight->disable();
+		}
+	
+	}
+
 protected:
 	void free();
 	void setGL();
@@ -52,6 +64,9 @@ protected:
 	CompoundEntity* inventedNode3_;
 
 	float angle = 0;
+
+	DirLight* dirLight;
+
 
 };
 
