@@ -946,15 +946,15 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const {
 #pragma region SphereMbR
 SphereMbR::SphereMbR(GLdouble r, GLint p, GLint m, dvec3 translateVec) : translateVec_(translateVec){
 
-	glm::dvec3* perfil = new glm::dvec3[m];
+	glm::dvec3* perfil = new glm::dvec3[p];
 	
-	double angle = 180.0f / (m - 1);
+	double angle = 180.0f / (p - 1);
 
-	for (int i = 0; i < m; i++) {
+	for (int i = 0; i < p; i++) {
 		perfil[i] = dvec3(glm::cos(radians(angle * i - 90)) * r, glm::sin(radians(angle * i - 90)) * r, 0);
 	}
 
-	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
+	mMesh = MbR::generaMallaIndexadaPorRevolucion(p, m, perfil);
 
 
 }
@@ -974,7 +974,7 @@ void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
 	}
 
 
-	mRevolucionMesh->render();
+	mMesh->render();
 
 	//reset config
 

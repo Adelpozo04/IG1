@@ -21,17 +21,17 @@ Scene::init()
 
 	posLight = new PosLight(GL_LIGHT1);
 
-	posLight->setPosDir({ 100, 0, 100 });
+	posLight->setPosDir({ 300, 0, 300 });
 
 	posLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
 	spotLight = new SpotLight(GL_LIGHT2);
 
-	spotLight->setPosDir({ 0, 0, 150 });
+	spotLight->setPosDir({ 0, 310, 0 });
 
 	spotLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
-	spotLight->setSpot({ -1, 0, 0 }, 180, 0);
+	spotLight->setSpot({ 0, -1, 0 }, 180, 0);
 
 	
 
@@ -88,6 +88,7 @@ Scene::setGL()
 	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);	
 	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
 
 }
 void
@@ -98,7 +99,8 @@ Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
-
+	glDisable(GL_COLOR_MATERIAL);
+	glDisable(GL_LIGHTING);
 }
 
 void
