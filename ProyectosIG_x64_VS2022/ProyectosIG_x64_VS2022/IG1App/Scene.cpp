@@ -13,11 +13,17 @@ Scene::init()
 	// allocate memory and load resources
 	// Lights
 
-	dirLight = new DirLight();
+	/*dirLight = new DirLight();
 
 	glm::fvec4 posDir = { 1, 1, 1, 0 };
 
-	dirLight->setPosDir(posDir);
+	dirLight->setPosDir(posDir);*/
+
+	posLight = new PosLight();
+
+	posLight->setPosDir({ 50, 0, 100 });
+
+	posLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
 	// 
 	// Textures
@@ -72,7 +78,7 @@ Scene::setGL()
 	glEnable(GL_BLEND);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 	
 
 }
@@ -85,7 +91,7 @@ Scene::resetGL()
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glDisable(GL_LIGHTING);
-	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
 	
 
 }
@@ -93,7 +99,8 @@ Scene::resetGL()
 void
 Scene::render(Camera const& cam) const
 {
-	dirLight->upload(cam.viewMat());
+	/*dirLight->upload(cam.viewMat());*/
+	posLight->upload(cam.viewMat());
 
 	cam.upload();
 

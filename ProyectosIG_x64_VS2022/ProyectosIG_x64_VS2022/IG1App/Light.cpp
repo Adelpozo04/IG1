@@ -26,6 +26,7 @@ void Light::uploadL() const
 
 }
 
+
 void DirLight::upload(glm::dmat4 const& modelViewMat) const
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -85,7 +86,8 @@ void SpotLight::upload(glm::dmat4 const& modelViewMat) const
 void SpotLight::setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e)
 {
 
-	direction = glm::fvec4(dir, 0.0); cutoff = cf;
+	direction = glm::fvec4(dir, 0.0); 
+	cutoff = cf;
 	exp = e;
 
 }

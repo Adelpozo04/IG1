@@ -256,10 +256,16 @@ IG1App::key(unsigned char key, int x, int y)
 			currentCam->setCenital();
 			break;
 		case 'q':
-			currentScene->changeLights(true);
+			currentScene->changeLightsDir(true);
 			break;
 		case 'e':
-			currentScene->changeLights(false);
+			currentScene->changeLightsDir(false);
+			break;
+		case 'b':
+			currentScene->changeLightsPos(true);
+			break;
+		case 'n':
+			currentScene->changeLightsPos(false);
 			break;
 		case 'k':
 			changem2Vista();
@@ -356,7 +362,7 @@ IG1App::motion(int x, int y) {
 
 	mMouseCoord = glm::dvec2(x, y);
 
-	auto currentCam = ((mMouseCoord.x < mWinW / 2) || !splitScreen) ? mCamera : mCamera2;
+	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !splitScreen) ? mCamera : mCamera2;
 
 	if (mMouseButt == 0) {
 

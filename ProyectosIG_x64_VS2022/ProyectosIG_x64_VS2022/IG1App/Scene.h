@@ -37,7 +37,7 @@ public:
 
 	void orbited();
 
-	void changeLights(bool on) { 
+	void changeLightsDir(bool on) { 
 		
 		if (on) {
 			dirLight->enable();
@@ -46,6 +46,17 @@ public:
 			dirLight->disable();
 		}
 	
+	}
+
+	void changeLightsPos(bool on) {
+
+		if (on) {
+			posLight->enable();
+		}
+		else {
+			posLight->disable();
+		}
+
 	}
 
 protected:
@@ -66,6 +77,8 @@ protected:
 	float angle = 0;
 
 	DirLight* dirLight;
+
+	PosLight* posLight;
 
 
 };

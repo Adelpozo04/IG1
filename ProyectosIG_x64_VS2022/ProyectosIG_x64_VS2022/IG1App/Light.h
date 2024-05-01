@@ -30,6 +30,15 @@ public:
 		uploadL();
 	};
 
+	virtual void setDiff(glm::fvec4 diff) {
+		diffuse = diff;
+		uploadL();
+	};
+	virtual void setSpec(glm::fvec4 spec) {
+		specular = spec;
+		uploadL();
+	};
+
 	
 };
 
