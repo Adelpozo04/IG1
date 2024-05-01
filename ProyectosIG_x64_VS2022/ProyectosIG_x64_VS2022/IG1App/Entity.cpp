@@ -1143,16 +1143,16 @@ void Cubo::update()
 
 Sphere_mbr::Sphere_mbr(GLdouble radius, GLint pPunto, GLint meridianos)
 {
-	dvec3* aux = new dvec3[pPunto];
+	glm::dvec3* aux = new glm::dvec3[pPunto];
 
-	float angle = 180.0 / (pPunto-1);
+	double angle = 180.0 / (pPunto-1);
 
 	for (int i = 0; i < pPunto; i++) {
-		aux[i] = dvec3(cos(radians(angle*i -90)) * radius , sin(radians(angle * i -90)) * radius,0) ;
+		aux[i] = glm::dvec3(cos(radians(angle*i - 90)) * radius , sin(radians(angle * i -90)) * radius,0);
 	}
 	
 
-	mMesh =  MbR::generaIndexMbR(pPunto,meridianos,aux);
+	mMesh = MbR::generaIndexMbR(pPunto,meridianos,aux);
 }
 
 void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
@@ -1203,7 +1203,7 @@ Toroid::Toroid(GLdouble grosor, GLdouble radius, GLint m, GLint p)
 {
 	dvec3* aux = new dvec3[p];
 
-	float angle = 360.0 / (p - 1);
+	double angle = 360.0 / (p - 1);
 
 	for (int i = 0; i < p; i++) {         
 		aux[i] = dvec3((radius +(grosor))+ (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);

@@ -25,7 +25,6 @@ public:
 
 };
 
-
 class Light { // Abstract class
 protected:
 	static GLuint cont; // Atributo para poder generar un nuevo id cada vez
@@ -89,7 +88,6 @@ public:
 		kq = _kq;
 	};
 };
-
 
 class SpotLight : public PosLight {
 protected:

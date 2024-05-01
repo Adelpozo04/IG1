@@ -661,7 +661,7 @@ void IndexMesh::buildNormalVectors()
 
 
 	for (int i = 0; i < mNumVertices; i++) {
-		vNormals[i] = normalize(vNormals[i]);
+		vNormals[i] = glm::normalize(vNormals[i]);
 	}
 }
 
@@ -686,7 +686,11 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 	// Definir el número de vértices como nn*mm
 	mesh->mNumVertices = nn * mm;
 	
-	mesh->vNormals.reserve(mesh->mNumVertices);
+	mesh->nNumIndices = nn * (mm - 1) * 6;
+
+	mesh->vNormals.reserve(mesh->nNumIndices);
+
+
 
 	// Usar un vector auxiliar de vértices	
 	dvec3 * vs = new dvec3 [mesh->mNumVertices];
@@ -697,8 +701,8 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 		GLdouble c = cos(radians(theta));
 		GLdouble s = sin(radians(theta));
 		for (int j = 0; j < mm; j++) {
-			GLdouble x = c * perfil[j].x + s * perfil[j].z;
 			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
 			vs[i*(mm) + j] = dvec3(x, perfil[j].y, z);
 		}
 
@@ -713,12 +717,7 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 	int indiceMayor = 0;
 
-	mesh->nNumIndices = mesh->mNumVertices * 6;
 	mesh->vIndices = new GLuint[mesh->nNumIndices];
-
-	for (int i = 0; i < mesh->mNumVertices * 6; i++) {
-		mesh->vIndices[i] = 0;
-	}
 
 	// El contador i recorre las muestras alrededor del eje Y
 	for (int i = 0; i < nn; i++) {
