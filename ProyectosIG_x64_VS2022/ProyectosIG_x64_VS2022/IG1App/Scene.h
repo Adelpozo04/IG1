@@ -59,6 +59,17 @@ public:
 
 	}
 
+	void changeLightsSpot(bool on) {
+
+		if (on) {
+			spotLight->enable();
+		}
+		else {
+			spotLight->disable();
+		}
+
+	}
+
 protected:
 	void free();
 	void setGL();
@@ -79,6 +90,8 @@ protected:
 	DirLight* dirLight;
 
 	PosLight* posLight;
+
+	SpotLight* spotLight;
 
 
 };

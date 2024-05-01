@@ -18,12 +18,19 @@ protected:
 	// Añade setters para cambiar el valor de los atributos lumínicos
 public:
 	Light();
+	Light(GLuint id);
 	virtual ~Light() { disable(); }
 	void uploadL() const;
 	// Método abstracto
 	virtual void upload(glm::dmat4 const& modelViewMat) const = 0;
 
-	void disable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glDisable(id); };
+	void disable() {
+		if (id < GL_LIGHT0 + GL_MAX_LIGHTS) {
+
+			glDisable(id);
+
+		}
+	};
 	void enable() { if (id < GL_LIGHT0 + GL_MAX_LIGHTS) glEnable(id); };
 	void setAmb(glm::fvec4 amb) {
 		ambient = amb; 
@@ -44,6 +51,8 @@ public:
 
 class DirLight : public Light {
 public:
+	DirLight() : Light() {};
+	DirLight(GLuint id_) : Light(id_) {};
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 	void setPosDir(glm::fvec3 dir);
 };
@@ -53,6 +62,8 @@ protected:
 	// Factores de atenuación
 	GLfloat kc = 1, kl = 0, kq = 0;
 public:
+	PosLight() : Light() {};
+	PosLight(GLuint id_) : Light(id_) {};
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 	void setPosDir(glm::fvec3 dir);
 	void setAtte(GLfloat kcAux, GLfloat klAux, GLfloat kqAux);
@@ -66,6 +77,9 @@ protected:
 	GLfloat exp = 0;
 public:
 	SpotLight(glm::fvec3 pos = { 0 , 0 , 0 }) : PosLight() {
+		posDir = glm::fvec4(pos, 1.0);
+	};
+	SpotLight(GLuint id_, glm::fvec3 pos = { 0 , 0 , 0 }) : PosLight(id_) {
 		posDir = glm::fvec4(pos, 1.0);
 	};
 	virtual void upload(glm::dmat4 const& modelViewMat) const;

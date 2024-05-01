@@ -13,17 +13,27 @@ Scene::init()
 	// allocate memory and load resources
 	// Lights
 
-	/*dirLight = new DirLight();
+	dirLight = new DirLight(GL_LIGHT0);
 
 	glm::fvec4 posDir = { 1, 1, 1, 0 };
 
-	dirLight->setPosDir(posDir);*/
+	dirLight->setPosDir(posDir);
 
-	posLight = new PosLight();
+	posLight = new PosLight(GL_LIGHT1);
 
-	posLight->setPosDir({ 50, 0, 100 });
+	posLight->setPosDir({ 100, 0, 100 });
 
 	posLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
+
+	spotLight = new SpotLight(GL_LIGHT2);
+
+	spotLight->setPosDir({ 0, 0, 150 });
+
+	spotLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
+
+	spotLight->setSpot({ -1, 0, 0 }, 180, 0);
+
+	
 
 	// 
 	// Textures
@@ -76,10 +86,8 @@ Scene::setGL()
 	glEnable(GL_DEPTH_TEST);          // enable Depth test
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+	glEnable(GL_LIGHTING);	
 	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT1);
-	
 
 }
 void
@@ -90,17 +98,17 @@ Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
-	glDisable(GL_LIGHTING);
-	glDisable(GL_LIGHT1);
-	
 
 }
 
 void
 Scene::render(Camera const& cam) const
 {
-	/*dirLight->upload(cam.viewMat());*/
+	dirLight->upload(cam.viewMat());
+
 	posLight->upload(cam.viewMat());
+
+	spotLight->upload(cam.viewMat());
 
 	cam.upload();
 

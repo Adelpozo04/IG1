@@ -270,6 +270,12 @@ IG1App::key(unsigned char key, int x, int y)
 		case 'k':
 			changem2Vista();
 			break;
+		case 'z':
+			currentScene->changeLightsSpot(true);
+			break;
+		case 'x':
+			currentScene->changeLightsSpot(false);
+			break;
 
 		default:
 			need_redisplay = false;

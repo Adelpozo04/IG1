@@ -16,6 +16,15 @@ Light::Light()
 
 }
 
+Light::Light(GLuint id_)
+{
+
+	id = id_;
+
+	glEnable(id);
+
+}
+
 void Light::uploadL() const
 {
 
