@@ -4,8 +4,8 @@
 void Material::upload()
 {
 
-	glColorMaterial(face, GL_AMBIENT);
-	glColorMaterial(face, GL_DIFFUSE);
+	/*glColorMaterial(face, GL_AMBIENT);
+	glColorMaterial(face, GL_DIFFUSE);*/
 	glColorMaterial(face, GL_SPECULAR);
 	glColorMaterial(face, GL_SHININESS);
 
@@ -14,7 +14,7 @@ void Material::upload()
 	glMaterialfv(face, GL_SPECULAR, value_ptr(specular));
 	glMaterialf(face, GL_SHININESS, expF);
 	glShadeModel(sh);
-	glLightModeli ( GL_LIGHT_MODEL_TWO_SIDE , GL_FALSE ); // Defecto
+	//glLightModeli ( GL_LIGHT_MODEL_TWO_SIDE , GL_FALSE ); // Defecto
 
 }
 

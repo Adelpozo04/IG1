@@ -21,7 +21,7 @@ Scene::init()
 
 	posLight = new PosLight(GL_LIGHT1);
 
-	posLight->setPosDir({ 300, 0, 300 });
+	posLight->setPosDir({ 100, 300, 0 });
 
 	posLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
@@ -566,15 +566,18 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 74) {
 
-		SphereMbR* planetColor = new SphereMbR(100, 50, 50, {0, 0, 0});
-
+	
 		SphereMbR* planetGold = new SphereMbR(100, 50, 50, {300, 0, 0});
 
 		planetGold->setMaterial({0.24725, 0.1995, 0.0745, 1}, {0.628281, 0.555802, 0.366065, 1}, { 0.75164, 0.60648, 0.22648, 1 }, 51.2 );
 
+		gObjects.push_back(planetGold);
+
+		SphereMbR* planetColor = new SphereMbR(100, 50, 50, { 0, 0, 0 });
+
 		gObjects.push_back(planetColor);
 
-		gObjects.push_back(planetGold);
+		
 
 	}
 

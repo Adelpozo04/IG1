@@ -968,27 +968,23 @@ void SphereMbR::render(glm::dmat4 const& modelViewMat) const {
 	glPolygonMode(GL_BACK, GL_LINE);
 	glLineWidth(2);
 
-	if (mMaterial != nullptr) {
-		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(1.0, 1.0, 0.0);
-	}
+	glColor4f(1.0, 1.0, 0.0, 1.0);
 
+	if (mMaterial != nullptr) {
+		glColor3f(1.0, 1.0, 0.0);
+		mMaterial->upload();
+	}
 
 	mMesh->render();
 
 	//reset config
 
-	if (mMaterial != nullptr) {
-		glDisable(GL_COLOR_MATERIAL);
-	}
-
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
-
 	glLineWidth(1);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor3f(1.0, 1.0, 1.0);
 
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
 }
 #pragma endregion
@@ -1174,15 +1170,15 @@ void WingAdvancedTIE::render(glm::dmat4 const& modelViewMat) const {
 #pragma region ToroideMbR
 ToroideMbR::ToroideMbR(GLdouble g, GLdouble r, GLint p, GLint m) {
 
-	glm::dvec3* perfil = new glm::dvec3[m];
+	glm::dvec3* perfil = new glm::dvec3[p];
 
-	double angle = 360.0f / (m - 1);
+	double angle = 360.0f / (p - 1);
 
-	for (int i = 0; i < m; i++) {
+	for (int i = 0; i < p; i++) {
 		perfil[i] = dvec3(glm::cos(radians(angle * i)) * g + r, glm::sin(radians(angle * i)) * g, 0);
 	}
 
-	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(m, p, perfil);
+	mRevolucionMesh = MbR::generaMallaIndexadaPorRevolucion(p, m, perfil);
 
 }
 void ToroideMbR::render(glm::dmat4 const& modelViewMat) const {
