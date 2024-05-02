@@ -4,11 +4,4 @@ Samuel García Bazán
 Partes Opcionales:Todas
 Sistema Operativo : WINDOWS
 
-IMPORTANTE: 
--En el ejercicio 65, hemos utilizado el calculo de normales a patir del producto vectorial de los vertices del triangulo en lugar de la verion con el metodo Newell
--En el ejercicio 66, para que se vea en 2D , hay que activar el set2D desde el IG1App.init()
--En el ejercicio 68, hemos creado 3 variables nodos ficticios en la clase Scene. 
--Para el funcionamiento correcto del rotate y orbit  del ej 68, primero pulsar "U", y despues "f"/"g" para los metodos respectivamente
-
-
 *No nos dejaba descargar el generador .zip de la entrega*
