@@ -27,7 +27,7 @@ Scene::init()
 
 	spotLight = new SpotLight(GL_LIGHT2);
 
-	spotLight->setPosDir({ 0, 310, 0 });
+	spotLight->setPosDir({ 0, 0, 0 });
 
 	spotLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
@@ -83,9 +83,9 @@ Scene::render(Camera const& cam) const
 
 	spotLight->upload(cam.viewMat());
 
-	if (mId == 67) {
+	if (mId == 67) {	
 
-		//spotLight->upload(cam.viewMat() * inventedNode3_->modelMat() * inventedNode2_->modelMat() * inventedNode1_->modelMat());
+		spotLight->upload(cam.viewMat() * inventedNode3_->modelMat() * inventedNode2_->modelMat() * inventedNode1_->modelMat());
 
 	}
 	
@@ -401,6 +401,8 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 67) {
 
+
+		//Construccion nave
 		glClearColor(0.0, 0.0, 0.0, 1.0);
 
 		CompoundEntity* nave = new CompoundEntity();
@@ -433,7 +435,6 @@ void Scene::setScene(GLuint id)
 		cilindro1->setModelMat(mAux);
 
 		nave->addEntity(cilindro1);
-
 
 
 		CompoundEntity* morro = new CompoundEntity();
@@ -490,23 +491,26 @@ void Scene::setScene(GLuint id)
 
 		nave->addEntity(wing2);
 
+
+		//Construccion orbitas
+
 		CompoundEntity* naveOrbit = new CompoundEntity({1.0, 1.0, 0.0}, 3.0);
 
 		naveOrbit->addEntity(nave);
 
 		inventedNode1_ = naveOrbit;
 
+		mAux = inventedNode1_->modelMat();
+
+		mAux = translate(mAux, dvec3(0, 350, 0));
+
+		inventedNode1_->setModelMat(mAux);
+
 		CompoundEntity* naveOrbitPlanet = new CompoundEntity({ 1.0, 1.0, 0.0 }, 3.0);
 
 		naveOrbitPlanet->addEntity(inventedNode1_);
 
 		inventedNode2_ = naveOrbitPlanet;
-
-		mAux = inventedNode1_->modelMat();
-
-		mAux = translate(mAux, dvec3(0, 500, 0));
-
-		inventedNode1_->setModelMat(mAux);
 
 		mAux = nave->modelMat();
 
