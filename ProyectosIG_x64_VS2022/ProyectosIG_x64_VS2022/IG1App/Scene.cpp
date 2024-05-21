@@ -27,40 +27,11 @@ Scene::init()
 
 	spotLight = new SpotLight(GL_LIGHT2);
 
-	spotLight->setPosDir({ 0, 0, 0 });
+	spotLight->setPosDir({ 0, 310, 0 });
 
 	spotLight->setDiff({ 1.0, 1.0, 0.0, 1.0 });
 
-	spotLight->setSpot({ 0, -1, 0 }, 90, 0);
-
-	
-
-	// 
-	// Textures
-
-	// Graphics objects (entities) of the scene
-
-	//ejes
-	//gObjects.push_back(new EjesRGB(400.0));
-	
-	//triangulo cian
-	//gObjects.push_back(new RegularPolygon(3,100));
-	//gObjects[1]->setColor(dvec4(0.0, 1.0, 1.0, 1.0));
-
-	//circunferencia magenta
-	//gObjects.push_back(new RegularPolygon(50,100));
-	//gObjects[2]->setColor(dvec4(1.0, 0.0, 1.0, 1.0));
-
-	//triangulo RGB
-	//gObjects.push_back(new TriangleRGB(150));
-
-	//rectangulo
-	//gObjects.push_back(new Rectangle_RGB(100, 200));
-
-	//cubo
-	//gObjects.push_back(new Cube(100));
-
-	//setScene(1);
+	spotLight->setSpot({ 0, -1, 0 }, 180, 0);
 
 	
 }
@@ -110,11 +81,11 @@ Scene::render(Camera const& cam) const
 
 	posLight->upload(cam.viewMat());
 
-	//spotLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
 
 	if (mId == 67) {
 
-		spotLight->upload(cam.viewMat() * inventedNode3_->modelMat() * inventedNode2_->modelMat() * inventedNode1_->modelMat());
+		//spotLight->upload(cam.viewMat() * inventedNode3_->modelMat() * inventedNode2_->modelMat() * inventedNode1_->modelMat());
 
 	}
 	
@@ -154,7 +125,7 @@ void Scene::rotated() {
 	if (mId = 67) {
 
 		inventedNode1_->setModelMat(glm::rotate(inventedNode1_->modelMat(),
-			radians(0.5), dvec3(0, 1, 0)));
+			radians(2.0), dvec3(0, 1, 0)));
 
 		angle = (int)(angle + 2) % 360;
 		
@@ -167,7 +138,7 @@ void Scene::orbited() {
 	if (mId = 67) {
 
 		inventedNode2_->setModelMat(glm::rotate(inventedNode2_->modelMat(),
-			radians(0.5), { -glm::sin(radians(angle)), 0.0, -glm::cos(radians(angle)) }));
+			radians(2.0), { -glm::sin(radians(angle)), 0.0, -glm::cos(radians(angle)) }));
 
 	}
 
