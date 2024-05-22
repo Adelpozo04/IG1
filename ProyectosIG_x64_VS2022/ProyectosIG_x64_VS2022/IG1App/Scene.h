@@ -20,6 +20,12 @@ public:
 	{
 		free();
 		resetGL();
+
+		//eliminar las luces
+		delete dirLight;
+		delete posLight;
+		delete spotLight;
+		delete spotLight2;	
 	};
 
 	Scene(const Scene& s) = delete;            // no copy constructor

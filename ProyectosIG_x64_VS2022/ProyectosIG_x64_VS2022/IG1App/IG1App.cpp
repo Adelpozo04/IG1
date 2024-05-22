@@ -351,7 +351,7 @@ void IG1App::motion(int x, int y)
 	//seleccion de camara actual
 	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
 
-	if (mMouseButt == 0) {
+	if (mMouseButt == GLUT_LEFT_BUTTON) {
 		//rotar 
 		currentCam->orbit(diff.x * 0.05, diff.y);
 	}
@@ -373,7 +373,7 @@ void IG1App::mouseWheel(int n, int d, int x, int y)
 	auto& currentCam = ((mMouseCoord.x < mWinW / 2) || !m2Vista) ? mCamera : mCamera2;
 
 
-	if (mdf == 0) {
+	if (mdf == GLUT_LEFT_BUTTON) {
 		currentCam->moveFB(d*40);
 	}
 	else if (mdf == GLUT_ACTIVE_CTRL) {

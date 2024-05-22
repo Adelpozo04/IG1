@@ -95,7 +95,7 @@ protected:
 public:
 
 	MbR(int m,int n , glm::dvec3* perfil);
-
+	~MbR() { delete perfil; };
 
 	static MbR* generaIndexMbR(int mm, int mn, glm::dvec3* perfil);
 

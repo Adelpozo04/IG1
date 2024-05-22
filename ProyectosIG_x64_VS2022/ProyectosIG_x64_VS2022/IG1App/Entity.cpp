@@ -960,6 +960,10 @@ CompoundEntity::CompoundEntity()
 
 CompoundEntity::~CompoundEntity()
 {
+	for (auto& e : gObjects) {
+		delete e;
+	}
+
 	gObjects.clear();
 }
 
