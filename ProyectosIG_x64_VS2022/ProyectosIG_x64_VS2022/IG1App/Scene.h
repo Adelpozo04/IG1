@@ -58,6 +58,8 @@ protected:
 
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 
+	std::vector<Abs_Entity*> gTransparentObjects;
+
 	GLuint mId;
 
 	CompoundEntity* inventedNode1 = nullptr;

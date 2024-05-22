@@ -111,7 +111,7 @@ public:
 class Ground : public Abs_Entity {
 
 public:
-	explicit Ground(GLdouble w, GLdouble h);
+	explicit Ground(GLdouble w, GLdouble h, Texture* tex);
 	~Ground();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -123,7 +123,7 @@ protected:
 	Texture* mBackTexture;
 
 public:
-	explicit BoxOutLine(GLdouble w);
+	explicit BoxOutLine(GLdouble w, Texture* tex, Texture* Backtex);
 	~BoxOutLine();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -171,7 +171,7 @@ class Star3D : public Abs_Entity {
 	glm::dvec3 traslationVec;
 
 public:
-	explicit Star3D(GLdouble re, GLuint np, GLdouble h,GLdouble yVel,GLdouble zVel, glm::dvec3 traslationVec = glm::dvec3(0,0,0));
+	explicit Star3D(GLdouble re, GLuint np, GLdouble h,GLdouble yVel,GLdouble zVel, Texture* tex, glm::dvec3 traslationVec = glm::dvec3(0,0,0));
 	~Star3D();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -182,7 +182,7 @@ public:
 class GlassParapet : public Abs_Entity {
 public:
 
-	explicit GlassParapet(GLdouble longitud);
+	explicit GlassParapet(GLdouble longitud, Texture* tex);
 	~GlassParapet();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -193,7 +193,7 @@ class Grass : public Abs_Entity {
 	glm::dvec3 traslationVec;
 public:
 
-	explicit Grass(GLdouble w,GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
+	explicit Grass(GLdouble w,GLdouble h, Texture* tex, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
 	~Grass();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -202,7 +202,7 @@ public:
 class Photo : public Abs_Entity {
 public:
 
-	explicit Photo(GLdouble w, GLdouble h);
+	explicit Photo(GLdouble w, GLdouble h, Texture* tex);
 	~Photo();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -216,7 +216,7 @@ class RectanglePhoto : public Abs_Entity {
 
 public:
 
-	explicit RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
+	explicit RectanglePhoto(GLdouble w, GLdouble h, Texture* tex, glm::dvec3 traslationVec = glm::dvec3(0, 0, 0));
 	~RectanglePhoto();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 };

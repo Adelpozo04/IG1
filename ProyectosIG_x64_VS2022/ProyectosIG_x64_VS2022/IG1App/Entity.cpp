@@ -2,6 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Texture.h"
 #include <iostream>
 
 
@@ -299,13 +300,12 @@ void Cube::update() {
 #pragma region Ground
 
 
-Ground::Ground(GLdouble w,GLdouble h)
+Ground::Ground(GLdouble w,GLdouble h, Texture* tex)
 {
 	mModelMat = dmat4(1);
 	//mMesh = Mesh::generateRectangleTexCor(w, h);
 	mMesh = Mesh::generaRectangleTexCor(w, h, 4, 4);
-	mTexture = new Texture();
-	mTexture->load("Bmps/baldosaC.bmp");
+	mTexture = tex;
 
 }
 
@@ -313,6 +313,9 @@ Ground::~Ground()
 {
 	delete mMesh;
 	mMesh = nullptr;
+
+	delete mTexture;
+	mTexture = nullptr;
 }
 
 
@@ -354,22 +357,17 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 #pragma region BoxOutLine
 
 
-BoxOutLine::BoxOutLine(GLdouble w)
+BoxOutLine::BoxOutLine(GLdouble w, Texture* tex, Texture* backTex)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
 
-	mTexture = new Texture();
-
 	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
 
 	//mTexture actua como frontTexture
-	mTexture = new Texture();
-	mTexture->load("Bmps/container.bmp");
+	mTexture = tex;
 
-	mBackTexture = new Texture();
-	mBackTexture->load("Bmps/papelE.bmp");
-
+	mBackTexture = backTex;
 }
 
 
@@ -378,6 +376,12 @@ BoxOutLine::~BoxOutLine()
 {
 	delete mMesh;
 	mMesh = nullptr;
+
+	delete mTexture;
+	mTexture = nullptr;
+
+	delete mBackTexture;
+	mBackTexture = nullptr;
 }
 
 void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
@@ -563,13 +567,12 @@ void Box::update() {
 
 #pragma region Star3D
 
-Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel, glm::dvec3 traslationVec ) 
+Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel, Texture* tex, glm::dvec3 traslationVec )
 	:YRotVel(yVel),zRotVel(zVel), traslationVec(traslationVec)
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/baldosaP.bmp");
+	mTexture = tex;
 
 	yAngle = 0;
 	zAngle = 0;
@@ -625,13 +628,12 @@ void Star3D::update()
 
 
 
-GlassParapet::GlassParapet(GLdouble longitud)
+GlassParapet::GlassParapet(GLdouble longitud, Texture* tex)
 {	
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCorTransparent(longitud);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/windowV.bmp");
+	mTexture = tex;
 
 }
 
@@ -666,13 +668,10 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 
 		mTexture->unbind();
 
-
 		//reset config
 		glLineWidth(1);
 		//reset modo de pintado
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-
 	
 
 	}
@@ -684,14 +683,13 @@ void GlassParapet::render(glm::dmat4 const& modelViewMat) const
 #pragma region Grass
 
 
-Grass::Grass(GLdouble w, GLdouble h, glm::dvec3 traslationVec )
+Grass::Grass(GLdouble w, GLdouble h, Texture* tex, glm::dvec3 traslationVec )
 	:traslationVec(traslationVec)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
+	mTexture = tex;
 }
 
 Grass::~Grass()
@@ -760,13 +758,12 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 
 
 //foto dinamica apartado 37
-Photo::Photo(GLdouble w, GLdouble h)
+Photo::Photo(GLdouble w, GLdouble h, Texture* tex)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
 
-	mTexture = new Texture();
-	mTexture->loadColorBuffer(800, 600);
+	mTexture = tex;
 
 }
 
@@ -814,14 +811,13 @@ void Photo::update() {
 
 
 //foto estatica, clase auxiliar
-RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec)
+RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, Texture* tex, glm::dvec3 traslationVec)
 	:traslationVec(traslationVec)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/photo.bmp");
+	mTexture = tex;
 
 }
 
