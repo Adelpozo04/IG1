@@ -956,7 +956,15 @@ CompoundEntity::CompoundEntity()
 
 CompoundEntity::~CompoundEntity()
 {
-	gObjects.clear();
+	int size = gObjects.size();
+
+	for (int i = 0; i < size; ++i) {
+
+		delete gObjects[i];
+
+		gObjects[i] = nullptr;
+
+	}
 }
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) const

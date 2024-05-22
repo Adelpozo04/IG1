@@ -98,16 +98,21 @@ Scene::resetGL()
 
 void Scene::rotate()
 {
-	inventedNode1->setModelMat(glm::rotate(inventedNode1->modelMat(),
-		radians(2.0), dvec3(0, 1, 0)));
 
-	_angle = (int)(_angle + 2) % 360;
+	if (mId == 68 || mId == 79) {
+		inventedNode1->setModelMat(glm::rotate(inventedNode1->modelMat(),
+			radians(2.0), dvec3(0, 1, 0)));
+
+		_angle = (int)(_angle + 2) % 360;
+	}
 }
 
 void Scene::orbit()
 {
-	inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
-		radians(1.0), dvec3(sin(radians(_angle)), 0, cos(radians(_angle)))));
+	if (mId == 68 || mId == 79) {
+		inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
+			radians(1.0), dvec3(sin(radians(_angle)), 0, cos(radians(_angle)))));
+	}
 }
 
 void

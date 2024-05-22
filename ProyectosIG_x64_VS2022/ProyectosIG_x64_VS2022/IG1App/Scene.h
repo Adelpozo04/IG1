@@ -39,6 +39,10 @@ public:
 
 	void SwitchOrbit();
 
+	void rotate();
+
+	void orbit();
+
 	void EnableDirLight();
 	void DisableDirLight();
 
@@ -70,10 +74,6 @@ protected:
 	bool orbitActive = false;
 
 	float _angle = 0.f;
-
-	void rotate();
-
-	void orbit();
 
 	DirLight* dirLight = nullptr;
 	PosLight* posLight = nullptr;
