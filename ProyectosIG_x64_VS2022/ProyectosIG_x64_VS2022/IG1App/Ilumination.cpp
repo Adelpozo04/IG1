@@ -36,6 +36,26 @@ void Material::setGold()
 	expF = 51.4;
 }
 
+void Material::setPlastic()
+{
+
+	ambient = { 0.0 , 0.0 , 0.0 , 1.0 };
+	diffuse = { 0.01 , 0.01 , 0.01 , 1.0 };
+	specular = { 0.5 , 0.5 , 0.5 , 1.0 };
+	expF = 32;
+
+}
+
+void Material::setRedMetal()
+{
+
+	ambient = { 0.85 , 0.0 , 0.0 , 1.0 };
+	diffuse = { 1 , 0.0 , 0.0 , 1.0 };
+	specular = { 0.774597 , 0.774597 , 0.774597 , 1.0 };
+	expF = 76.8;
+
+}
+
 #pragma endregion
 
 #pragma region Lights

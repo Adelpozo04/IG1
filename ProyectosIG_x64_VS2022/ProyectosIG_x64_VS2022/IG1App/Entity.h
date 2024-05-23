@@ -394,6 +394,17 @@ public:
 
 };
 
+class Romboid : public EntityWithMaterial {
+
+public:
+	Romboid(GLdouble altura, GLdouble ancho, GLint m); // r es el radio de la esfera
+	~Romboid() { delete mMesh; mMesh = nullptr; }
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+
+};
+
 #pragma endregion
 
 

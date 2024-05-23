@@ -33,7 +33,7 @@ Scene::init()
 	posLight->setAmb(ambient);
 	posLight->setDiff(glm::fvec4{1.0,1.0,0.0,1.0});
 	posLight->setSpec(specular);
-	posLight->setPosDir(glm::fvec3{ 5000, 5000, 0 });
+	posLight->setPosDir(glm::fvec3{ 200, 200, 0 });
 	
 	
 	spotLight = new SpotLight();
@@ -41,7 +41,7 @@ Scene::init()
 	spotLight->setAmb(ambient);
 	spotLight->setDiff(diffuse);
 	spotLight->setSpec(specular);
-	spotLight->setPosDir(glm::fvec3{ 0,  200, 2100 });
+	spotLight->setPosDir(glm::fvec3{ 0,  200, 200 });
 	spotLight->setAtte(1, 0, 0);
 
 	spotLight2 = new SpotLight();
@@ -480,6 +480,22 @@ void Scene::setScene(GLuint id)
 		inventedNode3->setModelMat(translate(inventedNode3->modelMat(), dvec3(0, -500, 0)));
 
 		gObjects.push_back(inventedNode3);
+	}
+	else if (mId == 80) {
+
+		auto sphereCol = new Romboid(100.0, 50, 5);
+
+		sphereCol->setColor(dvec4(1, 0, 0, 1));
+
+		Material* mat = new Material();
+
+		mat->setRedMetal();
+
+		sphereCol->setMaterial(mat);
+
+		gObjects.push_back(sphereCol);
+
+
 	}
 }
 

@@ -22,6 +22,8 @@ public:
 
 	void setCopper();
 	void setGold();
+	void setPlastic();
+	void setRedMetal();
 
 };
 
