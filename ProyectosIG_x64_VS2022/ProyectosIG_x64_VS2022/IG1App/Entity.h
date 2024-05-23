@@ -377,7 +377,7 @@ class Sphere_mbr : public EntityWithMaterial {
 
 public:
 	Sphere_mbr(GLdouble radius,GLint pPunto, GLint meridianos); // r es el radio de la esfera
-	//~Sphere_mbr();
+	~Sphere_mbr() { delete mMesh; mMesh = nullptr; }
 	
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -387,7 +387,7 @@ class Toroid : public Abs_Entity {
 
 public:
 	Toroid(GLdouble grosor,GLdouble radius, GLint m, GLint p); // r es el radio de la esfera
-	//~Toroid();
+	~Toroid(){ delete mMesh; mMesh = nullptr; }
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
