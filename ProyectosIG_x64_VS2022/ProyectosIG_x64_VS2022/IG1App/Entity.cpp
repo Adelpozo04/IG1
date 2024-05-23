@@ -1207,13 +1207,16 @@ Toroid::Toroid(GLdouble grosor, GLdouble radius, GLint m, GLint p)
 {
 	dvec3* aux = new dvec3[p];
 
-	double angle = 360.0 / (p - 1);
+	double angle = 360.0 / (p -1);
 
 	for (int i = 0; i < p; i++) {         
-		aux[i] = dvec3((radius +(grosor))+ (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);
+		aux[i] = dvec3( (radius +(grosor))   + (cos(radians(angle * i - 90)) * grosor),
+												sin(radians(angle * i - 90)) * grosor,
+						0);
 	}
 
 	mMesh = MbR::generaIndexMbR(p, m, aux);
+
 }
 
 void Toroid::render(glm::dmat4 const& modelViewMat) const

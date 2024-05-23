@@ -92,7 +92,7 @@ Scene::resetGL()
 	glDisable(GL_BLEND);
 	glDisable(GL_NORMALIZE);
 	glDisable(GL_COLOR_MATERIAL);
-	//glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
 
 }
 
@@ -415,6 +415,7 @@ void Scene::setScene(GLuint id)
 
 		gObjects.push_back(inventedNode3);
 	}
+
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

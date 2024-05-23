@@ -677,16 +677,18 @@ MbR::MbR(int m, int n, glm::dvec3* perfil)
 
 }
 
+//mm perfil, nn meridianos
 MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 {
+
 	MbR* mesh = new MbR(mm, nn, perfil);
 
 	// Definir la primitiva como GL_TRIANGLES
 	mesh->mPrimitive = GL_TRIANGLES;
 	// Definir el número de vértices como nn*mm
-	mesh->mNumVertices = nn * mm;
+	mesh->mNumVertices = nn*mm;
 	
-	mesh->nNumIndices = nn * (mm - 1) * 6;
+	mesh->nNumIndices = nn * (mm-1) * 6;
 
 	mesh->vNormals.reserve(mesh->nNumIndices);
 
@@ -697,7 +699,7 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 	for (int i = 0; i < nn; i++) {
 		// Generar la muestra i- ésima de vértices
-		GLdouble theta = i * (360.0 / nn);
+		GLdouble theta = (i) * (360.0 / (nn-1));
 		GLdouble c = cos(radians(theta));
 		GLdouble s = sin(radians(theta));
 		for (int j = 0; j < mm; j++) {
@@ -719,6 +721,8 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 	mesh->vIndices = new GLuint[mesh->nNumIndices];
 
+
+
 	// El contador i recorre las muestras alrededor del eje Y
 	for (int i = 0; i < nn; i++) {
 		// El contador j recorre los vértices del perfil ,
@@ -728,7 +732,7 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 			// El contador indice sirve para llevar cuenta
 			// de los índices generados hasta ahora . Se recorre
 			// la cara desde la esquina inferior izquierda
-			int indice = i * mm + j;
+			int indice = i * (mm)+j;
 			// Los cuatro índices son entonces :
 			//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1
 
@@ -738,8 +742,7 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 			indiceMayor++;
 			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
 			indiceMayor++;
-
-			
+		
 			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
 			indiceMayor++;
 			mesh->vIndices[indiceMayor] = indice + 1;
@@ -748,6 +751,8 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 			indiceMayor++;
 		}
 	}
+
+
 
 	mesh->buildNormalVectors();
 
