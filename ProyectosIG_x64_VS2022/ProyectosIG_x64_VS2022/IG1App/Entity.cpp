@@ -432,7 +432,7 @@ void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
 #pragma region Box
 
 
-Box::Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec):topVel(topVel)
+Box::Box(GLdouble w,GLdouble topVel, Texture* t, Texture* t2, glm::dvec3 OffSetVec):topVel(topVel)
 {
 
 	mModelMat = dmat4(1);
@@ -443,11 +443,9 @@ Box::Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec):topVel(topVel)
 	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
 
 	//mTexture actua como frontTexture
-	mTexture = new Texture();
-	mTexture->load("Bmps/container.bmp");
+	mTexture = t;
 
-	mBackTexture = new Texture();
-	mBackTexture->load("Bmps/papelE.bmp");
+	mBackTexture = t2;
 
 	translationVecY = dvec3(0, w, 0);
 	translationVecX = dvec3(w, 0, 0);
@@ -1149,6 +1147,10 @@ Sphere_mbr::Sphere_mbr(GLdouble radius, GLint pPunto, GLint meridianos)
 	
 
 	mMesh = MbR::generaIndexMbR(pPunto,meridianos,aux);
+
+	delete aux;
+
+	aux = nullptr;
 }
 
 void Sphere_mbr::render(glm::dmat4 const& modelViewMat) const
@@ -1206,19 +1208,10 @@ Toroid::Toroid(GLdouble grosor, GLdouble radius, GLint m, GLint p)
 	}
 
 	mMesh = MbR::generaIndexMbR(p, m, aux);
-}
 
-Toroid::Toroid(GLdouble grosor, GLdouble radius, GLdouble maxAngle, GLint m, GLint p)
-{
-	dvec3* aux = new dvec3[p];
+	delete aux;
 
-	double angle = maxAngle / (p - 1);
-
-	for (int i = 0; i < p; i++) {
-		aux[i] = dvec3((radius + (grosor)) + (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);
-	}
-
-	mMesh = MbR::generaIndexMbR(p, m, aux);
+	aux = nullptr;
 }
 
 void Toroid::render(glm::dmat4 const& modelViewMat) const
@@ -1248,58 +1241,3 @@ void Toroid::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-//grosor es el radio del grosor
-Romboid::Romboid(GLdouble altura, GLdouble ancho, GLint m)
-{
-	glm::dvec3* aux = new glm::dvec3[3];
-
-	double angle = 180.0 / (3 - 1);
-
-	for (int i = 0; i < 3; i++) {
-		aux[i] = glm::dvec3(cos(radians(angle * i - 90)) * ancho, sin(radians(angle * i - 90)) * altura, 0);
-	}
-
-
-	mMesh = MbR::generaIndexMbR(3, m, aux);
-}
-
-void Romboid::render(glm::dmat4 const& modelViewMat) const
-{
-
-	if (mMesh != nullptr) {
-
-		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
-		upload(aMat);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		//set config
-		glLineWidth(2);
-
-		//set color
-		if (mColor.a != 0) {
-			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
-		}
-
-		if (material != nullptr) {
-			glColor3f(mColor.r, mColor.g, mColor.b);
-
-			material->upload();
-		}
-
-		mMesh->render();
-
-		glColor3f(1.0, 1.0, 1.0);
-
-		glColor4f(0, 0, 0, 0);
-
-		//reset config
-		glLineWidth(1);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-		//reset del color material
-		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
-		glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
-
-	}
-}

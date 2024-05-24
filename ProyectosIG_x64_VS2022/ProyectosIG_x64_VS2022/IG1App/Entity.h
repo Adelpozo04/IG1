@@ -148,7 +148,7 @@ protected:
 	int state = 0;
 
 public:
-	explicit Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec);
+	explicit Box(GLdouble w,GLdouble topVel, Texture* t, Texture* t2, glm::dvec3 OffSetVec);
 	~Box();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -387,19 +387,7 @@ class Toroid : public Abs_Entity {
 
 public:
 	Toroid(GLdouble grosor,GLdouble radius, GLint m, GLint p); // r es el radio de la esfera
-	Toroid(GLdouble grosor, GLdouble radius, GLdouble maxAngle, GLint m, GLint p); // r es el radio de la esfera
 	~Toroid(){ delete mMesh; mMesh = nullptr; }
-
-	virtual void render(glm::dmat4 const& modelViewMat) const;
-
-
-};
-
-class Romboid : public EntityWithMaterial {
-
-public:
-	Romboid(GLdouble altura, GLdouble ancho, GLint m); // r es el radio de la esfera
-	~Romboid() { delete mMesh; mMesh = nullptr; }
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 

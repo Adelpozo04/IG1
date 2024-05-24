@@ -263,7 +263,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 29) {
 
-		gObjects.push_back(new Box(100,1,dvec3(0,0,0)));
+		gObjects.push_back(new Box(100,1, gTextures[CONTAINER], gTextures[PAPEL], dvec3(0,0,0)));
 
 	}
 	else if (mId == 26) {
@@ -289,7 +289,7 @@ void Scene::setScene(GLuint id)
 
 		gTransparentObjects.push_back(new Grass(100, 100, gTextures[GRASS], dvec3(160, 50, 160)));
 
-		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
+		gObjects.push_back(new Box(35, 1, gTextures[CONTAINER], gTextures[PAPEL], dvec3(-160, 35.1, -160)));
 
 		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, gTextures[BALDOSAS2], dvec3(-160, 165.1, -160)));
 
@@ -438,7 +438,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 72) {
 		
-		auto toroid = new Toroid(50, 50, 8, 8);
+		auto toroid = new Toroid(50, 50, 16, 16);
 		toroid->setColor(dvec4(0, 1, 1, 1));
 		gObjects.push_back(toroid);
 	}
@@ -497,25 +497,7 @@ void Scene::setScene(GLuint id)
 
 		gObjects.push_back(inventedNode3);
 	}
-	else if (mId == 80) {
 
-		auto sphereCol = new Romboid(100.0, 50, 3);
-
-		sphereCol->setColor(dvec4(1, 0, 0, 1));
-
-		Material* mat = new Material();
-
-		mat->setRedMetal();
-
-		sphereCol->setMaterial(mat);
-
-		gObjects.push_back(sphereCol);
-
-
-	}
-	else if (mId == 81) {
-		
-	}
 }
 
 void Scene::sceneDirLight(Camera const& cam) const {

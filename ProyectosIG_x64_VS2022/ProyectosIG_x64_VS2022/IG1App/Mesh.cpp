@@ -680,8 +680,6 @@ MbR::MbR(int m, int n, glm::dvec3* perfil)
 MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 {
 
-
-
 	MbR* mesh = new MbR(mm, nn, perfil);
 
 	// Definir la primitiva como GL_TRIANGLES
@@ -698,7 +696,7 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 	for (int i = 0; i < nn; i++) {
 		// Generar la muestra i- ésima de vértices
-		GLdouble theta = i * (360.0 / (nn - 1));
+		GLdouble theta = i * (360.0 / nn);
 		GLdouble c = cos(radians(theta));
 		GLdouble s = sin(radians(theta));
 		for (int j = 0; j < mm; j++) {
@@ -750,9 +748,12 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 		}
 	}
 
-	mesh->nNumIndices = nn * (mm - 2) * 6;
-
 	mesh->buildNormalVectors();
+
+
+	delete vs;
+
+	vs = nullptr;
 
 	return mesh;
 }
