@@ -12,6 +12,23 @@
 #include "Ilumination.h"
 
 
+const int NUM_TEXTURES = 11;
+
+enum Texts {
+		BALDOSA_C,
+		BALDOSA_F,
+		BALDOSA_P,
+		CONTAINER,
+		GRASS,
+		NOCHE,
+		PAPEL_C,
+		PAPEL_E,
+		PHOTO,
+		WINDOW_C,
+		WINDOW_V
+};
+
+
 class Scene
 {
 public:
@@ -21,11 +38,21 @@ public:
 		free();
 		resetGL();
 
+		//eliminar las texturas
+
+		for (auto& t : textures) delete t;
+
+		textures.clear();
+
+
 		//eliminar las luces
 		delete dirLight;
 		delete posLight;
 		delete spotLight;
 		delete spotLight2;	
+
+
+
 	};
 
 	Scene(const Scene& s) = delete;            // no copy constructor
@@ -85,7 +112,7 @@ protected:
 	SpotLight* spotLight2 = nullptr;
 
 
-
+	std::vector<Texture*> textures;
 };
 
 #endif //_H_Scene_H_

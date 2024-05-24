@@ -57,6 +57,30 @@ Scene::init()
 	spotLight->disable();
 	spotLight2->disable();
 
+
+	textures.reserve(NUM_TEXTURES);
+
+
+	for(int i = 0;i < NUM_TEXTURES;i++)
+		 textures.emplace_back(new Texture());
+
+	std::string rootBmps = "Bmps/";
+
+	textures[BALDOSA_C]->load(rootBmps + "baldosaC.bmp");
+	textures[BALDOSA_F]->load(rootBmps + "baldosaF.bmp");
+	textures[BALDOSA_P]->load(rootBmps + "baldosaP.bmp");
+	textures[CONTAINER]->load(rootBmps + "container.bmp");
+	textures[GRASS]->load(rootBmps + "grass.bmp");
+	textures[NOCHE]->load(rootBmps + "noche.bmp");
+	textures[PAPEL_C]->load(rootBmps + "papelC.bmp");
+	textures[PAPEL_E]->load(rootBmps + "papelE.bmp");
+	textures[PHOTO]->load(rootBmps + "photo.bmp");
+	textures[WINDOW_C]->load(rootBmps + "windowC.bmp");
+	textures[WINDOW_V]->load(rootBmps + "windowV.bmp");
+
+
+
+
 }
 
 void
