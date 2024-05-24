@@ -15,7 +15,48 @@ Scene::init()
 
 	// Graphics objects (entities) of the scene
 
+	//CARGA DE TEXTURAS
+	Texture* t = new Texture();
+	t->load("Bmps/baldosaC.bmp");
 
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/container.bmp");
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/papelE.bmp");
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/baldosaP.bmp");
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/windowV.bmp");
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/grass.bmp", glm::u8vec3(0, 0, 0), 0);
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->load("Bmps/photo.bmp");
+
+	gTextures.push_back(t);
+
+	t = new Texture();
+	t->loadColorBuffer(800, 600);
+
+	gTextures.push_back(t);
+
+	//CARGA DE LUCES
 	glm::fvec4 posDir = { 1, 1, 1, 0 };
 	glm::fvec4 ambient = { 0, 0, 0, 1 };
 	glm::fvec4 diffuse = { 1, 1, 1, 1 };
@@ -28,6 +69,8 @@ Scene::init()
 	dirLight->setSpec(specular);
 	dirLight->setPosDir(posDir);
 
+	gLights.push_back(dirLight);
+
 	posLight = new PosLight();
 	
 	posLight->setAmb(ambient);
@@ -35,6 +78,7 @@ Scene::init()
 	posLight->setSpec(specular);
 	posLight->setPosDir(glm::fvec3{ 200, 200, 0 });
 	
+	gLights.push_back(posLight);
 	
 	spotLight = new SpotLight();
 
@@ -44,6 +88,10 @@ Scene::init()
 	spotLight->setPosDir(glm::fvec3{ 0,  200, 200 });
 	spotLight->setAtte(1, 0, 0);
 
+	gLights.push_back(spotLight);
+
+
+
 	spotLight2 = new SpotLight();
 			 
 	spotLight2->setAmb(ambient);
@@ -51,6 +99,9 @@ Scene::init()
 	spotLight2->setSpec(specular);
 	spotLight2->setPosDir(glm::fvec3{ 0,  100, 0 });
 	spotLight2->setAtte(1, 0, 0);
+
+
+	gLights.push_back(spotLight2);
 
 	dirLight->disable();
 	posLight->disable();
@@ -68,6 +119,14 @@ Scene::free()
 		el = nullptr;
 	}
 	gObjects.resize(0);
+
+	for (Abs_Entity* el : gTransparentObjects) {
+		delete el;
+		el = nullptr;
+	}
+	gObjects.resize(0);
+
+
 }
 void
 Scene::setGL()
@@ -194,89 +253,50 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 18) {
 
-		Texture* t = new Texture();
-		t->load("Bmps/baldosaC.bmp");
+		gObjects.push_back(new Ground(200, 400, gTextures[BALDOSAS]));
 
-		gObjects.push_back(new Ground(200, 400, t));
-
-		t = nullptr;
 	}
 	else if (mId == 24) {
-		Texture* t = new Texture();
-		t->load("Bmps/container.bmp");
 
-		Texture* t2 = new Texture();
-		t->load("Bmps/papelE.bmp");
+		gObjects.push_back(new BoxOutLine(100, gTextures[CONTAINER], gTextures[PAPEL]));
 
-		gObjects.push_back(new BoxOutLine(100, t, t2));
-
-		t = nullptr;
-
-		t2 = nullptr;
 	}
 	else if (mId == 29) {
+
 		gObjects.push_back(new Box(100,1,dvec3(0,0,0)));
+
 	}
 	else if (mId == 26) {
-		Texture* t = new Texture();
-		t->load("Bmps/baldosaP.bmp");
+		
+		gObjects.push_back(new Star3D(100, 8, 80, 1, 2, gTextures[BALDOSAS2]));
 
-		gObjects.push_back(new Star3D(100, 8, 80, 1, 2, t));
-
-		t = nullptr;
 	}
 	else if (mId == 31) {
-		Texture* t = new Texture();
-		t->load("Bmps/windowV.bmp");
 
-		gObjects.push_back(new GlassParapet(100, t));
-
-		t = nullptr;
+		gObjects.push_back(new GlassParapet(100, gTextures[WINDOW]));
 
 	}
 	else if (mId == 34) {
 
-		Texture* t = new Texture();
-		t->load("Bmps/grass.bmp", glm::u8vec3(0, 0, 0), 0);
+		gObjects.push_back(new Grass(100,100,gTextures[GRASS]));
 
-		gObjects.push_back(new Grass(100,100,t));
-
-		t = nullptr;
 	}
 	else if(mId == 38) {
-		Texture* t = new Texture();
-		t->loadColorBuffer(800, 600);
 
-		gObjects.push_back(new Photo(100,100, t));
+		gObjects.push_back(new Photo(100,100, gTextures[LIFEPHOTO]));
 
-		t = new Texture();
-		t->load("Bmps/baldosaC.bmp");
+		gObjects.push_back(new Ground(400,400, gTextures[BALDOSAS]));
 
-		gObjects.push_back(new Ground(400,400, t));
-
-		t = new Texture();
-		t->load("Bmps/grass.bmp", glm::u8vec3(0, 0, 0), 0);
-
-		gTransparentObjects.push_back(new Grass(100, 100, t, dvec3(160, 50, 160)));
+		gTransparentObjects.push_back(new Grass(100, 100, gTextures[GRASS], dvec3(160, 50, 160)));
 
 		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
 
-		t = new Texture();
-		t->load("Bmps/baldosaP.bmp");
+		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, gTextures[BALDOSAS2], dvec3(-160, 165.1, -160)));
 
-		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, t, dvec3(-160, 165.1, -160)));
+		gObjects.push_back(new RectanglePhoto(100,100, gTextures[PHOTO], dvec3(150, 0.1, -150)));
 
-		t = new Texture();
-		t->load("Bmps/photo.bmp");
+		gTransparentObjects.push_back(new GlassParapet(200, gTextures[WINDOW]));
 
-		gObjects.push_back(new RectanglePhoto(100,100, t, dvec3(150,0.1,-150)));
-
-		t = new Texture();
-		t->load("Bmps/windowV.bmp");
-
-		gTransparentObjects.push_back(new GlassParapet(200, t));
-
-		t = nullptr;
 	}
 	else if (mId == 57) { //ejercicio del granjero
 
@@ -418,7 +438,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 72) {
 		
-		auto toroid = new Toroid(50, 50, 24, 24);
+		auto toroid = new Toroid(50, 50, 8, 8);
 		toroid->setColor(dvec4(0, 1, 1, 1));
 		gObjects.push_back(toroid);
 	}
@@ -427,8 +447,6 @@ void Scene::setScene(GLuint id)
 		auto sphereCol = new Sphere_mbr(100.0, 30, 30);
 
 		sphereCol->setColor(dvec4(1, 1, 0, 1));
-
-
 
 		sphereCol->setModelMat(translate(sphereCol->modelMat(), dvec3(-100, 0, 100)));
 
@@ -445,9 +463,7 @@ void Scene::setScene(GLuint id)
 		sphereMat->setModelMat(translate(sphereMat->modelMat(), dvec3(100, 0, -100)));
 
 		gObjects.push_back(sphereMat);
-		
-		
-		
+			
 	}
 	else if (mId == 79) {
 		glClearColor(0, 0, 0, 1); // background color (alpha=1 -> opaque)
@@ -483,7 +499,7 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 80) {
 
-		auto sphereCol = new Romboid(100.0, 50, 5);
+		auto sphereCol = new Romboid(100.0, 50, 3);
 
 		sphereCol->setColor(dvec4(1, 0, 0, 1));
 
@@ -496,6 +512,9 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(sphereCol);
 
 
+	}
+	else if (mId == 81) {
+		
 	}
 }
 

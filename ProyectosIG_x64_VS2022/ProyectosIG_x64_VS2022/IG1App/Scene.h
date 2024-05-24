@@ -12,6 +12,18 @@
 #include "Ilumination.h"
 
 
+enum TexturesName {
+
+	BALDOSAS,
+	CONTAINER,
+	PAPEL,
+	BALDOSAS2,
+	WINDOW,
+	GRASS,
+	PHOTO,
+	LIFEPHOTO
+};
+
 class Scene
 {
 public:
@@ -20,6 +32,28 @@ public:
 	{
 		free();
 		resetGL();
+
+		//BORRADO DE TEXTURAS
+
+		for (Texture* tex : gTextures) {
+			delete tex;
+			tex = nullptr;
+		}
+
+		//BORRADO DE LUCES
+
+		delete dirLight;
+		dirLight = nullptr;
+
+		delete posLight;
+		posLight = nullptr;
+
+		delete spotLight;
+		spotLight = nullptr;
+
+		delete spotLight2;
+		spotLight2 = nullptr;
+		
 	};
 
 	Scene(const Scene& s) = delete;            // no copy constructor
@@ -63,6 +97,10 @@ protected:
 	std::vector<Abs_Entity*> gObjects; // Entities (graphic objects) of the scene
 
 	std::vector<Abs_Entity*> gTransparentObjects;
+
+	std::vector<Texture*> gTextures;
+
+	std::vector<Light*> gLights;
 
 	GLuint mId;
 

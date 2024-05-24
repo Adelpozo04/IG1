@@ -313,9 +313,6 @@ Ground::~Ground()
 {
 	delete mMesh;
 	mMesh = nullptr;
-
-	delete mTexture;
-	mTexture = nullptr;
 }
 
 
@@ -377,11 +374,6 @@ BoxOutLine::~BoxOutLine()
 	delete mMesh;
 	mMesh = nullptr;
 
-	delete mTexture;
-	mTexture = nullptr;
-
-	delete mBackTexture;
-	mBackTexture = nullptr;
 }
 
 void BoxOutLine::render(glm::dmat4 const& modelViewMat) const
@@ -1211,6 +1203,19 @@ Toroid::Toroid(GLdouble grosor, GLdouble radius, GLint m, GLint p)
 
 	for (int i = 0; i < p; i++) {         
 		aux[i] = dvec3((radius +(grosor))+ (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);
+	}
+
+	mMesh = MbR::generaIndexMbR(p, m, aux);
+}
+
+Toroid::Toroid(GLdouble grosor, GLdouble radius, GLdouble maxAngle, GLint m, GLint p)
+{
+	dvec3* aux = new dvec3[p];
+
+	double angle = maxAngle / (p - 1);
+
+	for (int i = 0; i < p; i++) {
+		aux[i] = dvec3((radius + (grosor)) + (cos(radians(angle * i - 90)) * grosor), sin(radians(angle * i - 90)) * grosor, 0);
 	}
 
 	mMesh = MbR::generaIndexMbR(p, m, aux);
