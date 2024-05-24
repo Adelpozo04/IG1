@@ -70,16 +70,13 @@ Scene::init()
 	textures[BALDOSA_F]->load(rootBmps + "baldosaF.bmp");
 	textures[BALDOSA_P]->load(rootBmps + "baldosaP.bmp");
 	textures[CONTAINER]->load(rootBmps + "container.bmp");
-	textures[GRASS]->load(rootBmps + "grass.bmp");
+	textures[GRASS]->load(rootBmps + "grass.bmp", glm::u8vec3(0, 0, 0), 0);
 	textures[NOCHE]->load(rootBmps + "noche.bmp");
 	textures[PAPEL_C]->load(rootBmps + "papelC.bmp");
 	textures[PAPEL_E]->load(rootBmps + "papelE.bmp");
 	textures[PHOTO]->load(rootBmps + "photo.bmp");
 	textures[WINDOW_C]->load(rootBmps + "windowC.bmp");
 	textures[WINDOW_V]->load(rootBmps + "windowV.bmp");
-
-
-
 
 }
 
@@ -208,33 +205,82 @@ void Scene::setScene(GLuint id)
 		gObjects.push_back(new Cube(100,false,1.f));
 	}
 	else if (mId == 18) {
-		gObjects.push_back(new Ground(200, 400));
+
+		Ground* ground = new Ground(200, 400);
+		ground->setTexture(textures[BALDOSA_C]);
+
+		gObjects.push_back(ground);
 	}
 	else if (mId == 24) {
-		gObjects.push_back(new BoxOutLine(100));
+		auto box = new BoxOutLine(100);
+
+		box->setTexture(textures[CONTAINER]);
+		box->setBackTexture(textures[PAPEL_E]);
+
+		gObjects.push_back(box);
 	}
 	else if (mId == 29) {
-		gObjects.push_back(new Box(100,1,dvec3(0,0,0)));
+
+		auto box = new Box(100, 1, dvec3(0, 0, 0));
+
+		box->setTexture(textures[CONTAINER]);
+		box->setBackTexture(textures[PAPEL_E]);
+
+		gObjects.push_back(box);
 	}
 	else if (mId == 26) {
-		gObjects.push_back(new Star3D(100, 8, 80,1,2));
+		auto star = new Star3D(100, 8, 80, 1, 2);
+		star->setTexture(textures[BALDOSA_P]);
+
+		gObjects.push_back(star);
 	}
 	else if (mId == 31) {
-		gObjects.push_back(new GlassParapet(100));
+
+		auto glass = new GlassParapet(100);
+		glass->setTexture(textures[WINDOW_V]);
+
+
+		gObjects.push_back(glass);
 
 	}
 	else if (mId == 34) {
-		gObjects.push_back(new Grass(100,100));
+		auto grass = new Grass(100, 100);
+		grass->setTexture(textures[GRASS]);
+		gObjects.push_back(grass);
 	}
 	else if(mId == 38) {
-		gObjects.push_back(new Photo(100,100));
-		gObjects.push_back(new Ground(400,400));
-		gObjects.push_back(new Grass(100, 100, dvec3(160, 50, 160)));
 
-		gObjects.push_back(new Box(35, 1, dvec3(-160, 35.1, -160)));
-		gObjects.push_back(new Star3D(40, 8, 30, 1, 2, dvec3(-160, 165.1, -160)));
-		gObjects.push_back(new RectanglePhoto(100,100,dvec3(150,0.1,-150)));
-		gObjects.push_back(new GlassParapet(200));
+		auto photo = new Photo(100, 100);
+		//photo->setTexture(textures[PHOTO]);
+		gObjects.push_back(photo);
+
+		auto ground = new Ground(400, 400);
+		ground->setTexture(textures[BALDOSA_C]);
+		gObjects.push_back(ground);
+
+		auto grass = new Grass(100, 100, dvec3(160, 50, 160));
+		grass->setTexture(textures[GRASS]);
+		gObjects.push_back(grass);
+
+
+		auto box = new Box(35, 1, dvec3(-160, 35.1, -160));
+		box->setTexture(textures[CONTAINER]);
+		box->setBackTexture(textures[PAPEL_E]);
+		gObjects.push_back(box);
+
+
+		auto star = new Star3D(40, 8, 30, 1, 2, dvec3(-160, 165.1, -160));
+		star->setTexture(textures[BALDOSA_P]);
+		gObjects.push_back(star);
+
+		auto rectPhoto = new RectanglePhoto(100, 100, dvec3(150, 0.1, -150));
+		rectPhoto->setTexture(textures[PHOTO]);
+		gObjects.push_back(rectPhoto);
+
+
+		auto glass = new GlassParapet(200);
+		glass->setTexture(textures[WINDOW_V]);
+		gObjects.push_back(glass);
 	}
 	else if (mId == 57) { //ejercicio del granjero
 
@@ -402,9 +448,7 @@ void Scene::setScene(GLuint id)
 
 		sphereMat->setModelMat(translate(sphereMat->modelMat(), dvec3(100, 0, -100)));
 
-		gObjects.push_back(sphereMat);
-		
-		
+		gObjects.push_back(sphereMat);		
 		
 	}
 	else if (mId == 79) {

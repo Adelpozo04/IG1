@@ -304,9 +304,6 @@ Ground::Ground(GLdouble w,GLdouble h)
 	mModelMat = dmat4(1);
 	//mMesh = Mesh::generateRectangleTexCor(w, h);
 	mMesh = Mesh::generaRectangleTexCor(w, h, 4, 4);
-	mTexture = new Texture();
-	mTexture->load("Bmps/baldosaC.bmp");
-
 }
 
 Ground::~Ground()
@@ -345,10 +342,6 @@ void Ground::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
-
-
-
-
 #pragma endregion
 
 #pragma region BoxOutLine
@@ -358,17 +351,6 @@ BoxOutLine::BoxOutLine(GLdouble w)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
-
-	mTexture = new Texture();
-
-	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
-
-	//mTexture actua como frontTexture
-	mTexture = new Texture();
-	mTexture->load("Bmps/container.bmp");
-
-	mBackTexture = new Texture();
-	mBackTexture->load("Bmps/papelE.bmp");
 
 }
 
@@ -443,15 +425,6 @@ Box::Box(GLdouble w,GLdouble topVel, glm::dvec3 OffSetVec):topVel(topVel)
 	mMesh = Mesh::generateBoxOutlineTexCor(w);
 	topMesh = Mesh::generateRectangleTexCor(w*2, w*2);
 	botomMesh = Mesh::generateRectangleTexCor(w*2, w*2);
-
-	//IMPORTANTE, BORRAR MEMORIA DE LAS TEXTURE
-
-	//mTexture actua como frontTexture
-	mTexture = new Texture();
-	mTexture->load("Bmps/container.bmp");
-
-	mBackTexture = new Texture();
-	mBackTexture->load("Bmps/papelE.bmp");
 
 	translationVecY = dvec3(0, w, 0);
 	translationVecX = dvec3(w, 0, 0);
@@ -568,9 +541,6 @@ Star3D::Star3D(GLdouble re, GLuint np, GLdouble h, GLdouble yVel, GLdouble zVel,
 {
 	mMesh = Mesh::generateStar3DTexCor(re, np, h);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/baldosaP.bmp");
-
 	yAngle = 0;
 	zAngle = 0;
 }
@@ -630,9 +600,6 @@ GlassParapet::GlassParapet(GLdouble longitud)
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generateBoxOutlineTexCorTransparent(longitud);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/windowV.bmp");
-
 }
 
 GlassParapet::~GlassParapet()
@@ -690,8 +657,7 @@ Grass::Grass(GLdouble w, GLdouble h, glm::dvec3 traslationVec )
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w,h,1,1);
 
-	mTexture = new Texture();
-	mTexture->load("Bmps/grass.bmp",glm::u8vec3(0,0,0),0);
+
 }
 
 Grass::~Grass()
@@ -775,6 +741,8 @@ Photo::~Photo()
 
 	delete mMesh;
 	mMesh = nullptr;
+
+	delete mTexture;
 }
 
 void Photo::render(glm::dmat4 const& modelViewMat) const
@@ -819,9 +787,6 @@ RectanglePhoto::RectanglePhoto(GLdouble w, GLdouble h, glm::dvec3 traslationVec)
 {
 	mModelMat = dmat4(1);
 	mMesh = Mesh::generaRectangleTexCor(w, h, 1, 1);
-
-	mTexture = new Texture();
-	mTexture->load("Bmps/photo.bmp");
 
 }
 

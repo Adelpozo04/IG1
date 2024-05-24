@@ -127,6 +127,8 @@ public:
 	~BoxOutLine();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+	void setBackTexture(Texture* texture) { mBackTexture = texture; }
+
 };
 
 class Box  : public Abs_Entity {
@@ -153,6 +155,9 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 	void update() override;
+
+	void setBackTexture(Texture* texture) { mBackTexture = texture; }
+
 
 private:
 
