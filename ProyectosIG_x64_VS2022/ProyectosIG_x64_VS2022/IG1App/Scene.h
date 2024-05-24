@@ -21,7 +21,8 @@ enum TexturesName {
 	WINDOW,
 	GRASS,
 	PHOTO,
-	LIFEPHOTO
+	LIFEPHOTO,
+	WOOD
 };
 
 class Scene

@@ -497,6 +497,96 @@ void Scene::setScene(GLuint id)
 
 		gObjects.push_back(inventedNode3);
 	}
+	else if (mId == 80) {
+
+		auto sphereCol = new Romboid(100.0, 50, 5);
+
+		sphereCol->setColor(dvec4(1, 0, 0, 1));
+
+		Material mat = Material();
+
+		mat.setRedMetal();
+
+		sphereCol->setMaterial(&mat);
+
+		gObjects.push_back(sphereCol);
+
+
+	}
+	else if (mId == 81) {
+
+		auto figura = new CompoundEntity();
+
+		auto figuraFinal = new CompoundEntity();
+
+		figuraFinal->addEntity(new PiramidTex(300, 225, gTextures[BALDOSAS2]));
+
+		auto piramidInvert = new PiramidTex(300, 225, gTextures[BALDOSAS2]);
+
+		dmat4 PiramidPos = piramidInvert->modelMat();
+		PiramidPos = PiramidPos * glm::rotate(dmat4(1), radians(180.0), dvec3(1, 0, 0));
+		piramidInvert->setModelMat(PiramidPos);
+
+		figuraFinal->addEntity(piramidInvert);
+
+
+		auto* TR = new TriangleRomboid(10, 225/2.5, 375/2.5, gTextures[BALDOSAS2]);
+
+		dmat4 TRPos = TR->modelMat();
+		TRPos = TRPos * translate(dmat4(1), dvec3(112, 5, 215)) * glm::rotate(dmat4(1), radians(37.0), dvec3(-1, 0, 0));
+		TR->setModelMat(TRPos);
+
+		auto* TR2 = new TriangleRomboid(10, 225 / 2.5, 375 / 2.5, gTextures[BALDOSAS2]);
+
+		dmat4 TRPos2 = TR2->modelMat();
+		TRPos2 = TRPos2 * translate(dmat4(1), dvec3(-112, 5, 215)) * glm::rotate(dmat4(1), radians(37.0), dvec3(-1, 0, 0));
+		TR2->setModelMat(TRPos2);
+
+		auto* TR3 = new TriangleRomboid(10, 225 / 2.5, 375 / 2.5, gTextures[BALDOSAS2]);
+
+		dmat4 TRPos3 = TR3->modelMat();
+		TRPos3 = TRPos3 * translate(dmat4(1), dvec3(0, 165, 95)) * glm::rotate(dmat4(1), radians(37.0), dvec3(-1, 0, 0));
+		TR3->setModelMat(TRPos3);
+
+		auto* TR4 = new TriangleRomboid(10, 225 / 2.5, 375 / 2.5, gTextures[BALDOSAS2]);
+
+		dmat4 TRPos4 = TR4->modelMat();
+		TRPos4 = TRPos4 * translate(dmat4(1), dvec3(0, 145, 115)) * glm::rotate(dmat4(1), radians(180.0), dvec3(0, 0, 1)) * glm::rotate(dmat4(1), radians(37.0), dvec3(1, 0, 0));
+		TR4->setModelMat(TRPos4);
+
+		figura->addEntity(TR);
+		figura->addEntity(TR2);
+		figura->addEntity(TR3);
+		figura->addEntity(TR4);
+
+		CompoundEntity* caras2 = new CompoundEntity(figura);
+
+		dmat4 caras2Pos = caras2->modelMat();
+		caras2Pos = caras2Pos * glm::rotate(dmat4(1), radians(180.0), dvec3(0, 1, 0));
+		caras2->setModelMat(caras2Pos);
+
+		figura->addEntity(caras2);
+
+		CompoundEntity* caras3 = new CompoundEntity(figura);
+
+		dmat4 caras3Pos = caras3->modelMat();
+		caras3Pos = caras3Pos * glm::rotate(dmat4(1), radians(90.0), dvec3(0, 1, 0));
+		caras3->setModelMat(caras3Pos);
+
+		figura->addEntity(caras3);
+
+		CompoundEntity* caras4 = new CompoundEntity(figura);
+
+		dmat4 caras4Pos = caras4->modelMat();
+		caras4Pos = caras4Pos * glm::rotate(dmat4(1), radians(180.0), dvec3(0, 0, 1));
+		caras4->setModelMat(caras4Pos);
+
+		figura->addEntity(caras4);
+		figuraFinal->addEntity(figura);
+
+		gObjects.push_back(figuraFinal);
+
+	}
 
 }
 

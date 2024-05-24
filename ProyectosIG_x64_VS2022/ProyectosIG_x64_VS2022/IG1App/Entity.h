@@ -303,9 +303,12 @@ class CompoundEntity : public Abs_Entity {
 protected:
 	std::vector<Abs_Entity*> gObjects;
 
+	std::vector<Abs_Entity*> gCopyObjects;
+
 public:
 
 	explicit CompoundEntity();
+	explicit CompoundEntity(CompoundEntity* ce);
 	~CompoundEntity();
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
@@ -391,6 +394,37 @@ public:
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 
+
+};
+
+class Romboid : public EntityWithMaterial {
+
+public:
+	Romboid(GLdouble altura, GLdouble ancho, GLint m); // r es el radio de la esfera
+	~Romboid() { delete mMesh; mMesh = nullptr; }
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+
+};
+
+class PiramidTex : public Abs_Entity {
+
+public: 
+	PiramidTex(GLdouble h, GLdouble w, Texture* t);
+	~PiramidTex() { delete mMesh; mMesh = nullptr; };
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+class TriangleRomboid : public Abs_Entity {
+
+public:
+	TriangleRomboid(GLdouble h, GLdouble w, GLdouble th, Texture* t);
+	~TriangleRomboid() { delete mMesh; mMesh = nullptr; };
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
 
 };
 

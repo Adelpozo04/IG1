@@ -464,6 +464,137 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
 	return mesh;
 }
 
+Mesh* Mesh::generatePiramid(GLdouble h, GLdouble w)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 9;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(5);
+
+	points.emplace_back(-w, 0, -w);
+	points.emplace_back(w, 0, -w);
+	points.emplace_back(w, 0, w);
+	points.emplace_back(-w, 0, w);
+
+	points.emplace_back(0, h, 0);
+
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[0]);
+
+
+	return mesh;
+}
+
+Mesh* Mesh::generatePiramidTexCord(GLdouble h, GLdouble w)
+{
+	
+	Mesh* m = generatePiramid(h, w);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(0.5, 0);
+	m->vTexCoords.emplace_back(0.5, 0.5);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(1, 0.5);
+	m->vTexCoords.emplace_back(0.5, 0.5);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(0.5, 1);
+
+	m->vTexCoords.emplace_back(0.5, 0.5);
+
+	return m;
+
+}
+
+Mesh* Mesh::generateRomboidTriangular(GLdouble h, GLdouble w, GLdouble th)
+{
+	
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLE_STRIP;
+
+	mesh->mNumVertices = 11;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(6);
+
+	points.emplace_back(-w, 0, h);
+	points.emplace_back(0, th, h);
+	points.emplace_back(w, 0, h);
+	
+	points.emplace_back(-w, 0, -h);
+	points.emplace_back(0, th, -h);
+	points.emplace_back(w, 0, -h);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[2]);
+
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[3]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[4]);
+
+
+	return mesh;
+
+}
+
+Mesh* Mesh::generateRomboidTriangularTexCord(GLdouble h, GLdouble w, GLdouble th)
+{
+	
+	Mesh* m = generateRomboidTriangular(h, w, th);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(0.5, 0);
+	m->vTexCoords.emplace_back(0.5, 0.5);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(1, 0.5);
+	m->vTexCoords.emplace_back(0.5, 0.5);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(0.5, 1);
+
+	m->vTexCoords.emplace_back(0.5, 0.5);
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0.5);
+
+
+	return m;
+
+}
+
 #pragma endregion
 
 #pragma endregion

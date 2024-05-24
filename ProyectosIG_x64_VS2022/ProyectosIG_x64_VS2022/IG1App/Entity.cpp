@@ -944,6 +944,23 @@ CompoundEntity::CompoundEntity()
 {
 }
 
+CompoundEntity::CompoundEntity(CompoundEntity* ce)
+{
+
+	for (Abs_Entity* elem : ce->gObjects) {
+
+		gCopyObjects.push_back(elem);
+
+	}
+
+	for (Abs_Entity* elem : ce->gCopyObjects) {
+
+		gCopyObjects.push_back(elem);
+
+	}
+
+}
+
 CompoundEntity::~CompoundEntity()
 {
 	int size = gObjects.size();
@@ -965,11 +982,17 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 		//upload(aMat);
 		e->render(aMat);
 	}
+
+	for (auto& e : gCopyObjects) {
+		//upload(aMat);
+		e->render(aMat);
+	}
 }
 
 void CompoundEntity::update()
 {
 	for (auto& e : gObjects) e->update();
+	for (auto& e : gCopyObjects) e->update();
 }
 
 void CompoundEntity::addEntity(Abs_Entity* ae)
@@ -1241,3 +1264,133 @@ void Toroid::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+Romboid::Romboid(GLdouble altura, GLdouble ancho, GLint m)
+{
+	glm::dvec3* aux = new glm::dvec3[3];
+
+	double angle = 180.0 / (3 - 1);
+
+	for (int i = 0; i < 3; i++) {
+		aux[i] = glm::dvec3(cos(radians(angle * i - 90)) * ancho, sin(radians(angle * i - 90)) * altura, 0);
+	}
+
+
+	mMesh = MbR::generaIndexMbR(3, m, aux);
+}
+
+void Romboid::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		if (material != nullptr) {
+			glColor3f(mColor.r, mColor.g, mColor.b);
+
+			material->upload();
+		}
+
+		mMesh->render();
+
+		glColor3f(1.0, 1.0, 1.0);
+
+		glColor4f(0, 0, 0, 0);
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		//reset del color material
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
+
+	}
+}
+
+PiramidTex::PiramidTex(GLdouble h, GLdouble w, Texture* t)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generatePiramidTexCord(h, w);
+
+	//mTexture actua como frontTexture
+	mTexture = t;
+
+}
+
+void PiramidTex::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+}
+
+TriangleRomboid::TriangleRomboid(GLdouble h, GLdouble w, GLdouble th, Texture* t)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateRomboidTriangularTexCord(h, w, th);
+
+	//mTexture actua como frontTexture
+	mTexture = t;
+
+}
+
+void TriangleRomboid::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+		upload(aMat);
+		mMesh->render();
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+}

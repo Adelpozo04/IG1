@@ -29,6 +29,14 @@ public:
 	//practica 4
 	static Mesh* generateWingAdvancedTIE(GLdouble radius, GLdouble width);
 
+	//examen Pruebas
+
+	static Mesh* generatePiramid(GLdouble h, GLdouble w);
+	static Mesh* generatePiramidTexCord(GLdouble h, GLdouble w);
+
+	static Mesh* generateRomboidTriangular(GLdouble h, GLdouble w, GLdouble th);
+	static Mesh* generateRomboidTriangularTexCord(GLdouble h, GLdouble w, GLdouble th);
+
 
 	Mesh() = default;
 	virtual ~Mesh() = default;
