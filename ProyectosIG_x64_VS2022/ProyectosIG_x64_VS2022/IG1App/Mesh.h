@@ -105,7 +105,9 @@ public:
 	MbR(int m,int n , glm::dvec3* perfil);
 
 
-	static MbR* generaIndexMbR(int mm, int mn, glm::dvec3* perfil);
+	static MbR* generaIndexMbR(int mm, int nn, glm::dvec3* perfil);
+
+	static MbR* generaIndexMbR(int mm, int nn, GLdouble angleRot, glm::dvec3* perfil);
 
 
 };

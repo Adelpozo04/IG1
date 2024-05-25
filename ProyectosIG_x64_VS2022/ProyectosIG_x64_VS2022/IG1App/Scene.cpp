@@ -219,6 +219,13 @@ void Scene::update()
 		if (orbitActive) orbit();
 	}
 
+	if (mId == 82) {
+
+		inventedNode2->setModelMat(glm::rotate(inventedNode2->modelMat(),
+			radians(0.3), dvec3(0, 1, 0)));
+
+	}
+
 }
 
 void Scene::setScene(GLuint id)
@@ -585,6 +592,30 @@ void Scene::setScene(GLuint id)
 		figuraFinal->addEntity(figura);
 
 		gObjects.push_back(figuraFinal);
+
+	}
+	else if (mId == 82) {
+
+		auto toroid = new Toroid(50, 50, 16, 16, 90.0);
+		toroid->setColor(dvec4(0, 1, 1, 1));
+		gObjects.push_back(toroid);
+
+		auto sphere = new Sphere(30);
+		sphere->setColor(0, 1, 0);
+
+		inventedNode1 = new CompoundEntity();
+
+		inventedNode1->addEntity(sphere);
+
+		dmat4 iN1 = inventedNode1->modelMat();
+		iN1 = iN1 * translate(dmat4(1), dvec3(100, 0, 0));
+		inventedNode1->setModelMat(iN1);
+
+		inventedNode2 = new CompoundEntity();
+
+		inventedNode2->addEntity(inventedNode1);
+
+		gObjects.push_back(inventedNode2);
 
 	}
 

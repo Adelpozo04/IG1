@@ -817,8 +817,6 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 	mesh->mPrimitive = GL_TRIANGLES;
 	// Definir el número de vértices como nn*mm
 	mesh->mNumVertices = nn * mm;
-	
-	mesh->nNumIndices = nn * (mm - 1) * 6;
 
 	mesh->vNormals.reserve(mesh->nNumIndices);
 
@@ -847,6 +845,8 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 	int indiceMayor = 0;
 
+	mesh->nNumIndices = nn * (mm - 1) * 6;
+
 	mesh->vIndices = new GLuint[mesh->nNumIndices];
 
 	// El contador i recorre las muestras alrededor del eje Y
@@ -870,6 +870,87 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 			indiceMayor++;
 
 			
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice + 1;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
+		}
+	}
+
+	mesh->buildNormalVectors();
+
+
+	delete vs;
+
+	vs = nullptr;
+
+	return mesh;
+}
+
+MbR* MbR::generaIndexMbR(int mm, int nn, GLdouble anglesRot, glm::dvec3* perfil)
+{
+
+	MbR* mesh = new MbR(mm, nn, perfil);
+
+	// Definir la primitiva como GL_TRIANGLES
+	mesh->mPrimitive = GL_TRIANGLES;
+	// Definir el número de vértices como nn*mm
+	mesh->mNumVertices = nn * mm;
+
+	mesh->vNormals.reserve(mesh->nNumIndices);
+
+	// Usar un vector auxiliar de vértices	
+	dvec3* vs = new dvec3[mesh->mNumVertices];
+
+	for (int i = 0; i < nn; i++) {
+		// Generar la muestra i- ésima de vértices
+		GLdouble theta = i * (anglesRot / (nn - 1));
+		GLdouble c = cos(radians(theta));
+		GLdouble s = sin(radians(theta));
+		for (int j = 0; j < mm; j++) {
+			GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+			GLdouble x = c * perfil[j].x + s * perfil[j].z;
+			vs[i * (mm)+j] = dvec3(x, perfil[j].y, z);
+		}
+
+	}
+
+	//volcar vertices
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vVertices.push_back(vs[i]);
+	}
+
+	int indiceMayor = 0;
+
+	mesh->nNumIndices = (nn - 1) * (mm - 1) * 6;
+
+	mesh->vIndices = new GLuint[mesh->nNumIndices];
+
+	// El contador i recorre las muestras alrededor del eje Y
+	for (int i = 0; i < nn - 1; i++) {
+		// El contador j recorre los vértices del perfil ,
+		// de abajo arriba . Las caras cuadrangulares resultan
+		// al unir la muestra i- ésima con la (i +1)% nn - ésima
+		for (int j = 0; j < mm - 1; j++) {
+			// El contador indice sirve para llevar cuenta
+			// de los índices generados hasta ahora . Se recorre
+			// la cara desde la esquina inferior izquierda
+			int indice = i * mm + j;
+			// Los cuatro índices son entonces :
+			//indice, (indice + mm) % (nn * mm), (indice + mm + 1) % (nn * mm), indice + 1
+
+			mesh->vIndices[indiceMayor] = indice;
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm) % (nn * mm);
+			indiceMayor++;
+			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
+			indiceMayor++;
+
+
 			mesh->vIndices[indiceMayor] = (indice + mm + 1) % (nn * mm);
 			indiceMayor++;
 			mesh->vIndices[indiceMayor] = indice + 1;
