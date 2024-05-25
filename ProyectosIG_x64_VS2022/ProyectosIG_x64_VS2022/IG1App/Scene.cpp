@@ -90,7 +90,8 @@ Scene::init()
 	spotLight->setAmb(ambient);
 	spotLight->setDiff(diffuse);
 	spotLight->setSpec(specular);
-	spotLight->setPosDir(glm::fvec3{ 0,  0, 0 });
+	spotLight->setPosDir(glm::fvec3{ 0, 200, 0 });
+	spotLight->setSpot(glm::fvec3{ 0, -1, 0}, 180, 0);
 	spotLight->setAtte(1, 0, 0);
 
 	gLights.push_back(spotLight);

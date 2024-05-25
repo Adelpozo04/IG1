@@ -106,7 +106,8 @@ public:
 
 	// Ojo al 0.0: la dirección de emisión del foco es vector
 	void setSpot(glm::fvec3 dir, GLfloat cf, GLfloat e) {
-		direction = glm::fvec4(dir, 0.0); cutoff = cf;
+		direction = glm::fvec4(dir, 0.0); 
+		cutoff = cf;
 		exp = e;
 	}
 };
