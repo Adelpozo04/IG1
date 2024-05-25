@@ -595,6 +595,161 @@ Mesh* Mesh::generateRomboidTriangularTexCord(GLdouble h, GLdouble w, GLdouble th
 
 }
 
+Mesh* Mesh::generateCristal(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos)
+{
+	Mesh* mesh = new Mesh();
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 48;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+	mesh->vColors.reserve(mesh->mNumVertices);
+
+
+	//posiciones de los puntos
+	vector<glm::vec3> points;
+	points.reserve(10);
+
+	points.emplace_back(-anchoCuerpo, altoCuerpo, anchoCuerpo);
+	points.emplace_back(anchoCuerpo, altoCuerpo, anchoCuerpo);
+	points.emplace_back(anchoCuerpo, altoCuerpo, -anchoCuerpo);
+	points.emplace_back(-anchoCuerpo, altoCuerpo, -anchoCuerpo);
+	points.emplace_back(0, altoCuerpo + altoPicos, 0);
+
+	points.emplace_back(-anchoCuerpo, -altoCuerpo, anchoCuerpo);
+	points.emplace_back(anchoCuerpo, -altoCuerpo, anchoCuerpo);
+	points.emplace_back(anchoCuerpo, -altoCuerpo, -anchoCuerpo);
+	points.emplace_back(-anchoCuerpo, -altoCuerpo, -anchoCuerpo);
+	points.emplace_back(0, -altoCuerpo - altoPicos, 0);
+
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[4]);
+
+	mesh->vVertices.push_back(points[4]);
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[2]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[4]);
+
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[4]);
+
+	mesh->vVertices.push_back(points[0]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[1]);
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[1]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[8]);
+
+	mesh->vVertices.push_back(points[2]);
+	mesh->vVertices.push_back(points[8]);
+	mesh->vVertices.push_back(points[3]);
+
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[8]);
+	mesh->vVertices.push_back(points[5]);
+
+	mesh->vVertices.push_back(points[3]);
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[0]);
+
+	mesh->vVertices.push_back(points[5]);
+	mesh->vVertices.push_back(points[9]);
+	mesh->vVertices.push_back(points[6]);
+
+	mesh->vVertices.push_back(points[6]);
+	mesh->vVertices.push_back(points[9]);
+	mesh->vVertices.push_back(points[7]);
+
+	mesh->vVertices.push_back(points[7]);
+	mesh->vVertices.push_back(points[9]);
+	mesh->vVertices.push_back(points[8]);
+
+	mesh->vVertices.push_back(points[8]);
+	mesh->vVertices.push_back(points[9]);
+	mesh->vVertices.push_back(points[5]);
+
+	return mesh;
+}
+
+Mesh* Mesh::generateCristalTexCord(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos, int nColor)
+{
+	Mesh* m = generateCristal(altoCuerpo, anchoCuerpo, altoPicos);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+	int color = nColor % 4;
+
+	if (color == 0) {
+
+		for (int i = 0; i < m->mNumVertices; ++i) {
+			m->vTexCoords.emplace_back(0.6, 0.1);
+			m->vTexCoords.emplace_back(0.9, 0.1);
+			m->vTexCoords.emplace_back(0.9, 0.4);
+			m->vTexCoords.emplace_back(0.6, 0.4);
+		}	
+
+	}
+	else if (color == 1) {
+
+		for (int i = 0; i < m->mNumVertices; ++i) {
+			m->vTexCoords.emplace_back(0.1, 0.1);
+			m->vTexCoords.emplace_back(0.4, 0.1);
+			m->vTexCoords.emplace_back(0.4, 0.4);
+			m->vTexCoords.emplace_back(0.1, 0.4);
+		}
+
+	}
+	else if (color == 2) {
+
+		for (int i = 0; i < m->mNumVertices; ++i) {
+			m->vTexCoords.emplace_back(0.1, 0.6);
+			m->vTexCoords.emplace_back(0.4, 0.6);
+			m->vTexCoords.emplace_back(0.4, 0.9);
+			m->vTexCoords.emplace_back(0.1, 0.9);
+		}
+
+	}
+	else if (color == 3) {
+
+		for (int i = 0; i < m->mNumVertices; ++i) {
+			m->vTexCoords.emplace_back(0.6, 0.6);
+			m->vTexCoords.emplace_back(0.9, 0.6);
+			m->vTexCoords.emplace_back(0.9, 0.9);
+			m->vTexCoords.emplace_back(0.6, 0.9);
+		}
+
+	}
+
+	m->vColors.reserve(m->mNumVertices);
+
+	for (int i = 0; i < m->mNumVertices; i++) {
+		m->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
+	}
+	
+
+	return m;
+}
+
 #pragma endregion
 
 #pragma endregion
@@ -679,7 +834,6 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vVertices.emplace_back(w, -w, -w);
 	mesh->vVertices.emplace_back(-w, w, -w);
 	mesh->vVertices.emplace_back(-w, -w, -w);
-
 
 	mesh->vIndices = new GLuint[36];
 
@@ -767,6 +921,29 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->buildNormalVectors();
 
 	return mesh;
+}
+
+IndexMesh* IndexMesh::generateIndexedBoxTexture(GLdouble l)
+{
+	
+	IndexMesh* m = generateIndexedBox(l);
+
+	m->vTexCoords.reserve(m->mNumVertices);
+
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	m->vTexCoords.emplace_back(0, 1);
+	m->vTexCoords.emplace_back(0, 0);
+	m->vTexCoords.emplace_back(1, 1);
+	m->vTexCoords.emplace_back(1, 0);
+
+	return m;
+
+
 }
 
 void IndexMesh::buildNormalVectors()

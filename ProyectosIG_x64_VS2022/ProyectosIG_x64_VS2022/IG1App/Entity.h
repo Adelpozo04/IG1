@@ -363,6 +363,27 @@ private:
 
 #pragma endregion
 
+#pragma region Cubo con normales y texturas
+
+class CuboTex
+	: public Abs_Entity {
+
+public:
+
+	explicit CuboTex(GLdouble w, Texture* t);
+	~CuboTex();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+	void update() override;
+
+private:
+
+
+
+};
+
+#pragma endregion
+
 
 class EntityWithMaterial : public Abs_Entity {
 public:
@@ -409,6 +430,10 @@ public:
 
 };
 
+#pragma endregion
+
+
+#pragma region Objetos para examen
 class PiramidTex : public Abs_Entity {
 
 public: 
@@ -424,6 +449,16 @@ class TriangleRomboid : public Abs_Entity {
 public:
 	TriangleRomboid(GLdouble h, GLdouble w, GLdouble th, Texture* t);
 	~TriangleRomboid() { delete mMesh; mMesh = nullptr; };
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+class Cristal : public Abs_Entity {
+
+public:
+	Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos, Texture* t, int nColor);
+	~Cristal() { delete mMesh; mMesh = nullptr; };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;
 

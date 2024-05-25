@@ -56,6 +56,11 @@ Scene::init()
 
 	gTextures.push_back(t);
 
+	t = new Texture();
+	t->load("Bmps/windowC.bmp");
+
+	gTextures.push_back(t);
+
 	//CARGA DE LUCES
 	glm::fvec4 posDir = { 1, 1, 1, 0 };
 	glm::fvec4 ambient = { 0, 0, 0, 1 };
@@ -74,9 +79,9 @@ Scene::init()
 	posLight = new PosLight();
 	
 	posLight->setAmb(ambient);
-	posLight->setDiff(glm::fvec4{1.0,1.0,0.0,1.0});
+	posLight->setDiff(diffuse);
 	posLight->setSpec(specular);
-	posLight->setPosDir(glm::fvec3{ 200, 200, 0 });
+	posLight->setPosDir(glm::fvec3{ 0, 0, 300 });
 	
 	gLights.push_back(posLight);
 	
@@ -85,7 +90,7 @@ Scene::init()
 	spotLight->setAmb(ambient);
 	spotLight->setDiff(diffuse);
 	spotLight->setSpec(specular);
-	spotLight->setPosDir(glm::fvec3{ 0,  200, 200 });
+	spotLight->setPosDir(glm::fvec3{ 0,  0, 0 });
 	spotLight->setAtte(1, 0, 0);
 
 	gLights.push_back(spotLight);
@@ -616,6 +621,19 @@ void Scene::setScene(GLuint id)
 		inventedNode2->addEntity(inventedNode1);
 
 		gObjects.push_back(inventedNode2);
+
+	}
+	else if (mId == 83) {
+
+		auto cubo = new CuboTex(100, gTextures[CONTAINER]);
+		gObjects.push_back(cubo);
+		
+
+	}
+	else if (mId == 84) {
+
+		auto luz1 = new Cristal(200, 100, 75, gTextures[NAVIDAD], 0);
+		gObjects.push_back(luz1);
 
 	}
 

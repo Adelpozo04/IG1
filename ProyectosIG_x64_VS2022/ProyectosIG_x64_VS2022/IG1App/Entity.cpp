@@ -297,6 +297,8 @@ void Cube::update() {
 #pragma endregion
 
 
+
+
 #pragma region Ground
 
 
@@ -1158,6 +1160,60 @@ void Cubo::update()
 {
 }
 
+CuboTex::CuboTex(GLdouble w, Texture* t)
+{
+
+	mMesh = new IndexMesh();
+	mMesh = IndexMesh::generateIndexedBox(w);
+
+	mTexture = t;
+
+}
+
+CuboTex::~CuboTex()
+{
+	delete mMesh;
+	mMesh = nullptr;
+}
+
+void CuboTex::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		glColor4f(0, 0, 0, 0);
+
+		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+void CuboTex::update()
+{
+
+
+}
+
 Sphere_mbr::Sphere_mbr(GLdouble radius, GLint pPunto, GLint meridianos)
 {
 	glm::dvec3* aux = new glm::dvec3[pPunto];
@@ -1403,6 +1459,55 @@ void TriangleRomboid::render(glm::dmat4 const& modelViewMat) const
 		mMesh->render();
 
 		mTexture->unbind();
+
+		//reset config
+		glLineWidth(1);
+		//reset modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+}
+
+Cristal::Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos, Texture* t, int nColor)
+{
+
+	mModelMat = dmat4(1);
+	mMesh = Mesh::generateCristalTexCord(alturaCuerpo, anchoCuerpo, alturaPicos, nColor);
+
+	//mTexture actua como frontTexture
+	mTexture = t;
+
+}
+
+void Cristal::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+		//modo de pintado
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//bind front texture
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_MODULATE);
+
+		//enable face culling 
+		glEnable(GL_CULL_FACE);
+
+		//cull back face
+		glCullFace(GL_BACK);
+
+		dmat4 aMat = modelViewMat * mModelMat;
+		upload(aMat);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mMesh->render();
+
+		mTexture->unbind();
+
+		glDisable(GL_CULL_FACE);
 
 		//reset config
 		glLineWidth(1);

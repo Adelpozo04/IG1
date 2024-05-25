@@ -22,7 +22,7 @@ enum TexturesName {
 	GRASS,
 	PHOTO,
 	LIFEPHOTO,
-	WOOD
+	NAVIDAD
 };
 
 class Scene
