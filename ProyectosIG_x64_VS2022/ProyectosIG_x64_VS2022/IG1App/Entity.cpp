@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-
+#include "Scene.h"
 
 using namespace glm;
 
@@ -1259,3 +1259,128 @@ void Piramid::render(glm::dmat4 const& modelViewMat) const
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
+
+PiramidText::PiramidText(GLdouble width, GLdouble height)
+{
+	mMesh = Mesh::generatePiramidText(width, height);
+
+
+}
+
+void PiramidText::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+
+		mTexture->unbind();
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+TriagonalPrismText::TriagonalPrismText(GLdouble width, GLdouble height,  GLdouble depth)
+{
+	mMesh = Mesh::generateTriagonalPrismText(width, height, depth);
+}
+
+void TriagonalPrismText::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);//para combinar con color usar GL_MODULATE
+
+
+		//set color
+		if (mColor.a != 0) {
+			//glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		//glColor4f(0, 0, 0, 0);
+
+
+		mTexture->unbind();
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+PiramidTextComplex::PiramidTextComplex(GLdouble width, GLdouble height, std::vector<Texture*> textures)
+{
+	auto piramid = new PiramidText(width, height);
+	piramid->setTexture(textures[BALDOSA_P]);
+	gObjects.push_back(piramid);
+
+	GLdouble faceHeight = sqrt((height * height) + ((width / 2) * (width / 2)));
+
+	GLdouble prismSize = faceHeight*0.4;
+
+	GLdouble angle = atan((width / 2)/height);
+
+	CompoundEntity* c = new CompoundEntity();
+
+	auto t1 = new TriagonalPrismText(prismSize, prismSize, 10);
+	t1->setTexture(textures[BALDOSA_P]);
+	t1->setModelMat(rotate(t1->modelMat(), -angle, dvec3(1, 0, 0)));
+	t1->setModelMat(translate(t1->modelMat(),dvec3(100,0,0)));
+	c->addEntity(t1);
+
+
+	t1 = new TriagonalPrismText(prismSize, prismSize, 10);
+	t1->setTexture(textures[BALDOSA_P]);
+	t1->setModelMat(rotate(t1->modelMat(), (-angle), dvec3(1, 0, 0)));
+	t1->setModelMat(translate(t1->modelMat(), dvec3(100 + faceHeight*0.5, 0, 0)));
+	c->addEntity(t1);
+
+
+
+	t1 = new TriagonalPrismText(prismSize, prismSize, 10);
+	t1->setTexture(textures[BALDOSA_P]);
+	t1->setModelMat(rotate(t1->modelMat(),(-angle),dvec3(1, 0, 0)));
+	t1->setModelMat(rotate(t1->modelMat(),radians(180.0),dvec3(1, 0, 0)));
+	t1->setModelMat(translate(t1->modelMat(), dvec3(0,-prismSize,0)));
+	t1->setModelMat(translate(t1->modelMat(), dvec3(+100 + faceHeight * 0.25, 0, 0)));
+	c->addEntity(t1);
+
+
+
+	t1 = new TriagonalPrismText(prismSize, prismSize, 10);
+	t1->setModelMat(rotate(t1->modelMat(),(-angle), dvec3(1, 0, 0)));
+	t1->setTexture(textures[BALDOSA_P]);
+	t1->setModelMat(translate(t1->modelMat(), dvec3(100 + faceHeight * 0.25, faceHeight * 0.5, 0)));
+	c->addEntity(t1);
+
+
+	c->setModelMat(translate(c->modelMat(), dvec3(-125, 0, width/2)));
+
+	gObjects.push_back(c);
+}
+

@@ -415,5 +415,32 @@ public:
 
 
 
+class PiramidText : public Abs_Entity {
+public:
+
+
+	explicit PiramidText(GLdouble width ,GLdouble height);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+class TriagonalPrismText : public Abs_Entity {
+public:
+
+
+	explicit TriagonalPrismText(GLdouble width, GLdouble height,GLdouble depth);
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
+
+
+class PiramidTextComplex : public CompoundEntity {
+public:
+
+	explicit PiramidTextComplex(GLdouble width, GLdouble height, std::vector<Texture*> textures);
+
+};
+
+
 
 #endif //_H_Entities_H_

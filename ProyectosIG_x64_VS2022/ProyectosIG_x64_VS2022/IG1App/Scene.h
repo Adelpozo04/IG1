@@ -14,6 +14,8 @@
 
 const int NUM_TEXTURES = 11;
 
+
+
 enum Texts {
 		BALDOSA_C,
 		BALDOSA_F,
@@ -111,8 +113,8 @@ protected:
 	SpotLight* spotLight = nullptr;
 	SpotLight* spotLight2 = nullptr;
 
-
 	std::vector<Texture*> textures;
+
 };
 
 #endif //_H_Scene_H_

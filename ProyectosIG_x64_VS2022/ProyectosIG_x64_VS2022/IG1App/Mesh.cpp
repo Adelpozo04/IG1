@@ -464,6 +464,133 @@ Mesh* Mesh::generateWingAdvancedTIE(GLdouble radius, GLdouble width)
 	return mesh;
 }
 
+Mesh* Mesh::generatePiramid(GLdouble width, GLdouble height)
+{
+	Mesh* mesh = new Mesh();
+
+	//version con GL_TRIANGLES
+
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 12;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+
+	vector<glm::dvec3> points{
+		{0,height,0},
+		{-width / 2,0,-width / 2},
+		{-width / 2,0,width / 2},
+		{width / 2,0,width / 2},
+		{width / 2,0,-width / 2},
+	};
+
+
+	vector<int> indices{
+		0,1,2,
+		0,2,3,
+		0,3,4,
+		0,4,1,
+	};
+
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+
+		mesh->vVertices.push_back(points[indices[i]]);
+	}
+
+
+
+	return mesh;
+}
+
+Mesh* Mesh::generatePiramidText(GLdouble width, GLdouble height)
+{
+	//generar piramide basica
+	Mesh* mesh = generatePiramid(width,height);
+
+
+	//añadir la textura
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	vector<glm::dvec2> textPoints{
+		{0,0},
+		{0.5,0.5},
+		{0.5,0.}
+	};
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vTexCoords.push_back(textPoints[i % 3]);
+	}
+
+	return mesh;
+}
+
+Mesh* Mesh::generateTriagonalPrism(GLdouble width, GLdouble height, GLdouble depth)
+{
+	Mesh* mesh = new Mesh();
+
+
+	//version usando GL_TRIANGLES
+	mesh->mPrimitive = GL_TRIANGLES;
+
+	mesh->mNumVertices = 24;
+
+	mesh->vVertices.reserve(mesh->mNumVertices);
+
+	
+	vector<glm::dvec3> points{
+		{0,height,depth/2},
+		{-width/2,0,depth/2},
+		{width/2,0,depth/2},
+
+		{0,height,-depth/2},
+		{-width/2,0,-depth/2},
+		{width/2,0,-depth/2},
+	};
+
+
+	vector<int> indices{
+		0,1,2,
+		0,2,3,
+		2,3,5,
+		3,4,5,
+		3,4,1,
+		0,1,3,
+		1,2,4,
+		2,4,5
+	};
+
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+
+		mesh->vVertices.push_back(points[indices[i]]);
+	}
+
+	return mesh;
+}
+
+Mesh* Mesh::generateTriagonalPrismText(GLdouble width, GLdouble height, GLdouble depth)
+{
+	Mesh* mesh = generateTriagonalPrism(width,height,depth);
+
+
+	//añadir la textura
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	vector<glm::dvec2> textPoints{
+		{0,0},
+		{0.5,0.5},
+		{0.5,0.}
+	};
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vTexCoords.push_back(textPoints[i % 3]);
+	}
+
+	return mesh;
+}
+
 #pragma endregion
 
 #pragma endregion

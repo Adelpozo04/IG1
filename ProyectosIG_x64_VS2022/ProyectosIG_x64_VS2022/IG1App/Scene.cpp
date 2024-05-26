@@ -493,6 +493,13 @@ void Scene::setScene(GLuint id)
 		//auto sphere = new Sphere_mbr(50, 3, 4);
 		//gObjects.push_back(sphere);
 	}
+	else if (mId == -2) { //escena piramide texturizada
+
+		auto piramid = new PiramidTextComplex(100,100,textures);
+		gObjects.push_back(piramid);
+
+	
+	}
 
 }
 
