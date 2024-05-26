@@ -403,6 +403,15 @@ public:
 
 
 
+class Piramid : public Abs_Entity {
+public:
+
+
+	explicit Piramid();
+	//~Piramid();
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+};
 
 
 

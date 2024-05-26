@@ -99,7 +99,7 @@ public:
 
 	static MbR* generaIndexMbR(int mm, int mn, glm::dvec3* perfil);
 
-
+	static MbR* generaPiramidText(int mm, int mn);
 };
 
 #endif //_H_Scene_H_

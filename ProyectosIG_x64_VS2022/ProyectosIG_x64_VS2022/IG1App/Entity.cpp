@@ -1095,7 +1095,17 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
 		}
 
+
+		if (mTexture != nullptr) {
+			mTexture->bind(GL_MODULATE);
+
+		}
+
 		mMesh->render();
+
+		if (mTexture != nullptr) {
+			mTexture->unbind();
+		}
 
 		glColor4f(0,0,0,0);
 
@@ -1204,6 +1214,45 @@ void Toroid::render(glm::dmat4 const& modelViewMat) const
 
 		glColor4f(0, 0, 0, 0);
 
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
+
+
+
+Piramid::Piramid()
+{
+	int pPunto = 3;
+	
+	int meridianos = 5;
+
+	
+	mMesh = MbR::generaPiramidText(pPunto,meridianos);
+
+}
+
+void Piramid::render(glm::dmat4 const& modelViewMat) const
+{
+
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat *mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		mTexture->setWrap(GL_REPEAT);
+		mTexture->bind(GL_REPLACE);
+
+		mMesh->render();
+
+		mTexture->unbind();
 		//reset config
 		glLineWidth(1);
 

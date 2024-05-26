@@ -550,6 +550,7 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	mesh->vVertices.emplace_back(-w, -w, -w);
 
 
+
 	mesh->vIndices = new GLuint[36];
 
 
@@ -634,6 +635,25 @@ IndexMesh* IndexMesh::generateIndexedBox(GLdouble w)
 	*/
 
 	mesh->buildNormalVectors();
+
+	/*	 Textura para el cubo
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+
+	mesh->vTexCoords.emplace_back(0, 0);
+	mesh->vTexCoords.emplace_back(0, 1);
+	mesh->vTexCoords.emplace_back(1, 0);
+	mesh->vTexCoords.emplace_back(1, 1);
+
+	*/
+	
+
+
+
 
 	return mesh;
 }
@@ -755,6 +775,39 @@ MbR* MbR::generaIndexMbR(int mm, int nn, glm::dvec3* perfil)
 
 
 	mesh->buildNormalVectors();
+
+	return mesh;
+}
+
+MbR* MbR::generaPiramidText(int pPunto, int meridianos)
+{
+
+
+
+	int radius = 200;
+
+	glm::dvec3* aux = new glm::dvec3[pPunto];
+
+	double angle = 180.0 / (pPunto - 1);
+
+	for (int i = 0; i < pPunto; i++) {
+		aux[i] = glm::dvec3(cos(radians(angle * i - 90)) * radius, sin(radians(angle * i - 90)) * radius, 0);
+	}
+
+	MbR* mesh = MbR::generaIndexMbR(pPunto, meridianos, aux);
+
+	
+	mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+	vector<vec2> texPoints{ {0.0,1},{0.5,0.5} ,{0.0,0.5} };
+
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+
+		mesh->vTexCoords.emplace_back(texPoints[i % 3]);
+	}
+	
+	
 
 	return mesh;
 }

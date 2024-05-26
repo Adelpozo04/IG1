@@ -341,6 +341,7 @@ void Scene::setScene(GLuint id)
 	else if (mId == 63) {
 
 		auto cubo = new Cubo(100);
+		cubo->setTexture(textures[BALDOSA_P]);
 		gObjects.push_back(cubo);
 		cubo->setColor(dvec4(0, 1, 0, 1));
 	}
@@ -482,6 +483,15 @@ void Scene::setScene(GLuint id)
 		inventedNode3->setModelMat(translate(inventedNode3->modelMat(), dvec3(0, -500, 0)));
 
 		gObjects.push_back(inventedNode3);
+	}
+	else if (mId == -1) {
+
+		Piramid* p = new Piramid();
+		p->setTexture(textures[BALDOSA_C]);
+		gObjects.push_back(p);
+
+		//auto sphere = new Sphere_mbr(50, 3, 4);
+		//gObjects.push_back(sphere);
 	}
 
 }
