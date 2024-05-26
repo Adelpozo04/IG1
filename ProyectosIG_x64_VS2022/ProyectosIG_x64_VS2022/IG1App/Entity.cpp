@@ -1279,10 +1279,19 @@ void PiramidText::render(glm::dmat4 const& modelViewMat) const
 		//set config
 		glLineWidth(2);
 
+		if (mColor.a != 0)
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+
 		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_REPLACE);
+		mTexture->bind(GL_MODULATE);
+
+		//material->upload();
 
 		mMesh->render();
+
+		
+
+		glColor4f(0,0,0,0);
 
 
 		mTexture->unbind();
@@ -1290,6 +1299,11 @@ void PiramidText::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(1);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+		//reset del color material
+		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT);
+		glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 	}
 }
 
@@ -1312,7 +1326,7 @@ void TriagonalPrismText::render(glm::dmat4 const& modelViewMat) const
 		glLineWidth(2);
 
 		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_REPLACE);//para combinar con color usar GL_MODULATE
+		mTexture->bind(GL_MODULATE);//para combinar con color usar GL_MODULATE
 
 
 		//set color
@@ -1336,7 +1350,14 @@ void TriagonalPrismText::render(glm::dmat4 const& modelViewMat) const
 PiramidTextComplex::PiramidTextComplex(GLdouble width, GLdouble height, std::vector<Texture*> textures)
 {
 	auto piramid = new PiramidText(width, height);
-	piramid->setTexture(textures[BALDOSA_P]);
+	piramid->setTexture(textures[BALDOSA_F]);
+
+	piramid->setColor(dvec4(1, 0, 0,0.1));
+
+	Material* mat = new Material();
+	mat->setGold();
+	//piramid->setMaterial(mat);
+
 	gObjects.push_back(piramid);
 
 	GLdouble faceHeight = sqrt((height * height) + ((width / 2) * (width / 2)));
@@ -1345,6 +1366,7 @@ PiramidTextComplex::PiramidTextComplex(GLdouble width, GLdouble height, std::vec
 
 	GLdouble angle = atan((width / 2)/height);
 
+	/*
 	CompoundEntity* c = new CompoundEntity();
 
 	auto t1 = new TriagonalPrismText(prismSize, prismSize, 10);
@@ -1380,7 +1402,8 @@ PiramidTextComplex::PiramidTextComplex(GLdouble width, GLdouble height, std::vec
 
 
 	c->setModelMat(translate(c->modelMat(), dvec3(-125, 0, width/2)));
+	*/
 
-	gObjects.push_back(c);
+	//gObjects.push_back(c);
 }
 

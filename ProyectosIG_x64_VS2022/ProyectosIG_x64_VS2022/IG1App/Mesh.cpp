@@ -523,6 +523,30 @@ Mesh* Mesh::generatePiramidText(GLdouble width, GLdouble height)
 		mesh->vTexCoords.push_back(textPoints[i % 3]);
 	}
 
+	//normales
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vNormals.push_back(dvec3(0, 0, 0));
+	}
+
+	for (int i = 0; i < mesh->mNumVertices / 3; i++) {
+
+		dvec3 n;
+		dvec3 v0 = mesh->vVertices[(i * 3)];
+		dvec3 v1 = mesh->vVertices[((i * 3) + 1)];
+		dvec3 v2 = mesh->vVertices[((i * 3) + 2)];
+
+		n = normalize(cross((v2 - v1), (v0 - v1)));
+
+		mesh->vNormals[(i * 3)] += n;
+		mesh->vNormals[(i * 3) + 1] += n;
+		mesh->vNormals[(i * 3) + 2] += n;
+	}
+
+
+	for (int i = 0; i < mesh->mNumVertices; i++) {
+		mesh->vNormals[i] = glm::normalize(mesh->vNormals[i]);
+	}
+
 	return mesh;
 }
 
@@ -587,6 +611,12 @@ Mesh* Mesh::generateTriagonalPrismText(GLdouble width, GLdouble height, GLdouble
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		mesh->vTexCoords.push_back(textPoints[i % 3]);
 	}
+
+	
+
+	
+
+
 
 	return mesh;
 }

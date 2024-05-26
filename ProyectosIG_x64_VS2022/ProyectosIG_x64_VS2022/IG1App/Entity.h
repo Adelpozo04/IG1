@@ -415,7 +415,7 @@ public:
 
 
 
-class PiramidText : public Abs_Entity {
+class PiramidText : public EntityWithMaterial {
 public:
 
 
