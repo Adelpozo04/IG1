@@ -419,6 +419,18 @@ public:
 
 };
 
+class TreeRing : public Abs_Entity {
+
+public:
+	TreeRing(GLdouble grosor, GLdouble radius, GLint m, GLint p); // r es el radio de la esfera
+	TreeRing(GLdouble grosor, GLdouble radius, GLint m, GLint p, GLdouble angleRot); // r es el radio de la esfera
+	~TreeRing() { delete mMesh; mMesh = nullptr; }
+
+	virtual void render(glm::dmat4 const& modelViewMat) const;
+
+
+};
+
 class Romboid : public EntityWithMaterial {
 
 public:
@@ -457,7 +469,7 @@ public:
 class Cristal : public Abs_Entity {
 
 public:
-	Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos, Texture* t, int nColor);
+	Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos);
 	~Cristal() { delete mMesh; mMesh = nullptr; };
 
 	virtual void render(glm::dmat4 const& modelViewMat) const;

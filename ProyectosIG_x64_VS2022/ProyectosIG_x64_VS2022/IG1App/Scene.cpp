@@ -91,8 +91,9 @@ Scene::init()
 	spotLight->setDiff(diffuse);
 	spotLight->setSpec(specular);
 	spotLight->setPosDir(glm::fvec3{ 0, 200, 0 });
-	spotLight->setSpot(glm::fvec3{ 0, -1, 0}, 180, 0);
 	spotLight->setAtte(1, 0, 0);
+
+	spotLight->upload((dmat4(1) ));
 
 	gLights.push_back(spotLight);
 
@@ -187,7 +188,7 @@ Scene::render(Camera const& cam) const
 	//dirLight->disable();
 	dirLight->upload(cam.viewMat());
 	posLight->upload(cam.viewMat());
-	spotLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat() * glm::rotate(dmat4(1), radians(90.0), dvec3(0, 0, 1)));
 
 	if (mId == 79) {
 
@@ -633,8 +634,35 @@ void Scene::setScene(GLuint id)
 	}
 	else if (mId == 84) {
 
-		auto luz1 = new Cristal(200, 100, 75, gTextures[NAVIDAD], 0);
-		gObjects.push_back(luz1);
+		TreeRing* leaf1;
+
+		CompoundEntity* hojas = new CompoundEntity();
+
+		for (int i = 0; i < 1; ++i) {
+
+			leaf1 = new TreeRing(100, (300), 16, 24, 180);
+
+			leaf1->setColor(dvec4(0, 1, 0, 1));
+
+			dmat4 lTR = leaf1->modelMat();
+			lTR = lTR * translate(dmat4(1), dvec3(0, -100 * i, 0));
+			leaf1->setModelMat(lTR);
+
+			hojas->addEntity(leaf1);
+
+		}
+
+		gObjects.push_back(hojas);
+
+		auto luz1 = new Cristal(200, 100, 75);
+		luz1->setColor(dvec4(0.3, 0.3, 1, 0.5));
+		gTransparentObjects.push_back(luz1);
+
+		
+
+		/*auto rp = new RegularPolygon(16, 100);
+
+		gObjects.push_back(rp);*/
 
 	}
 

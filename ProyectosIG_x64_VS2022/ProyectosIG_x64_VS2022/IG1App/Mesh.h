@@ -37,9 +37,6 @@ public:
 	static Mesh* generateRomboidTriangular(GLdouble h, GLdouble w, GLdouble th);
 	static Mesh* generateRomboidTriangularTexCord(GLdouble h, GLdouble w, GLdouble th);
 
-	static Mesh* generateCristal(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos);
-	static Mesh* generateCristalTexCord(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos, int nColor);
-
 
 	Mesh() = default;
 	virtual ~Mesh() = default;
@@ -91,6 +88,8 @@ public:
 	static IndexMesh* generateIndexedBox(GLdouble l);
 
 	static IndexMesh* generateIndexedBoxTexture(GLdouble l);
+
+	static IndexMesh* generateCristal(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos);
 
 	void buildNormalVectors();
 

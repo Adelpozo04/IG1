@@ -107,8 +107,19 @@ Mesh* Mesh::generateRegularPolygon(GLuint num, GLdouble r) {
 	double angle = 360.f / mesh->mNumVertices;
 
 	for (int i = 0; i < mesh->mNumVertices; i++) {
-		mesh->vVertices.emplace_back(r* cos(glm::radians(i*angle)), r* sin(glm::radians( i*angle)), 0.0);
-		//mesh->vColors.emplace_back(1.0, 1.0, 0.0, 1.0);
+
+		if (i % 2 == 0) {
+
+			mesh->vVertices.emplace_back(100 + (r * cos(glm::radians(i * angle))), r * sin(glm::radians(i * angle)), 0.0);
+
+		}
+		else{
+
+			mesh->vVertices.emplace_back(100 + (r * cos(glm::radians(i * angle))) / 2, (r * sin(glm::radians(i * angle))) / 2, 0.0);
+
+		}
+		
+
 	}
 
 	return mesh;
@@ -595,159 +606,51 @@ Mesh* Mesh::generateRomboidTriangularTexCord(GLdouble h, GLdouble w, GLdouble th
 
 }
 
-Mesh* Mesh::generateCristal(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos)
+IndexMesh* IndexMesh::generateCristal(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos)
 {
-	Mesh* mesh = new Mesh();
+	IndexMesh* mesh = new IndexMesh();
 
 	mesh->mPrimitive = GL_TRIANGLES;
 
-	mesh->mNumVertices = 48;
+	mesh->mNumVertices = 10;
+	mesh->nNumIndices = 48;
 
 	mesh->vVertices.reserve(mesh->mNumVertices);
-	mesh->vColors.reserve(mesh->mNumVertices);
+	mesh->vNormals.reserve(mesh->mNumVertices);
 
 
-	//posiciones de los puntos
-	vector<glm::vec3> points;
-	points.reserve(10);
+	mesh->vVertices.emplace_back(-anchoCuerpo, altoCuerpo, anchoCuerpo);
+	mesh->vVertices.emplace_back(anchoCuerpo, altoCuerpo, anchoCuerpo);
+	mesh->vVertices.emplace_back(anchoCuerpo, altoCuerpo, -anchoCuerpo);
+	mesh->vVertices.emplace_back(-anchoCuerpo, altoCuerpo, -anchoCuerpo);
+	mesh->vVertices.emplace_back(0, altoCuerpo + altoPicos, 0);
 
-	points.emplace_back(-anchoCuerpo, altoCuerpo, anchoCuerpo);
-	points.emplace_back(anchoCuerpo, altoCuerpo, anchoCuerpo);
-	points.emplace_back(anchoCuerpo, altoCuerpo, -anchoCuerpo);
-	points.emplace_back(-anchoCuerpo, altoCuerpo, -anchoCuerpo);
-	points.emplace_back(0, altoCuerpo + altoPicos, 0);
-
-	points.emplace_back(-anchoCuerpo, -altoCuerpo, anchoCuerpo);
-	points.emplace_back(anchoCuerpo, -altoCuerpo, anchoCuerpo);
-	points.emplace_back(anchoCuerpo, -altoCuerpo, -anchoCuerpo);
-	points.emplace_back(-anchoCuerpo, -altoCuerpo, -anchoCuerpo);
-	points.emplace_back(0, -altoCuerpo - altoPicos, 0);
+	mesh->vVertices.emplace_back(-anchoCuerpo, -altoCuerpo, anchoCuerpo);
+	mesh->vVertices.emplace_back(anchoCuerpo, -altoCuerpo, anchoCuerpo);
+	mesh->vVertices.emplace_back(anchoCuerpo, -altoCuerpo, -anchoCuerpo);
+	mesh->vVertices.emplace_back(-anchoCuerpo, -altoCuerpo, -anchoCuerpo);
+	mesh->vVertices.emplace_back(0, -altoCuerpo - altoPicos, 0);
 
 
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[4]);
+	mesh->vIndices = new GLuint[48];
 
-	mesh->vVertices.push_back(points[4]);
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[2]);
 
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[4]);
 
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[4]);
+	GLuint arr[48] = { 0, 1, 4,  4, 1, 2,  2, 3, 4,
 
-	mesh->vVertices.push_back(points[0]);
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[1]);
+		3, 0, 4,  0, 5, 1,  5, 6, 1,  1, 6, 7,  7, 2, 1,  2, 7, 8,  2, 8, 3,  3, 8, 5,  
 
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[1]);
+		3, 5, 0,  5, 9, 6,  6, 9, 7,  7, 9, 8,  8, 9, 5
+	};
 
-	mesh->vVertices.push_back(points[1]);
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[7]);
+	for (int i = 0; i < mesh->nNumIndices; i++) {
+		mesh->vIndices[i] = arr[i];
+	}
 
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[1]);
+	mesh->buildNormalVectors();
 
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[8]);
-
-	mesh->vVertices.push_back(points[2]);
-	mesh->vVertices.push_back(points[8]);
-	mesh->vVertices.push_back(points[3]);
-
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[8]);
-	mesh->vVertices.push_back(points[5]);
-
-	mesh->vVertices.push_back(points[3]);
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[0]);
-
-	mesh->vVertices.push_back(points[5]);
-	mesh->vVertices.push_back(points[9]);
-	mesh->vVertices.push_back(points[6]);
-
-	mesh->vVertices.push_back(points[6]);
-	mesh->vVertices.push_back(points[9]);
-	mesh->vVertices.push_back(points[7]);
-
-	mesh->vVertices.push_back(points[7]);
-	mesh->vVertices.push_back(points[9]);
-	mesh->vVertices.push_back(points[8]);
-
-	mesh->vVertices.push_back(points[8]);
-	mesh->vVertices.push_back(points[9]);
-	mesh->vVertices.push_back(points[5]);
 
 	return mesh;
-}
-
-Mesh* Mesh::generateCristalTexCord(GLdouble altoCuerpo, GLdouble anchoCuerpo, GLdouble altoPicos, int nColor)
-{
-	Mesh* m = generateCristal(altoCuerpo, anchoCuerpo, altoPicos);
-
-	m->vTexCoords.reserve(m->mNumVertices);
-
-	int color = nColor % 4;
-
-	if (color == 0) {
-
-		for (int i = 0; i < m->mNumVertices; ++i) {
-			m->vTexCoords.emplace_back(0.6, 0.1);
-			m->vTexCoords.emplace_back(0.9, 0.1);
-			m->vTexCoords.emplace_back(0.9, 0.4);
-			m->vTexCoords.emplace_back(0.6, 0.4);
-		}	
-
-	}
-	else if (color == 1) {
-
-		for (int i = 0; i < m->mNumVertices; ++i) {
-			m->vTexCoords.emplace_back(0.1, 0.1);
-			m->vTexCoords.emplace_back(0.4, 0.1);
-			m->vTexCoords.emplace_back(0.4, 0.4);
-			m->vTexCoords.emplace_back(0.1, 0.4);
-		}
-
-	}
-	else if (color == 2) {
-
-		for (int i = 0; i < m->mNumVertices; ++i) {
-			m->vTexCoords.emplace_back(0.1, 0.6);
-			m->vTexCoords.emplace_back(0.4, 0.6);
-			m->vTexCoords.emplace_back(0.4, 0.9);
-			m->vTexCoords.emplace_back(0.1, 0.9);
-		}
-
-	}
-	else if (color == 3) {
-
-		for (int i = 0; i < m->mNumVertices; ++i) {
-			m->vTexCoords.emplace_back(0.6, 0.6);
-			m->vTexCoords.emplace_back(0.9, 0.6);
-			m->vTexCoords.emplace_back(0.9, 0.9);
-			m->vTexCoords.emplace_back(0.6, 0.9);
-		}
-
-	}
-
-	m->vColors.reserve(m->mNumVertices);
-
-	for (int i = 0; i < m->mNumVertices; i++) {
-		m->vColors.emplace_back(1.0, 1.0, 1.0, 0.5);
-	}
-	
-
-	return m;
 }
 
 #pragma endregion
@@ -1076,8 +979,6 @@ MbR* MbR::generaIndexMbR(int mm, int nn, GLdouble anglesRot, glm::dvec3* perfil)
 	// Definir el número de vértices como nn*mm
 	mesh->mNumVertices = nn * mm;
 
-	mesh->vNormals.reserve(mesh->nNumIndices);
-
 	// Usar un vector auxiliar de vértices	
 	dvec3* vs = new dvec3[mesh->mNumVertices];
 
@@ -1106,6 +1007,8 @@ MbR* MbR::generaIndexMbR(int mm, int nn, GLdouble anglesRot, glm::dvec3* perfil)
 	mesh->nNumIndices = (nn - 1) * (mm - 1) * 6;
 
 	mesh->vIndices = new GLuint[mesh->nNumIndices];
+
+	mesh->vNormals.reserve(mesh->nNumIndices);
 
 	// El contador i recorre las muestras alrededor del eje Y
 	for (int i = 0; i < nn - 1; i++) {

@@ -1337,6 +1337,90 @@ void Toroid::render(glm::dmat4 const& modelViewMat) const
 	}
 }
 
+//grosor es el radio del grosor
+TreeRing::TreeRing(GLdouble grosor, GLdouble radius, GLint m, GLint p)
+{
+	dvec3* aux = new dvec3[p];
+
+	double angle = 360.0 / (p - 2);
+	GLdouble ri = grosor / 2.0;
+
+	for (int i = 0; i < p; i++) {
+
+		if (i % 2 == 0) {
+
+			aux[i] = dvec3((grosor + radius) + (grosor * cos(glm::radians(i * angle - 90))), grosor * sin(glm::radians(i * angle - 90)), 0.0);
+
+		}
+		else {
+			aux[i] = dvec3((grosor + radius) + ((grosor * cos(glm::radians(i * angle - 90))) / 2), (grosor * sin(glm::radians(i * angle - 90))) / 2, 0.0);
+		}
+
+
+	}
+
+	mMesh = MbR::generaIndexMbR(p, m, aux);
+
+	delete aux;
+
+	aux = nullptr;
+}
+
+TreeRing::TreeRing(GLdouble grosor, GLdouble radius, GLint m, GLint p, GLdouble angleRot)
+{
+	dvec3* aux = new dvec3[p];
+
+	double angle = 360.0 / (p - 2);
+	GLdouble ri = grosor / 2.0;
+
+	for (int i = 0; i < p; i++) {
+
+		if (i % 2 == 0) {
+
+			aux[i] = dvec3((grosor + radius) + (grosor * cos(glm::radians(i * angle - 90))), grosor * sin(glm::radians(i * angle - 90)), 0.0);
+
+		}
+		else {
+			aux[i] = dvec3((grosor + radius) + ((grosor * cos(glm::radians(i * angle - 90))) / 2), (grosor * sin(glm::radians(i * angle - 90))) / 2, 0.0);
+		}
+		
+		
+	}
+
+	mMesh = MbR::generaIndexMbR(p, m, angleRot, aux);
+
+	delete aux;
+
+	aux = nullptr;
+}
+
+void TreeRing::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//set config
+		glLineWidth(2);
+
+		//set color
+		if (mColor.a != 0) {
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
+
+		mMesh->render();
+
+		glColor4f(0, 0, 0, 0);
+
+		//reset config
+		glLineWidth(1);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+}
+
 Romboid::Romboid(GLdouble altura, GLdouble ancho, GLint m)
 {
 	glm::dvec3* aux = new glm::dvec3[3];
@@ -1468,14 +1552,11 @@ void TriangleRomboid::render(glm::dmat4 const& modelViewMat) const
 
 }
 
-Cristal::Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos, Texture* t, int nColor)
+Cristal::Cristal(GLdouble alturaCuerpo, GLdouble anchoCuerpo, GLdouble alturaPicos)
 {
 
 	mModelMat = dmat4(1);
-	mMesh = Mesh::generateCristalTexCord(alturaCuerpo, anchoCuerpo, alturaPicos, nColor);
-
-	//mTexture actua como frontTexture
-	mTexture = t;
+	mMesh = IndexMesh::generateCristal(alturaCuerpo, anchoCuerpo, alturaPicos);
 
 }
 
@@ -1483,35 +1564,34 @@ void Cristal::render(glm::dmat4 const& modelViewMat) const
 {
 
 	if (mMesh != nullptr) {
-		//modo de pintado
+		dmat4 aMat = modelViewMat * mModelMat; // glm matrix multiplication
+		upload(aMat);
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//set config
 		glLineWidth(2);
 
-		//bind front texture
-		mTexture->setWrap(GL_REPEAT);
-		mTexture->bind(GL_MODULATE);
-
-		//enable face culling 
 		glEnable(GL_CULL_FACE);
 
-		//cull back face
 		glCullFace(GL_BACK);
 
-		dmat4 aMat = modelViewMat * mModelMat;
-		upload(aMat);
+		//set color
+		if (mColor.a != 0) {
 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+			glColor4f(mColor.r, mColor.g, mColor.b, mColor.a);
+		}
 
 		mMesh->render();
 
-		mTexture->unbind();
+		glColor4f(0, 0, 0, 0);
 
 		glDisable(GL_CULL_FACE);
 
 		//reset config
 		glLineWidth(1);
-		//reset modo de pintado
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
